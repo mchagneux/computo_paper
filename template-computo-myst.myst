@@ -29,3 +29,6 @@ import numpy as np
 fig, ax = plt.subplots()
 ax.plot(np.arange(10))
 ```
+
+# References
+
