@@ -8,3 +8,5 @@ dependencies:
         - jupytext
         - matplotlib
         - numpy
+        - nbconvert
+        - ipykernel
