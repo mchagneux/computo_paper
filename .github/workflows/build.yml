@@ -25,4 +25,6 @@ jobs:
       - name: Execute and convert myst to md
         shell: bash -l {0}
         run: |
-          jupytext --to md template-computo-myst.myst --execute
+          mkdir -p _build
+          jupytext --to ipynb template-computo-myst.myst --execute --output _build/output.ipynb
+          jupyter-nbconvert _build/output.ipynb --to markdown --output-dir _build/

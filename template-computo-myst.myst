@@ -23,6 +23,9 @@ Journal {cite}`computo`. We show how `Python`, `R`, or `Julia` code can be inclu
 # Python code
 
 ```{code-cell} python3
+---
+tags: [show-output, show-input]
+---
 import matplotlib.pyplot as plt
 import numpy as np
 
