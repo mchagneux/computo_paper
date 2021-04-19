@@ -25,10 +25,7 @@ jobs:
       - name: Execute and convert myst to md
         shell: bash -l {0}
         run: |
-          mkdir -p _build
-          jupytext --to ipynb template-computo-myst.myst --execute --output _build/output.ipynb
-          jupyter-nbconvert _build/output.ipynb --to markdown --output-dir _build/
-          jupyter-nbconvert _build/output.ipynb --to html --output-dir _build/
+            make
 
       - name: Deploying article on github pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
