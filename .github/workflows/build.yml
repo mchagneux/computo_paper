@@ -1,4 +1,4 @@
-name: computorbuild
+name: build
 on:
   push:
     branches:
