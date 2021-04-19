@@ -1,4 +1,20 @@
-# Abstract
+---
+title: "Template for contribution to Computo"
+subtitle: "Example based on the myst system"
+author: "The Computo team"
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
+# Template for contribution to computo using myst
+
+## Abstract
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur posuere
 vestibulum facilisis. Aenean pretium orci augue, quis lobortis libero accumsan
@@ -7,9 +23,9 @@ libero eget malesuada vestibulum. Nam nec nibh massa. Pellentesque porttitor
 cursus tellus. Mauris urna erat, rhoncus sed faucibus sit amet, venenatis eu
 ipsum. 
 
-# Introduction
+## Introduction
 
-## About this document
+### About this document
 
 This document provides a Myst template for contributions to the **Computo**
 Journal {cite}`computo`. We show how `Python` {cite}`perez2011python`, `R`, or `Julia` code can be included.
@@ -19,12 +35,20 @@ $$
 \sum x + y = Z
 $$
 
+You can also add equations in such a way to be able to reference them later:
 
-# Methods
+```{math}
+:label: math
+w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}
+```
+
+See equation {eq}`math` for details.
+
+## Methods
 
 
 (subsec:this-is-a-subheading)=
-## This is a subheading
+### This is a subheading
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget ipsum
 est. Mauris purus urna, aliquet non interdum quis, tincidunt in tortor.
@@ -37,10 +61,12 @@ id ante. Nulla suscipit, risus vel dapibus finibus, metus diam euismod felis,
 sit amet consequat quam lectus quis lacus. Sed tristique, urna sit amet
 viverra facilisis, est augue auctor lorem, sed varius lectus nibh eget urna.
 Aenean a luctus ligula, vitae elementum metus. Etiam varius, leo in iaculis
-rutrum, mauris ex fringilla enim, vitae iaculis justo massa id purus.
+rutrum, mauris ex fringilla enim, vitae iaculis justo massa id purus. 
 
-
-```python
+```{code-cell} python3
+---
+tags: [show-output, show-input]
+---
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -48,23 +74,10 @@ fig, ax = plt.subplots()
 ax.plot(np.arange(10))
 ```
 
-
-
-
-    [<matplotlib.lines.Line2D at 0x7fbfd547acd0>]
-
-
-
-
-    
-![png](output_files/output_1_1.png)
-    
-
-
 FIXME: Can we reference figures?
 
 (subsec:subheading)=
-## This is another subheading
+### This is another subheading
 
 As seen in [section](subsec:this-is-a-subheading), lorem ipsum dolor sit amet,
 consectetur adipiscing elit. Cras nec ornare urna. Nullam consectetur
@@ -76,13 +89,20 @@ molestie, ac commodo arcu mollis. Donec felis odio, fermentum lacinia
 vestibulum non, elementum eu metus. Donec suscipit aliquam malesuada. Praesent
 justo turpis, dignissim ac nulla non, malesuada rutrum nisi.
 
+```{table} My table title
+:name: my-table-ref
+
 | Tables   |      Are      |  Cool |
 |----------|:-------------:|------:|
 | col 1 is |  left-aligned | $1600 |
 | col 2 is |    centered   |   $12 |
 | col 3 is | right-aligned |    $1 |
+```
 
-# Discussion
+Now we can reference the table in the text (See {ref}`my-table-ref`).
+
+
+## Discussion
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent aliquam
 porttitor rutrum. Donec in sollicitudin risus, ultrices ultricies nisi.
@@ -101,7 +121,7 @@ But we can also do a numbered list
 2. This is my second item
 3. This is my third item
 
-# Conclusion
+## Conclusion
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie mollis
 urna, vitae convallis turpis placerat vel. Orci varius natoque penatibus et
@@ -115,4 +135,5 @@ erat volutpat. Fusce id pharetra ante, tincidunt dapibus eros. Curabitur
 mattis magna non felis aliquet sagittis. 
 
 ```{bibliography}
+:style: unsrt
 ```
