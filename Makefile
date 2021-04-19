@@ -1,0 +1,5 @@
+
+
+
+compile:
+	jupyter-book build .
