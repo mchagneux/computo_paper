@@ -10,3 +10,4 @@ dependencies:
         - numpy
         - nbconvert
         - ipykernel
+        - jupyter-book
