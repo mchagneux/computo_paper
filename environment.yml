@@ -5,9 +5,4 @@ dependencies:
     - python
     - pip
     - pip:
-        - jupytext
-        - matplotlib
-        - numpy
-        - nbconvert
-        - ipykernel
-        - jupyter-book
+        - -r file:requirements.txt 
