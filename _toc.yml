@@ -1,4 +1,2 @@
-# Table of content
-# Learn more at https://jupyterbook.org/customize/toc.html
-#
-- file: template-computo-myst
+format: jb-book
+root: template-computo-myst

@@ -29,4 +29,6 @@ html:
   use_issues_button: false
   use_repository_button: false
 
-
+sphinx:
+  config:
+    bibtex_bibfiles: "references.bib"
