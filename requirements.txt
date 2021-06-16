@@ -1,4 +1,3 @@
-jupyter-book
+jupyter-book>=0.11
 matplotlib
 numpy
-sphinxcontrib-bibtex<2.0.0
