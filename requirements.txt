@@ -7,3 +7,4 @@ pytest
 opencv_python
 scikit_image
 Pillow
+pandas 
