@@ -52,21 +52,13 @@ kernelspec:
 ## Abstract
 
 Litter is a known cause of degradation in marine environments and most of it travels in rivers before reaching the oceans. 
-
 In this paper, we present a novel algorithm to assist waste monitoring along watercourses. 
-
 While several attempts have been made to quantify litter using neural object detection in photographs of floating items, we tackle the more challenging task of counting directly in videos using boat-embedded cameras. 
-
 We rely on multi-object tracking (MOT) but focus on the key pitfalls of false and redundant counts which arise in typical scenarios of poor detection performance. 
-
 Our system only requires supervision at the image level and performs Bayesian filtering via a state space model based on optical flow. 
-
 We present a new open image dataset gathered through a crowdsourced campaign and used to train a center-based anchor-free object detector. 
-
 Realistic video footage assembled by water monitoring experts is annotated and provided for evaluation. 
-
 Improvements in count quality are demonstrated against systems built from state-of-the-art multi-object trackers sharing the same detection capabilities. 
-
 A precise error decomposition allows clear analysis and highlights the remaining challenges.
 
 +++
@@ -80,7 +72,7 @@ Plastic pollution is known to already impact more than 3763 marine species world
 This accumulation of waste is the endpoint of the largely misunderstood path of trash, mainly coming from land-based sources {cite}`rochman2016`, yet rivers have been identified as a major pathway for the introduction of waste into marine environments {cite}`jambeck2015`.
 Therefore, field data on rivers and monitoring are strongly needed to improve decision making and assess the impact of measures that can be taken.
 
-Different methods have already been tested to monitor waste in rivers: litter collection and sorting on riverbanks \cite{Bruge2018}, visual counting of drifting litter from bridges {cite}`gonzales2021`, floating booms {cite}`gasperi2014` and nets {cite}`moritt2014`.
+Different methods have already been tested to monitor waste in rivers: litter collection and sorting on riverbanks {cite}`Bruge2018`, visual counting of drifting litter from bridges {cite}`gonzales2021`, floating booms {cite}`gasperi2014` and nets {cite}`moritt2014`.
 All are helpful to understand the origin and typology of litter pollution yet hardly compatible with long term monitoring at country scales.
 Monitoring tools need to be reliable, easy to set up on various types of rivers, and should give an overview of plastic pollution during peak discharge to help locate hotspots and provide trends.
 Newer studies suggest that plastic debris transport could be better understood by counting litter trapped on river banks, providing a good indication of the local macrolitter pollution especially after increased river discharge {cite}`VanEmmerik2019,VanEmmerik2020`.
@@ -94,16 +86,7 @@ When considering entire portions of river banks from many different locations, t
 Therefore, achieving robust object detection across is still delicate.
 Second, counting from videos is a different task than counting from independant images, because individual objects will typically appear in several consecutive frames, yet they must only be counted once.
 
-This last problem of association has been extensively studied for the multi-object tracking (MOT) task, which aims at recovering individual trajectories for objects in videos. 
-
-When successful MOT is achieved, counting objects in videos is equivalent to counting the number of estimated trajectories. 
-Deep learning has been increasingly used to improve  MOT solutions {cite}`Ciaparrone2020b`. 
-
-However, newer state-of-the-art techniques require increasingly heavy and costly supervision, typically all object positions provided at every frame. 
-
-In addition, many successful techniques {cite}`bergmann2019` can hardly be used in scenarios with abrupt and nonlinear camera motion. 
-
-Finally, while research is still active to rigorously evaluate MOT performance {cite}`luiten2020`, most but not all aspects of the latter may affect global video counts. 
+This last problem of association has been extensively studied for the multi-object tracking (MOT) task, which aims at recovering individual trajectories for objects in videos. When successful MOT is achieved, counting objects in videos is equivalent to counting the number of estimated trajectories. Deep learning has been increasingly used to improve MOT solutions {cite}`Ciaparrone2020b`. However, newer state-of-the-art techniques require increasingly heavy and costly supervision, typically all object positions provided at every frame. In addition, many successful techniques {cite}`bergmann2019` can hardly be used in scenarios with abrupt and nonlinear camera motion. Finally, while research is still active to rigorously evaluate MOT performance {cite}`luiten2020`, most but not all aspects of the latter may affect global video counts. 
 
 Our contribution can be summarized as follows.
 
@@ -394,10 +377,8 @@ In our experiments, we compute the Association recall ($\assre$, eq.
 In brief, a low $\asspr$ implies that several objects are often mingled into only one track, resulting in undercount.
 A low $\assre$ implies that single objects are often associated with multiple tracks.
 If no method is used to discard redundant tracks this results in overcount.
-%measures the ability of a MOT algorithm to assign one and only one track per object (it decreases whenever several tracks are assigned to the same object).
 Conversely, association precision ($\asspr$) measures how exclusive tracks are to each object (it decreases whenever a track covers multiple objects).
 Again, it is useful to reconsider and illustrate the meaning of these metrics in the context of MOT-based counting.
-
 Litter items are typically well separated on river banks, thus predicted tracks are not expected to interfere much.
 This suggests that reaching high $\asspr$ on our footage is not challenging.
 Contrarily, $\assre$ is a direct measurement of the capability of the tracker to avoid producing multiple tracks despite missing detections and challenging motion.
@@ -448,29 +429,11 @@ For any quantity $\hatN_\bullet$ defined above, we provide $(\hat{\mu}_{\hatN_\b
 +++
 
 ## Experiments
-We denote by $S_1$, $S_2$ and $S_3$ the three river sections of the evaluation material and split the associated footage into independent segments of 30 seconds.
+We denote by $S_1$, $S_2$ and $S_3$ the three river sections of the evaluation material and split the associated footage into independent segments of 30 seconds. 
 
-To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them.
+To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT {cite}`Bewley2016`, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions.Similar to our system, it only relies on image supervision for training, and though DeepSORT {cite}`Wojke2018` is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT {cite}`Zhanga`, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack {cite}`zhou2020`. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.
 
-Our first choice is SORT {cite}`Bewley2016`, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions.
-
-Similar to our system, it only relies on image supervision for training, and though DeepSORT {cite}`Wojke2018` is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations.
-
-FairMOT {cite}`Zhanga`, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset.
-
-Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack {cite}`zhou2020`.
-
-We choose FairMOT to compare our method to a solution based on deep visual feature extraction.
-
-Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in []`fig:benefits`.
-
-We train it using hyperparameters from the original paper.
-
-The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance with a given object detector.
-
-We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden.
-
-Note that both SORT and FairMOT use custom postprocessing methods to filter out implausible tracks, and we leave these mechanisms untouched.
+Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in []`fig:benefits`. We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance with a given object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden. Note that both SORT and FairMOT use custom postprocessing methods to filter out implausible tracks, and we leave these mechanisms untouched.
 
 
 
@@ -478,13 +441,9 @@ Note that both SORT and FairMOT use custom postprocessing methods to filter out 
 ### Results
 #### Detection
 In Table [](image-dataset-appendix), we first provide the performance of the trained detector.
-
 Having annotated all frames of the evaluation videos, we directly compute $\detre$ and $\detpr$ on those instead of a test split of the image dataset used for training.
-
 This allows realistic assessment of the detection quality of our system on true videos that may include blurry frames or artifacts caused by strong motion.
-
 We observe low $\detre$, suggesting that objects are only captured on a fraction of the frames they appear on.
-
 To better focus on count performance in the next sections, we remove segments that do not generate any correct detection: performance on the remaining footage is increased and given by $\detre^{*}$ and $\detpr^{*}$.
 
 
@@ -511,84 +470,96 @@ We now compare our method against FairMOT and SORT with the count-related tracki
 We run our algorithm with $\kappa = 7,\tau = 5$, values obtained after a simple hyperparameter study described in [](image-dataset-appendix).
 
 Across all videos and all methods, we report $\asspr$ between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of $\asspr$ values.
-
 The remaining and most important results are summarized in  [](image-dataset-appendix).
-
 For detailed visualisation of the results, we plot the error decompositions for all sequences in [](image-dataset-appendix).
-
 The first row reveals the unreliability of the off-the-shelf self-supervised version of FairMOT (FMOT) as a counting system.
-
 Though being the most recent, the lack of video supervision prevents this method from learning usable visual features.
-
 This results in poor association performance (the lowest $\assre$ of all methods) and a largely impractical and unstable number of incorrect or redundant counts.
-
 However, we observe for FairMOT that many false tracks only last for one frame.
 To mitigate the previous remarks, we apply our own postprocessing with $\kappa=1,\tau=1$ and refer to the modified procedure as FairMOT* (FMOT*).
-
 Our solution brings substantial improvements by largely decreasing the amount of incorrect and redundant counts.
-
 For all sequences combined, we report values for $\Nfalse$ and $\Nred$ respectively 41\% and 84\% lower than those of SORT (the next best method) and our algorithm even completely removes redundant counts on the footage covering $S_2$ and $S_3$.
-
 Improvements in count quality can be traced back to the robustness of our tracking system with an increase of 12\% in $\assre$ over SORT.
-
 Notably, footage on $S_2$ (which includes strong motion) is only correctly handled by our method, while competitors show significant drops in $\assre$.
-
 It is worth noting that a significant number of objects remain uncounted ($\Nmis$ is high), a pitfall shared by all methods.
-
 Our counting method also shows a statistically more stable and predictable behaviour.
-
 For almost all metrics of interest, we lower the associated standard deviations by a significant margin, which highlights the improved consistency across the different videos and therefore a greater applicability in real-life situations.
-
 The increased stability of all error types add up results in more stable overall $\hatN$, as we report $\hat{\sigma}_{\hatN} = 2.4$ for our method against 3.3 and 3.5 for SORT and FairMOT*, respectively.
 
+```{code-cell} ipython3
+import os 
+from IPython.display import display
+fps = 12
+fps_str = f'{fps}fps'
 
-\begin{table}[htb]
-\footnotesize
-\centering
-    \begin{tabular}{@{\extracolsep{-10pt}} clcccc}
-    % \\[-1.8ex]\hline
-    \multicolumn{1}{c}{} & \multicolumn{1}{c}{Seg.} & \multicolumn{1}{c}{$\assre \uparrow$} &  \multicolumn{1}{c}{$\Nmis \downarrow$}  & {$\Nfalse \downarrow$}  & {$\Nred \downarrow$}\\
-    \\[-1.8ex]\hline
-    % \midrule
-    \multirow{ 3 }{*}  {FMOT} & $S_1$ & 47.6 & \textbf{46} (2.9$\mid$2.2) & 166 (10.4$\mid$6.4) & 229 (14.3$\mid$11.9)  \\
-    \hhline{~~~~~} & $S_2$ & 9.4 & 10 (3.3$\mid$2.5) & 12 (4.0$\mid$2.0) & 9 (3.0$\mid$4.4) \\
-    \hhline{~~~~~} & $S_3$ & 65.9 & 13 (1.6$\mid$1.7) & 113 (14.1$\mid$14.7) & 12 (1.5$\mid$1.8) \\
-    \hhline{~~~~~} & $All$ & 48.4 & \textbf{69} (\textbf{2.6}$\mid$\textbf{2.1}) & 291 (10.8$\mid$9.5) & 250 (9.3$\mid$11.1) \\
-    \hline \\[-1.8ex]
-    \multirow{ 3 }{*}  {FMOT*} & $S_1$ & 54.9 & 58 (3.6$\mid$2.2) & 62 (3.9$\mid$2.7) & 24 (1.5$\mid$1.2) \\
-    \hhline{~~~~~} & $S_2$ & 9.9 & 10 (3.3$\mid$2.5) & 3 (1.0$\mid$1.0) & 6 (2.0$\mid$2.6)  \\
-    \hhline{~~~~~} & $S_3$ & \textbf{70.5} & 15 (1.9$\mid$\textbf{1.6}) & 32 (4.0$\mid$3.9 & 0 (0.0$\mid$0.0) \\
-    \hhline{~~~~~} & $All$ & 55.2 & 83 (3.1$\mid$2.2) & 97 (3.6$\mid$3.0) & 30 (1.1$\mid$1.4)  \\
-    \hline \\[-1.8ex]
-    \multirow{ 3 }{*}  {SORT} & $S_1$ & 62.9 & 53 (3.3$\mid$2.5) & 62 (3.9$\mid$2.0) & 14 (0.9$\mid$1.0)  \\
-    \hhline{~~~~~} & $S_2$ & 19.9 & 10 (3.3$\mid$2.5) & 1 (0.3$\mid$0.6) & 4 (1.3$\mid$1.5)  \\
-    \hhline{~~~~~} & $S_3$ & 69.4 & 13 (1.6$\mid$1.7) & 27 (3.4$\mid$2.7) & 1 (0.1$\mid$0.4)  \\
-    \hhline{~~~~~} & $All$ & 61.7 & 76 (2.8$\mid$2.3) & 90 (3.3$\mid$2.3) & 19 (0.7$\mid$1.0)  \\
-    \hline \\[-1.8ex]
-    \multirow{ 3 }{*}  {Ours} & $S_1$ & \textbf{71.2} & 52 (3.2$\mid$\textbf{2.1}) & \textbf{37} (\textbf{2.3}$\mid$\textbf{1.5}) & \textbf{3} (\textbf{0.2}$\mid$\textbf{0.5})  \\
-    \hhline{~~~~~} & $S_2$ & \textbf{69.3} & \textbf{7} (\textbf{2.3}$\mid$\textbf{1.2}) & \textbf{0} (\textbf{0.0}$\mid$\textbf{0.0}) & \textbf{0} (\textbf{0.0}$\mid$\textbf{0.0})  \\
-    \hhline{~~~~~} & $S_3$ & 65.5 & \textbf{12} (\textbf{1.5}$\mid$2.0) & \textbf{16} (\textbf{2.0}$\mid$\textbf{2.1}) & \textbf{0} (\textbf{0.0}$\mid$\textbf{0.0}) \\
-    \hhline{~~~~~} & $All$ & \textbf{70.5} & 71 (2.6$\mid$2.1) & \textbf{53} (\textbf{2.0}$\mid$\textbf{1.8}) & \textbf{3} (\textbf{0.1}$\mid$\textbf{0.4})  \\
-    \hline \\[-1.8ex]
+gt_dir_short = f'TrackEval/data/gt/surfrider_short_segments_{fps_str}/surfrider-test' 
+eval_dir_short = f'TrackEval/data/trackers/surfrider_short_segments_{fps_str}' 
 
-    \end{tabular}
-    \caption{Our method against baselines on sequences spanning $S_1 \eqsp (\N=101)$, $S_2 \eqsp (\N=12)$, $S_3 \eqsp (\N=21)$ and all of them $(\N=134)$.
-Values for decomposed counts are reported in the form "$\hatN_\bullet\phantom{0}(\hat{\mu}_{\hatN_\bullet}\mid\hat{\sigma}_{\hatN_\bullet})$".
-Best values are in bold font.\label{fig:baselines_table}}
-\end{table}
+long_segments_names = ['part_1_1','part_1_2','part_2','part_3']
+indices = [0,16,19,27]
+indices_det = [0,17,24,38]
 
 
+def get_summary(results, index_start=0, index_stop=-1):
+
+    results = results.loc[:,['Correct_IDs___50','Redundant_IDs___50','False_IDs___50','Missing_IDs___50','Fused_IDs___50', 'GT_IDs','HOTA_TP___50','AssRe___50']].iloc[index_start:index_stop]
+
+    results.columns = ['correct','redundant','false','missing','mingled','gt','hota_tp','ass_re']
+
+    ass_re = results['ass_re']
+    hota_tp = results['hota_tp']
 
 
-```{figure} all_detailed_errors.pdf
----
-height: 150px
-name: all_detailed_errors-big
----
-Count error decomposition for each of the 27 video sequences (one stacked bar per sequence).
+    ass_re_cb = (ass_re * hota_tp).sum() / hota_tp.sum()
+
+
+    redundant = results['redundant']
+    false = results['false']
+    missing = results['missing']
+    # mingled = results['mingled'] 
+    gt = results['gt']
+    count_error = false + redundant - missing
+
+    summary = dict()
+    summary['missing'], summary['missing_mean'], summary['missing_std'] = f'{missing.sum()}',f'{missing.mean():.1f}',f'{missing.std():.1f}'
+    summary['false'], summary['false_mean'], summary['false_std'] = f'{false.sum()}', f'{false.mean():.1f}', f'{false.std():.1f}'
+    summary['redundant'], summary['redundant_mean'], summary['redundant_std'] = f'{redundant.sum()}', f'{redundant.mean():.1f}', f'{redundant.std():.1f}'
+    summary['gt'] = f'{gt.sum()}'
+    summary['ass_re_cb'], summary['ass_re_mean'], summary['ass_re_std'] = f'{100*ass_re_cb:.1f}',f'{100*ass_re.mean():.1f}',f'{100*ass_re.std():.1f}'
+    summary['count_error'], summary['count_error_mean'], summary['count_error_std'] = f'{count_error.sum()}',f'{count_error.mean():.1f}',f'{count_error.std():.1f}'
+
+
+    return summary 
+
+
+
+def get_summaries(results, sequence_names):
+
+    summaries = dict()
+
+    for (sequence_name, index_start, index_stop) in zip(sequence_names, indices[:-1],indices[1:]):
+
+        summaries[sequence_name] = get_summary(results, index_start, index_stop)
+    
+    summaries['All'] = get_summary(results)
+
+    return summaries
+
+import pandas as pd 
+summaries = []
+for tracker_name in ['fairmot_cleaned', 'sort','ours_EKF_1_12fps_v2_7_tau_5']:
+    results = pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv'))
+    sequence_names = ['S1','S2','S3']
+
+    summaries.append(pd.DataFrame(get_summaries(results, sequence_names))[:9].T)
+
+print('FairMOT*')
+display(summaries[0])
+print('SORT')
+display(summaries[1])
+print('Ours')
+display(summaries[2])
 ```
-
-+++
 
 ## Practical impact and future goals
 
@@ -757,7 +728,8 @@ Evolution of error types with $\kappa=1$ (blue), $\kappa=3$ (orange), $\kappa=5$
 An advantage of the data association method proposed in [](data-association) is that it is very generic and doesn't constrain the tracking solution to any particular choice of filtering algorithm.
 As for EKF, UKF implementations are already available to compute the distribution of $Z_k$ given $Z_{1:k-1}$ and the corresponding confidence regions (see [](tracking-module] above).
 We propose a solution to compute this distribution when SMC is used, and performance comparisons between the EKF, UKF and SMC versions of our trackers are discussed.
-\subsubsection{SMC-based tracking}
+
+### SMC-based tracking
 
 Denote $\filtdist_k$ the filtering distribution of the HMM $(X_k,Z_k)_{k \geq 1}$  (omitting the dependancy in observations for notation ease).
 SMC methods build an approximation 
@@ -793,7 +765,7 @@ Since the observation likelihood is also Gaussian, $\MCpredictdist_k$ is a Gauss
 Similar to EKF and UKF, this approximated predictive distribution is used to recover object identities via $\MCpredictdist_n^{\ell}(V_\delta(z_n^i))$ computed for all incoming detections $\detectset_n = \{z_n^i\}_{1 \leq i \leq D_n}$ and each of the $1 \leq \ell \leq L_n$ filters, where $\MCpredictdist_n^{\ell}$ is the predictive distribution associated with the $\ell$-th filter.
 
 
-## Performance comparison
+### Performance comparison
 
 In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in [](bayesian-tracking}.
 However, we observe very few differences in count results when upgrading from EKF to UKF to SMC.
