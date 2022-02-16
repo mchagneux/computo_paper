@@ -3,8 +3,9 @@ matplotlib
 numpy
 pycocotools 
 scipy 
-pytest 
 opencv_python
-scikit_image
-Pillow
 pandas 
+pykalman
+filterpy
+scikit-image
+lap

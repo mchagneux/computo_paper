@@ -435,10 +435,18 @@ To demonstrate the benefits of our work, we select two multi-object trackers and
 
 Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in []`fig:benefits`. We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance with a given object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden. Note that both SORT and FairMOT use custom postprocessing methods to filter out implausible tracks, and we leave these mechanisms untouched.
 
+```{code-cell} ipython3
+import os 
+fps=12
+segments='short'
+os.system('cd TrackEval; python scripts/run_mot_challenge.py \
+    --GT_FOLDER data/gt/surfrider_short_segments_12fps \
+    --TRACKERS_FOLDER data/trackers/surfrider_short_segments_12fps \
+    --DO_PREPROC False \
+    --USE_PARALLEL True \
+    --METRICS HOTA')
+```
 
-
-
-### Results
 #### Detection
 In Table [](image-dataset-appendix), we first provide the performance of the trained detector.
 Having annotated all frames of the evaluation videos, we directly compute $\detre$ and $\detpr$ on those instead of a test split of the image dataset used for training.

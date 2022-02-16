@@ -1,3 +1,5 @@
 *.swp
 _build
 README.html
+**/*.pdf
+**/*.png
