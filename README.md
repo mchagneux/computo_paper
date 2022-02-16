@@ -19,4 +19,4 @@ Run:
 make
 ```
 
-Then check the generated paper which is the `.html` file in [_build](_build).
+Then check the generated paper which is the `.html` file in `build`
