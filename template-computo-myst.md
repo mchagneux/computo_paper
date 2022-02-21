@@ -47,7 +47,13 @@ kernelspec:
 
 # Macrolitter video counting on river banks with state space models for moving cameras
 
-+++
+```{code-cell} ipython3
+import pickle
+import numpy as np
+import matplotlib.pyplot as plt
+import cv2
+from collections import defaultdict
+```
 
 ## Abstract
 
@@ -114,7 +120,87 @@ A detection (red dots) is missed (second frame) and SORT (upper part) fails to r
 To avoid this, we provide position estimates (yellow dots) for all frames and confidence regions (yellow ellipses) that model the associated uncertainty.
 ```
 
-+++
+```{code-cell} ipython3
+%%capture
+from surfnet.track import track as our_tracker
+import argparse
+
+args = argparse.Namespace()
+
+args.data_dir = 'data/external_detections'
+args.detection_threshold = 0.33
+args.confidence_threshold = 0.5
+args.model_weights = ''
+args.output_dir = ''
+args.downsampling_factor = 1
+args.algorithm = 'EKF'
+args.noise_covariances_path = 'surfnet/data/tracking_parameters'
+args.skip_frames = 0
+args.output_shape = (960,540)
+args.external_detections = True
+args.display = 0
+
+our_tracker(args)
+```
+
+```{code-cell} ipython3
+## Tracker with SORT 
+
+from sort.sort import track as sort_tracker
+
+sort_tracker(detections_dir='data/external_detections', output_dir='sort/results')
+
+def read_sort_output(filename):
+    """ Reads the output .txt of Sort (or other tracking algorithm)
+    """
+    dict_frames = defaultdict(list)
+    with open(filename) as f:
+        for line in f:
+            items = line[:-1].split(",")
+            frame = int(items[0])
+            objnum = int(items[1])
+            x = float(items[2])
+            y = float(items[3])
+            dict_frames[int(items[0])].append((objnum, x, y))
+    return  dict_frames
+
+def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
+    """ Builds a full image with consecutive frames and their displayed trackers
+    frames: a list of K np.array
+    trackers: a list of K trackers. Each tracker is a per frame list of tracked objects
+    """
+    
+    K = len(frames)
+    assert len(trackers) == K
+    font = cv2.FONT_HERSHEY_COMPLEX
+    output_img=np.zeros((image_shape[0], image_shape[1]*K, 3), dtype=np.uint8)
+    for i in range(K):
+        frame = cv2.cvtColor(cv2.resize(frames[i], image_shape[::-1]), cv2.COLOR_BGR2RGB)
+        for detection in trackers[i]:
+            cv2.putText(frame, f'{detection[0]}', (int(detection[1]/downsampling), int(detection[2]/downsampling)+5), font, 0.5, (255, 0, 0), 1, cv2.LINE_AA)
+
+        output_img[:,i*image_shape[1]:(i+1)*image_shape[1],:] = frame
+    return output_img
+    
+frame_file = "data/external_detections/part_1_segment_0/saved_frames.pickle"
+with open(frame_file,'rb') as f:
+    frames = pickle.load(f)
+
+print(f"number of frames: {len(frames)}")
+idxs = [67, 68, 69]
+tracker_file = "sort/results/part_1_segment_0.txt"
+frame_to_track = read_sort_output(tracker_file)
+
+print("frames with at least 2 objects:")
+[(k, v) for k,v in frame_to_track.items() if len(v) > 1]
+
+condisered_frames = [frames[idx] for idx in idxs]
+considered_tracks = [frame_to_track[i] for i in idxs]
+out_img = build_image(condisered_frames, considered_tracks)
+plt.figure(figsize=(15,6))
+plt.imshow(out_img)
+plt.axis("off");
+```
 
 ## Related works
 
@@ -436,15 +522,19 @@ To demonstrate the benefits of our work, we select two multi-object trackers and
 Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in []`fig:benefits`. We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance with a given object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden. Note that both SORT and FairMOT use custom postprocessing methods to filter out implausible tracks, and we leave these mechanisms untouched.
 
 ```{code-cell} ipython3
+%%capture
 import os 
 fps=12
 segments='short'
-os.system('cd TrackEval; python scripts/run_mot_challenge.py \
-    --GT_FOLDER data/gt/surfrider_short_segments_12fps \
-    --TRACKERS_FOLDER data/trackers/surfrider_short_segments_12fps \
-    --DO_PREPROC False \
-    --USE_PARALLEL True \
-    --METRICS HOTA')
+args = ['--GT_FOLDER','TrackEval/data/gt/surfrider_short_segments_12fps',
+        '--TRACKERS_FOLDER','TrackEval/data/trackers/surfrider_short_segments_12fps', 
+        '--DO_PREPROC', 'False',
+        '--USE_PARALLEL','False', 
+        '--METRICS', 'HOTA']
+
+from TrackEval.scripts.run_mot_challenge import eval 
+
+eval(args)
 ```
 
 #### Detection
