@@ -1,3 +1,4 @@
+import argparse
 import cv2
 import numpy as np
 import os
@@ -267,7 +268,7 @@ def track(args):
 
 if __name__ == '__main__':
 
-    import argparse
+
     parser = argparse.ArgumentParser(description='Tracking')
     parser.add_argument('--data_dir', type=str)
     parser.add_argument('--detection_threshold', type=float, default=0.33)
@@ -293,3 +294,17 @@ if __name__ == '__main__':
     args.output_shape = tuple(int(s) for s in args.output_shape.split(','))
 
     track(args)
+
+default_args = argparse.Namespace()
+default_args.data_dir = 'data/external_detections'
+default_args.detection_threshold = 0.33
+default_args.confidence_threshold = 0.5
+default_args.model_weights = ''
+default_args.output_dir = 'surfnet/results'
+default_args.downsampling_factor = 1
+default_args.algorithm = 'EKF'
+default_args.noise_covariances_path = 'surfnet/data/tracking_parameters'
+default_args.skip_frames = 0
+default_args.output_shape = (960,540)
+default_args.external_detections = True
+default_args.display = 0
