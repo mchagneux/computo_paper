@@ -13,20 +13,22 @@ import matplotlib.pyplot as plt
 import pickle
 from scipy.spatial.distance import euclidean
 from scipy.optimize import linear_sum_assignment
+import copy
+
 
 class Display:
 
     def __init__(self, on, interactive=True):
         self.on = on
-        self.fig, self.ax0 = plt.subplots(figsize=(20,10))
+        if on:
+            self.fig, self.ax0 = plt.subplots(figsize=(20,10))
+            self.colors =  plt.rcParams['axes.prop_cycle'].by_key()['color']
+
         self.interactive = interactive
         if on and interactive: plt.ion()
-
-        self.colors =  plt.rcParams['axes.prop_cycle'].by_key()['color']
         self.legends = []
         self.plot_count = 0
         self.video_writer = None
-
 
 
     def display(self, trackers):
@@ -91,6 +93,25 @@ class Display:
         if self.interactive:
             self.video_writer.release()
 
+class DisplaySpecificFrames:
+    def __init__(self, args, reader):
+        self.colors =  plt.rcParams['axes.prop_cycle'].by_key()['color']
+        self.legends = []
+        self.plot_count = 0
+        self.display_shape = (reader.output_shape[0] // args.downsampling_factor, reader.output_shape[1] // args.downsampling_factor)
+
+    def display(self, frame, trackers, ax0):
+        self.ax0 = ax0
+
+        frame = cv2.cvtColor(cv2.resize(frame, self.display_shape), cv2.COLOR_BGR2RGB)
+        self.ax0.imshow(frame)
+
+        for tracker_nb, tracker in enumerate(trackers):
+            if tracker.enabled:
+                tracker.fill_display(self, tracker_nb)
+        self.ax0.set_axis_off()
+
+
 display = None
 
 def build_confidence_function_for_trackers(trackers, flow01):
@@ -120,7 +141,7 @@ def associate_detections_to_trackers(args, detections_for_frame, trackers, flow0
 
     return assigned_trackers
 
-def track_video(reader, detections, args, engine, transition_variance, observation_variance):
+def track_video(reader, detections, args, engine, transition_variance, observation_variance, return_trackers=False):
 
 
     if args.display == 0:
@@ -135,6 +156,7 @@ def track_video(reader, detections, args, engine, transition_variance, observati
     frame_nb = 0
     frame0 = next(reader)
     detections_for_frame = detections[frame_nb]
+    frame_to_trackers = {}
     flow01 = None
     max_distance = euclidean(reader.output_shape, np.array([0,0]))
     delta = 0.05*max_distance
@@ -149,6 +171,7 @@ def track_video(reader, detections, args, engine, transition_variance, observati
 
     if display.on:
         display.display(trackers)
+    frame_to_trackers[0] = copy.deepcopy(trackers)
 
     for frame_nb in tqdm(range(1,len(detections))):
 
@@ -185,6 +208,7 @@ def track_video(reader, detections, args, engine, transition_variance, observati
                 trackers.extend(new_trackers)
 
         if display.on: display.display(trackers)
+        frame_to_trackers[frame_nb] = copy.deepcopy(trackers)
         frame0 = frame1.copy()
 
 
@@ -204,7 +228,11 @@ def track_video(reader, detections, args, engine, transition_variance, observati
         display = Display(on=True, interactive=True)
     elif args.display == 2:
         display = Display(on=True, interactive=False)
-    return results
+
+    if return_trackers:
+        return results, frame_to_trackers
+    else:
+        return results
 
 def track(args):
 
@@ -265,6 +293,19 @@ def track(args):
     #         ratio_y = input_shape[0] / (output_shape[0] // args.downsampling_factor)
     #         ratio_x = input_shape[1] / (output_shape[1] // args.downsampling_factor)
     #         write_tracking_results_to_file(results, ratio_x=ratio_x, ratio_y=ratio_y, output_filename=output_filename)
+
+def build_image_trackers(frames, list_trackers, args, reader):
+    n = len(frames)
+    assert n == len(list_trackers)
+    plt.figure(figsize=(16,10))
+    axs = [plt.subplot(1,n,i+1) for i in range(n)]
+
+    for ax, frame, trackers in zip(axs, frames, list_trackers):
+        display = DisplaySpecificFrames(args, reader)
+        display.display(frame, trackers, ax)
+    plt.subplots_adjust(wspace=0, hspace=0)
+    plt.show()
+
 
 if __name__ == '__main__':
 

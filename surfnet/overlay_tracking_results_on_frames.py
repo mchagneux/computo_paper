@@ -1,7 +1,9 @@
-import cv2 
+import cv2
 from collections import defaultdict
 from tools.video_readers import FramesWithInfo, SimpleVideoReader
 import pickle
+import matplotlib.pyplot as plt
+
 
 def draw_text(img, text,
           font=cv2.FONT_HERSHEY_PLAIN,
@@ -30,7 +32,7 @@ def main(args):
     results_filename = args.input_mot_file
     gt_filename = args.input_gt_mot_file
 
-    with open(results_filename, 'r') as f: 
+    with open(results_filename, 'r') as f:
         results_raw = f.readlines()
         results = defaultdict(list)
         for line in results_raw:
@@ -40,9 +42,9 @@ def main(args):
             center_x = float(line[2])
             center_y = float(line[3])
             results[frame_nb].append((object_nb, center_x, center_y))
-    
+
     if gt_filename is not None:
-        with open(gt_filename, 'r') as f: 
+        with open(gt_filename, 'r') as f:
             gt_results_raw = f.readlines()
             gt_results = defaultdict(list)
             for line in gt_results_raw:
@@ -55,17 +57,17 @@ def main(args):
 
     output_shape = (1920, 1080)
 
-    with open(args.input_video,'rb') as f: 
+    with open(args.input_video,'rb') as f:
         frames = pickle.load(f)
         reader = FramesWithInfo(frames)
 
 
-    if write: 
-        writer = cv2.VideoWriter(filename=args.output_name+'.mp4', 
-                                    apiPreference=cv2.CAP_FFMPEG, 
-                                    fourcc=fourcc, 
-                                    fps=11.98, 
-                                    frameSize=output_shape, 
+    if write:
+        writer = cv2.VideoWriter(filename=args.output_name+'.mp4',
+                                    apiPreference=cv2.CAP_FFMPEG,
+                                    fourcc=fourcc,
+                                    fps=11.98,
+                                    frameSize=output_shape,
                                     params=None)
 
 
@@ -82,15 +84,15 @@ def main(args):
             # draw_text(frame, f'{detection[0]}',pos=(int(detection[1]+20), int(detection[2])-30), font_scale=0, font_thickness=2, text_color=(0, 0, 255))
             cv2.putText(frame, f'{detection[0]}',(int(detection[1]-20), int(detection[2]+30)), font, 2, (0, 0, 255), 2, cv2.LINE_AA)
 
-        if gt_filename is not None: 
+        if gt_filename is not None:
             gt_for_frame = gt_results[frame_nb]
             for gt in gt_for_frame:
                 # frame = cv2.circle(frame, (int(gt[1]), int(gt[2])), 5, (255, 0, 0), -1)
                 cv2.putText(frame, '{}'.format(gt[0]), (int(gt[1]), int(gt[2])), font, 2, (255, 0, 0), 2, cv2.LINE_AA)
-    
+
         if write: writer.write(frame)
-        else: 
-            # if heatmaps_filename is not None: 
+        else:
+            # if heatmaps_filename is not None:
             cv2.imshow('tracking_results', frame)
             # cv2.imshow('heatmap', cv2.resize(heatmaps[frame_nb].cpu().numpy(),frame.shape[:-1][::-1]))
             cv2.waitKey(0)
@@ -98,7 +100,7 @@ def main(args):
 
 
 if __name__ == '__main__':
-    import argparse 
+    import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_video',type=str)
     parser.add_argument('--input_mot_file',type=str)
