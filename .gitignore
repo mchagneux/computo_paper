@@ -6,3 +6,4 @@ README.html
 **/*.csv
 **/__pycache__/
 tests.py
+paper.md
