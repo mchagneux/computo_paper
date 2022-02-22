@@ -1,5 +1,8 @@
 name: computo
+channels:
+    - default
 dependencies:
-    - pytorch::pytorch 
+    - python
+    - pip
     - pip:
-        - -r requirements.txt 
+        - -r requirements.txt

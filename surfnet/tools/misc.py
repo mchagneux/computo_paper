@@ -1,15 +1,12 @@
 from matplotlib.pyplot import grid
-import numpy as np 
-import math 
+import numpy as np
+import math
 import cv2
-import torch
-import torchvision.transforms.functional as F
-from ..detection.centernet.models import create_model as create_base
 
 class ResizeForCenterNet(object):
     def __init__(self, fix_res=False):
-        self.fix_res = fix_res 
-    
+        self.fix_res = fix_res
+
     def __call__(self, image):
         if self.fix_res:
             new_h = 512
@@ -54,11 +51,11 @@ def gaussian2D(shape, sigma=1):
 def draw_umich_gaussian(heatmap, center, radius, k=1):
     diameter = 2 * radius + 1
     gaussian = gaussian2D((diameter, diameter), sigma=diameter / 6)
-    
+
     x, y = int(center[0]), int(center[1])
 
     height, width = heatmap.shape[0:2]
-        
+
     left, right = min(x, radius), min(width - x, radius + 1)
     top, bottom = min(y, radius), min(height - y, radius + 1)
 
@@ -84,39 +81,6 @@ def blob_for_bbox(bbox, heatmap, downsampling_factor=None):
         ct_int = ct.astype(np.int32)
         heatmap = draw_umich_gaussian(heatmap, ct_int, radius)
     return heatmap, ct_int
-
-def pre_process_centernet(image, meta=None, fix_res=True):
-    scale = 1.0
-    mean = [0.408, 0.447, 0.47]
-    std = [0.289, 0.274, 0.278]
-    height, width = image.shape[0:2]
-    new_height = int(height * scale)
-    new_width  = int(width * scale)
-    if fix_res:
-        inp_height, inp_width = 512, 512
-        c = np.array([new_width / 2., new_height / 2.], dtype=np.float32)
-        s = max(height, width) * 1.0
-    else:
-        inp_height = (new_height | 31) + 1
-        inp_width = (new_width | 31) + 1
-        c = np.array([new_width // 2, new_height // 2], dtype=np.float32)
-        s = np.array([inp_width, inp_height], dtype=np.float32)
-
-    trans_input = get_affine_transform(c, s, 0, [inp_width, inp_height])
-    resized_image = cv2.resize(image, (new_width, new_height))
-    inp_image = cv2.warpAffine(
-        resized_image, trans_input, (inp_width, inp_height),
-        flags=cv2.INTER_LINEAR)
-    inp_image = ((inp_image / 255. - mean) / std).astype(np.float32)
-
-    images = inp_image.transpose(2, 0, 1).reshape(1, 3, inp_height, inp_width)
-    # if self.opt.flip_test:
-    #     images = np.concatenate((images, images[:, :, :, ::-1]), axis=0)
-    images = torch.from_numpy(images)
-    # meta = {'c': c, 's': s, 
-    #         'out_height': inp_height // self.opt.down_ratio, 
-    #         'out_width': inp_width // self.opt.down_ratio}
-    return images.squeeze() #, meta
 
 def get_affine_transform(center,
                          scale,
@@ -165,11 +129,6 @@ def get_dir(src_point, rot_rad):
 def get_3rd_point(a, b):
     direct = a - b
     return b + np.array([-direct[1], direct[0]], dtype=np.float32)
-
-def load_checkpoint(model, trained_model_weights_filename):
-    checkpoint = torch.load(trained_model_weights_filename, map_location='cpu')
-    model.load_state_dict(checkpoint['model'])
-    return model
 
 def load_model(base_weights):
     base_model = create_base('dla_34', heads={'hm': 1, 'wh': 2}, head_conv=256)

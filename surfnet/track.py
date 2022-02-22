@@ -31,7 +31,7 @@ class Display:
     def display(self, trackers):
 
         something_to_show = False
-        for tracker_nb, tracker in enumerate(trackers): 
+        for tracker_nb, tracker in enumerate(trackers):
             if tracker.enabled:
                 tracker.fill_display(self, tracker_nb)
                 something_to_show = True
@@ -39,10 +39,10 @@ class Display:
         self.ax0.imshow(self.latest_frame_to_show)
         # self.ax1.imshow(self.latest_frame_to_show)
 
-        # if len(self.latest_detections): 
+        # if len(self.latest_detections):
         #     self.ax0.scatter(self.latest_detections[:, 0], self.latest_detections[:, 1], c='r', s=40)
-            
-        if something_to_show: 
+
+        if something_to_show:
             self.ax0.xaxis.tick_top()
 
             # plt.legend(handles=self.legends)
@@ -51,7 +51,7 @@ class Display:
             # self.ax1.set_axis_off()
             plt.autoscale(True)
             plt.tight_layout()
-            if self.interactive: 
+            if self.interactive:
                 plt.show()
                 while not plt.waitforbuttonpress():
                     continue
@@ -61,15 +61,15 @@ class Display:
                 img = np.array(figure.canvas.buffer_rgba())
                 img = img[int(b.y0):int(b.y1),int(b.x0):int(b.x1),:]
                 img = cv2.cvtColor(img, cv2.COLOR_RGBA2BGR)
-                if self.video_writer is None: 
+                if self.video_writer is None:
                     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-                    self.video_writer = cv2.VideoWriter(filename='algorithm_demo.mp4', 
-                                                    apiPreference=cv2.CAP_FFMPEG, 
-                                                    fourcc=fourcc, 
-                                                    fps=11.98, 
-                                                    frameSize=img.shape[:-1][::-1], 
+                    self.video_writer = cv2.VideoWriter(filename='algorithm_demo.mp4',
+                                                    apiPreference=cv2.CAP_FFMPEG,
+                                                    fourcc=fourcc,
+                                                    fps=11.98,
+                                                    frameSize=img.shape[:-1][::-1],
                                                     params=None)
-                self.video_writer.write(img)     
+                self.video_writer.write(img)
             self.ax0.cla()
             # self.ax1.cla()
             self.legends = []
@@ -78,11 +78,11 @@ class Display:
     def update_detections_and_frame(self, latest_detections, frame):
         self.latest_detections = latest_detections
         self.latest_frame_to_show = cv2.cvtColor(cv2.resize(frame, self.display_shape), cv2.COLOR_BGR2RGB)
-    
+
     def update_flow(self, flow):
         self.flow = flow
         self.mask = np.zeros_like(self.latest_frame_to_show)
-  
+
         # Sets image saturation to maximum
         self.mask[..., 1] = 255
 
@@ -90,7 +90,7 @@ class Display:
         if self.interactive:
             self.video_writer.release()
 
-display = None 
+display = None
 
 def build_confidence_function_for_trackers(trackers, flow01):
     tracker_nbs = []
@@ -118,11 +118,11 @@ def associate_detections_to_trackers(args, detections_for_frame, trackers, flow0
             if cost_matrix[row_ind,col_ind] > args.confidence_threshold: assigned_trackers[row_ind] = tracker_nbs[col_ind]
 
     return assigned_trackers
-    
+
 def track_video(reader, detections, args, engine, transition_variance, observation_variance):
 
 
-    if args.display == 0: 
+    if args.display == 0:
         display = Display(on=False, interactive=True)
     elif args.display == 1:
         display = Display(on=True, interactive=True)
@@ -138,7 +138,7 @@ def track_video(reader, detections, args, engine, transition_variance, observati
     max_distance = euclidean(reader.output_shape, np.array([0,0]))
     delta = 0.05*max_distance
 
-    if display.on: 
+    if display.on:
         display.display_shape = (reader.output_shape[0] // args.downsampling_factor, reader.output_shape[1] // args.downsampling_factor)
         display.update_detections_and_frame(detections_for_frame, frame0)
 
@@ -146,14 +146,14 @@ def track_video(reader, detections, args, engine, transition_variance, observati
         trackers = init_trackers(engine, detections_for_frame, frame_nb, transition_variance, observation_variance, delta)
         init = True
 
-    if display.on: 
+    if display.on:
         display.display(trackers)
 
     for frame_nb in tqdm(range(1,len(detections))):
 
         detections_for_frame = detections[frame_nb]
         frame1 = next(reader)
-        if display.on: 
+        if display.on:
             display.update_detections_and_frame(detections_for_frame, frame1)
 
         if not init:
@@ -189,15 +189,15 @@ def track_video(reader, detections, args, engine, transition_variance, observati
 
     results = []
     tracklets = [tracker.tracklet for tracker in trackers]
-    
+
     for tracker_nb, associated_detections in enumerate(tracklets):
         for associated_detection in associated_detections:
             results.append((associated_detection[0], tracker_nb, associated_detection[1][0], associated_detection[1][1]))
 
     results = sorted(results, key=lambda x: x[0])
- 
+
     if display.on and not display.interactive: display.close()
-    if args.display == 0: 
+    if args.display == 0:
         display = Display(on=False, interactive=True)
     elif args.display == 1:
         display = Display(on=True, interactive=True)
@@ -212,16 +212,16 @@ def track(args):
 
     engine = get_tracker(args.algorithm)
 
-    if args.external_detections: 
+    if args.external_detections:
         print('USING EXTERNAL DETECTIONS')
 
         sequence_names = next(os.walk(args.data_dir))[1]
 
-        for sequence_name in sequence_names: 
+        for sequence_name in sequence_names:
             print(f'---Processing {sequence_name}')
-            with open(os.path.join(args.data_dir,sequence_name,'saved_detections.pickle'),'rb') as f: 
+            with open(os.path.join(args.data_dir,sequence_name,'saved_detections.pickle'),'rb') as f:
                 detections = pickle.load(f)
-            with open(os.path.join(args.data_dir,sequence_name,'saved_frames.pickle'),'rb') as f: 
+            with open(os.path.join(args.data_dir,sequence_name,'saved_frames.pickle'),'rb') as f:
                 frames = pickle.load(f)
 
             ratio = 4
@@ -234,7 +234,7 @@ def track(args):
             output_filename = os.path.join(args.output_dir, sequence_name)
             write_tracking_results_to_file(results, ratio_x=ratio, ratio_y=ratio, output_filename=output_filename)
 
-    # else: 
+    # else:
     #     print(f'USING INTERNAL DETECTOR, detection threshold at {args.detection_threshold}.')
 
     #     print('---Loading model...')
@@ -247,7 +247,7 @@ def track(args):
 
     #     video_filenames = [video_filename for video_filename in os.listdir(args.data_dir) if video_filename.endswith('.mp4')]
 
-    #     for video_filename in video_filenames: 
+    #     for video_filename in video_filenames:
     #         print(f'---Processing {video_filename}')
     #         reader = IterableFrameReader(os.path.join(args.data_dir,video_filename), skip_frames=args.skip_frames, output_shape=args.output_shape)
 
@@ -283,7 +283,7 @@ if __name__ == '__main__':
     parser.add_argument('--display', type=int, default=0)
     args = parser.parse_args()
 
-    if args.display == 0: 
+    if args.display == 0:
         display = Display(on=False, interactive=True)
     elif args.display == 1:
         display = Display(on=True, interactive=True)
