@@ -6,14 +6,13 @@ conda env create -f environment.yml
 
 # Working on the paper 
 
-You can either:
-- Work on the .ipynb file which will be synced with the .md file
--  Work directly on the .md file
+First run: 
 
+```shell 
+jupytext --set-formats ipynb,md:myst paper.ipynb
+```
 
-If you choose the second option, you need to remove `jupytext --sync template-computo-myst.ipynb` from the Makefile.
-
-Run: 
+Once your notebook is ready with no errors from the code cells, you can build the document with:
 
 ```shell
 make

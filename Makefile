@@ -1,3 +1,3 @@
 compile:
-	jupytext --sync template-computo-myst.ipynb  
+	jupytext --sync paper.ipynb  
 	jupyter-book build .
