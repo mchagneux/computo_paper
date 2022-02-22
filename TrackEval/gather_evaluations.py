@@ -272,10 +272,12 @@ if __name__ == '__main__':
     # # get_table_values_averages('sort','SORT')
 
 
-    get_table_values('fairmot','$FairMOT$')
-    get_table_values('fairmot_cleaned','$FairMOT^{*}$')
-    get_table_values('sort','$SORT$')
-    get_table_values('ours_EKF_1_12fps_v2_7_tau_5','$Ours$')
+    # get_table_values('fairmot','$FairMOT$')
+    # get_table_values('fairmot_cleaned','$FairMOT^{*}$')
+    # get_table_values('sort','$SORT$')
+    # get_table_values('ours_EKF_1_12fps_v2_7_tau_5','$Ours$')
+
+    hyperparameters()
 
 
     # get_count_errors('fairmot_cleaned')
