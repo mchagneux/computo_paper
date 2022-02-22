@@ -29,9 +29,9 @@ html:
   use_issues_button: false
   use_repository_button: false
 
-parse:
-  myst_enable_extensions:
-    # don't forget to list any other extensions you want enabled,
-    # including those that are enabled by default!
-    - dsfont
-    - multirow
+# parse:
+#   myst_enable_extensions:
+#     # don't forget to list any other extensions you want enabled,
+#     # including those that are enabled by default!
+#     - dsfont
+#     - multirow
