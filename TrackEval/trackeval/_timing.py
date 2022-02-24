@@ -34,10 +34,11 @@ def time(f):
 
             # If code is finished, display timing summary
             if method_name == "Evaluator.evaluate":
-                print("")
-                print("Timing analysis:")
+                # print("")
+                # print("Timing analysis:")
                 for key, value in timer_dict.items():
-                    print('%-70s %2.4f sec' % (key, value))
+                    pass
+                    # print('%-70s %2.4f sec' % (key, value))
             else:
                 # Get function argument values for printing special arguments of interest
                 arg_titles = ['tracker', 'seq', 'cls']
@@ -49,9 +50,11 @@ def time(f):
 
                 # Display methods and functions with different indentation.
                 if arg_names[0] == 'self':
-                    print('%-74s %2.4f sec' % (' '*4 + method_name + arg_text, tt))
+                    pass
+                    # print('%-74s %2.4f sec' % (' '*4 + method_name + arg_text, tt))
                 else:
-                    print('%-70s %2.4f sec' % (method_name + arg_text, tt))
+                    pass
+                    # print('%-70s %2.4f sec' % (method_name + arg_text, tt))
 
             return result
         else:

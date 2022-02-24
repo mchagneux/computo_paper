@@ -43,14 +43,9 @@ import trackeval  # noqa: E402
 
 def eval(args):
     args.extend(['--DO_PREPROC', 'False',
-        '--USE_PARALLEL','True', 
+        '--USE_PARALLEL','False', 
         '--METRICS', 'HOTA',
-        '--PRINT_RESULTS', 'False',
-        '--PRINT_CONFIG', 'False',
-        '--OUTPUT_SUMMARY','False',
-        '--OUTPUT_DETAILED','False',
-        '--TIME_PROGRESS','False'])
-
+        '--PRINT_RESULTS', 'False'])
     freeze_support()
 
     # Command line interface:
@@ -100,4 +95,3 @@ def eval(args):
         raise Exception('No metrics selected for evaluation')
     evaluator.evaluate(dataset_list, metrics_list)
 
-    print('Evaluation done.')

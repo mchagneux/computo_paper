@@ -277,7 +277,7 @@ if __name__ == '__main__':
     # get_table_values('sort','$SORT$')
     # get_table_values('ours_EKF_1_12fps_v2_7_tau_5','$Ours$')
 
-    hyperparameters()
+    # hyperparameters()
 
 
     # get_count_errors('fairmot_cleaned')
@@ -310,4 +310,3 @@ if __name__ == '__main__':
     #     optimal_tau(tracker_names,filename=version)
 
     # hyperparameters()
-

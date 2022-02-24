@@ -20,7 +20,7 @@ def draw_bbox(image, anns, ratio):
 
     return image
 
-dir = 'data/images'
+dir = 'surfnet/data/images'
 
 ann_dir = os.path.join(dir,'annotations')
 data_dir = os.path.join(dir,'images')

@@ -69,7 +69,7 @@ class Evaluator:
                     # Evaluate each sequence in parallel or in series.
                     # returns a nested dict (res), indexed like: res[seq][class][metric_name][sub_metric field]
                     # e.g. res[seq_0001][pedestrian][hota][DetA]
-                    # print('\nEvaluating %s\n' % tracker)
+                    print('\nEvaluating %s\n' % tracker)
                     time_start = time.time()
                     if config['USE_PARALLEL']:
                         with Pool(config['NUM_PARALLEL_CORES']) as pool:
