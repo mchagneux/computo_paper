@@ -173,7 +173,8 @@ def track_video(reader, detections, args, engine, transition_variance, observati
         display.display(trackers)
     frame_to_trackers[0] = copy.deepcopy(trackers)
 
-    for frame_nb in tqdm(range(1,len(detections))):
+    print('Tracking...')
+    for frame_nb in range(1,len(detections)):
 
         detections_for_frame = detections[frame_nb]
         frame1 = next(reader)
@@ -229,6 +230,7 @@ def track_video(reader, detections, args, engine, transition_variance, observati
     elif args.display == 2:
         display = Display(on=True, interactive=False)
 
+    print('Tracking done.')
     if return_trackers:
         return results, frame_to_trackers
     else:
