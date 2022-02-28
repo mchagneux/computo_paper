@@ -1,8 +1,6 @@
 *.swp
 _build
 README.html
-**/*.pdf
-**/*.png
 **/*.csv
 **/__pycache__/
 tests.py
