@@ -10,3 +10,4 @@ filterpy
 scikit-image
 lap
 tqdm
+seaborn
