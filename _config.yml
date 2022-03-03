@@ -30,6 +30,7 @@ html:
   use_repository_button: false
 
 parse:
+  myst_commonmark_only: true
   # myst_enable_extensions:
   #     - html_image
   #   # don't forget to list any other extensions you want enabled,
