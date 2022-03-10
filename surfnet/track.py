@@ -306,7 +306,7 @@ def build_image_trackers(frames, list_trackers, args, reader):
         display = DisplaySpecificFrames(args, reader)
         display.display(frame, trackers, ax)
     plt.subplots_adjust(wspace=0, hspace=0)
-    plt.show()
+    return plt.gcf()
 
 
 if __name__ == '__main__':
