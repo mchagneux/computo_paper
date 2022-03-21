@@ -108,7 +108,6 @@ A first visual illustation of the second claim is presented via the following co
 from myst_nb import glue
 import matplotlib
 import matplotlib.pyplot as plt
-matplotlib.use('agg')
 import os
 
 from surfnet.prepare_data import download_data
