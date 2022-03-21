@@ -889,10 +889,11 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matplotlib is building the font cache; this may take a moment.
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
+---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1014,45 +1015,10 @@ Tracking...
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ImportError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
-<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">cv2</span>
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">sort.sort</span> <span class="kn">import</span> <span class="n">track</span> <span class="k">as</span> <span class="n">sort_tracker</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Tracking with SORT...&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- Begin SORT internal logs&#39;</span><span class="p">)</span>
-
-<span class="n">File</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">computo_paper</span><span class="o">/</span><span class="n">computo_paper</span><span class="o">/</span><span class="n">sort</span><span class="o">/</span><span class="n">sort</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="ne">---&gt; </span><span class="mi">23</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;TkAgg&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
-
-<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/matplotlib/__init__.py:1144,</span> in <span class="ni">use</span><span class="nt">(backend, force)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1139</span> <span class="k">if</span> <span class="n">plt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1140</span>     <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1141</span>         <span class="c1"># we need this import check here to re-raise if the</span>
-<span class="g g-Whitespace">   </span><span class="mi">1142</span>         <span class="c1"># user does not have the libraries to support their</span>
-<span class="g g-Whitespace">   </span><span class="mi">1143</span>         <span class="c1"># chosen backend installed.</span>
-<span class="ne">-&gt; </span><span class="mi">1144</span>         <span class="n">plt</span><span class="o">.</span><span class="n">switch_backend</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1145</span>     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1146</span>         <span class="k">if</span> <span class="n">force</span><span class="p">:</span>
-
-<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/matplotlib/pyplot.py:275,</span> in <span class="ni">switch_backend</span><span class="nt">(newbackend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">272</span>     <span class="n">current_framework</span> <span class="o">=</span> <span class="n">cbook</span><span class="o">.</span><span class="n">_get_running_interactive_framework</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">273</span>     <span class="k">if</span> <span class="p">(</span><span class="n">current_framework</span> <span class="ow">and</span> <span class="n">required_framework</span>
-<span class="g g-Whitespace">    </span><span class="mi">274</span>             <span class="ow">and</span> <span class="n">current_framework</span> <span class="o">!=</span> <span class="n">required_framework</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">275</span>         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">276</span>             <span class="s2">&quot;Cannot load backend </span><span class="si">{!r}</span><span class="s2"> which requires the </span><span class="si">{!r}</span><span class="s2"> interactive &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">277</span>             <span class="s2">&quot;framework, as </span><span class="si">{!r}</span><span class="s2"> is currently running&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">278</span>                 <span class="n">newbackend</span><span class="p">,</span> <span class="n">required_framework</span><span class="p">,</span> <span class="n">current_framework</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">280</span> <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loaded backend </span><span class="si">%s</span><span class="s2"> version </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">281</span>            <span class="n">newbackend</span><span class="p">,</span> <span class="n">backend_mod</span><span class="o">.</span><span class="n">backend_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">283</span> <span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rcParamsDefault</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">newbackend</span>
-
-<span class="ne">ImportError</span>: Cannot load backend &#39;TkAgg&#39; which requires the &#39;tk&#39; interactive framework, as &#39;headless&#39; is currently running
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
+--- Begin SORT internal logs
+Total Tracking took: 0.145 seconds for 360 frames or 2486.6 FPS
+--- End
 </pre></div>
 </div>
 </div>
@@ -1075,6 +1041,9 @@ Tracking...
 </div>
 </div>
 <div class="figure align-default" id="demo-sort">
+<div class="cell_output docutils container">
+<img alt="_images/paper_9_0.png" src="_images/paper_9_0.png" />
+</div>
 <p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text"><em>SORT</em>: the resulting count is also 2, but both counts arise from tracks generated by the same object, the latter not re-associated at all in the second frame. Additionally, the third object is discarded (in post-processing) by their strategy.</span><a class="headerlink" href="#demo-sort" title="Permalink to this image">¶</a></p>
 </div>
 </div>
@@ -1190,6 +1159,15 @@ In this work, we focus only on litter counting without classification, however t
     <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loading annotations into memory...
+Done (t=0.00s)
+creating index...
+index created!
+15 images loaded
 </pre></div>
 </div>
 </div>
@@ -1485,6 +1463,53 @@ To better focus on count performance in the next sections, we remove segments th
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>DetRe*</th>
+      <th>DetPr*</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>S1</th>
+      <td>37.4</td>
+      <td>59.8</td>
+    </tr>
+    <tr>
+      <th>S2</th>
+      <td>30.3</td>
+      <td>71.7</td>
+    </tr>
+    <tr>
+      <th>S3</th>
+      <td>28.4</td>
+      <td>32.3</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>35.5</td>
+      <td>55.1</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </div>
 <div class="section" id="counts">
@@ -1585,6 +1610,8 @@ The increased stability of all error types results in more stable overall <span 
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+</div>
 </div>
 <table class="colwidths-auto table">
 <thead>
@@ -1603,52 +1630,52 @@ The increased stability of all error types results in more stable overall <span 
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-align:left"><p>S1</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">58</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.2</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">62</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.9</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">24</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.2</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">54.9</span></p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>S2</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">10</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">9.9</span></p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>S3</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">15</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.9</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">32</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">4.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.9</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">70.5</span></p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>All</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">83</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.2</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">97</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">30</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.4</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -1669,52 +1696,52 @@ The increased stability of all error types results in more stable overall <span 
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-align:left"><p>S1</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">53</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">62</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.9</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">14</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.9</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">62.9</span></p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>S2</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">10</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">19.9</span></p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>S3</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">13</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">27</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">69.4</span></p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>All</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">76</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.8</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">90</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">19</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -1735,52 +1762,52 @@ The increased stability of all error types results in more stable overall <span 
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-align:left"><p>S1</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">52</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3.2</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">37</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.2</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">71.2</span></p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>S2</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.2</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">69.3</span></p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>S3</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">12</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">16</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">65.5</span></p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>All</p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
-<td class="text-align:right"><p></p></td>
+<td class="text-align:right"><p><span class="pasted-text">71</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">53</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">1.8</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.4</span></p></td>
 </tr>
 </tbody>
 </table>
