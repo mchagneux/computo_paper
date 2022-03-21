@@ -106,6 +106,7 @@ A first visual illustation of the second claim is presented via the following co
 :tags: [hide-input]
 
 from myst_nb import glue
+import matplotlib
 import matplotlib.pyplot as plt
 matplotlib.use('agg')
 import os
