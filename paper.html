@@ -866,6 +866,7 @@ We compare the count performance of our method against other MOT-based alternati
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;agg&#39;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">surfnet.prepare_data</span> <span class="kn">import</span> <span class="n">download_data</span>
@@ -887,8 +888,16 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
----Downloading: saved_frames.pickle
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [1],</span> in <span class="ni">&lt;cell line: 3&gt;</span><span class="nt">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;agg&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">os</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span> <span class="nn">surfnet.prepare_data</span> <span class="kn">import</span> <span class="n">download_data</span>
+
+<span class="ne">NameError</span>: name &#39;matplotlib&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -929,15 +938,6 @@ We compare the count performance of our method against other MOT-based alternati
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EKF will be used for tracking.
-Tracking...
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking done.
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell tag_hide-input tag_remove-output docutils container">
 <div class="cell_input docutils container">
@@ -953,9 +953,6 @@ Tracking...
 </div>
 </div>
 <div class="figure align-default" id="demo-ours">
-<div class="cell_output docutils container">
-<img alt="_images/paper_6_0.png" src="_images/paper_6_0.png" />
-</div>
 <p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text"><em>Our method</em>: one object (red dot) is correctly detected at every frame and given a consistent identity throughout the sequence with low location uncertainty (red ellipse). Next to it, a false positive detection is generated at the first frame (brown dot) but immediatly lost in the following frames: the associated uncertainty grows fast (brown ellipse). In our solution, this type of track will not be counted. A third correctly detected object (pink) appears in the third frame and begins a new track.</span><a class="headerlink" href="#demo-ours" title="Permalink to this image">¶</a></p>
 </div>
 <div class="cell tag_hide-input docutils container">
@@ -1006,49 +1003,6 @@ Tracking...
 
         <span class="n">output_img</span><span class="p">[:,</span><span class="n">i</span><span class="o">*</span><span class="n">image_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">image_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],:]</span> <span class="o">=</span> <span class="n">frame</span>
     <span class="k">return</span> <span class="n">output_img</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ImportError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
-<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 4&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">cv2</span>
-<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">sort.sort</span> <span class="kn">import</span> <span class="n">track</span> <span class="k">as</span> <span class="n">sort_tracker</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Tracking with SORT...&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- Begin SORT internal logs&#39;</span><span class="p">)</span>
-
-<span class="n">File</span> <span class="o">~/</span><span class="n">work</span><span class="o">/</span><span class="n">computo_paper</span><span class="o">/</span><span class="n">computo_paper</span><span class="o">/</span><span class="n">sort</span><span class="o">/</span><span class="n">sort</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="ne">---&gt; </span><span class="mi">23</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;TkAgg&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
-
-<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/matplotlib/__init__.py:1144,</span> in <span class="ni">use</span><span class="nt">(backend, force)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1139</span> <span class="k">if</span> <span class="n">plt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1140</span>     <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1141</span>         <span class="c1"># we need this import check here to re-raise if the</span>
-<span class="g g-Whitespace">   </span><span class="mi">1142</span>         <span class="c1"># user does not have the libraries to support their</span>
-<span class="g g-Whitespace">   </span><span class="mi">1143</span>         <span class="c1"># chosen backend installed.</span>
-<span class="ne">-&gt; </span><span class="mi">1144</span>         <span class="n">plt</span><span class="o">.</span><span class="n">switch_backend</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1145</span>     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1146</span>         <span class="k">if</span> <span class="n">force</span><span class="p">:</span>
-
-<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/site-packages/matplotlib/pyplot.py:275,</span> in <span class="ni">switch_backend</span><span class="nt">(newbackend)</span>
-<span class="g g-Whitespace">    </span><span class="mi">272</span>     <span class="n">current_framework</span> <span class="o">=</span> <span class="n">cbook</span><span class="o">.</span><span class="n">_get_running_interactive_framework</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">273</span>     <span class="k">if</span> <span class="p">(</span><span class="n">current_framework</span> <span class="ow">and</span> <span class="n">required_framework</span>
-<span class="g g-Whitespace">    </span><span class="mi">274</span>             <span class="ow">and</span> <span class="n">current_framework</span> <span class="o">!=</span> <span class="n">required_framework</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">275</span>         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">276</span>             <span class="s2">&quot;Cannot load backend </span><span class="si">{!r}</span><span class="s2"> which requires the </span><span class="si">{!r}</span><span class="s2"> interactive &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">277</span>             <span class="s2">&quot;framework, as </span><span class="si">{!r}</span><span class="s2"> is currently running&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">278</span>                 <span class="n">newbackend</span><span class="p">,</span> <span class="n">required_framework</span><span class="p">,</span> <span class="n">current_framework</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">280</span> <span class="n">_log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Loaded backend </span><span class="si">%s</span><span class="s2"> version </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">281</span>            <span class="n">newbackend</span><span class="p">,</span> <span class="n">backend_mod</span><span class="o">.</span><span class="n">backend_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">283</span> <span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rcParamsDefault</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">newbackend</span>
-
-<span class="ne">ImportError</span>: Cannot load backend &#39;TkAgg&#39; which requires the &#39;tk&#39; interactive framework, as &#39;headless&#39; is currently running
 </pre></div>
 </div>
 </div>
