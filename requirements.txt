@@ -11,3 +11,4 @@ scikit-image
 lap
 tqdm
 seaborn
+pytk
