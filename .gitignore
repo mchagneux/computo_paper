@@ -3,4 +3,3 @@ _build
 README.html
 **/__pycache__/
 tests.py
-paper.md
