@@ -1015,9 +1015,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tracking took: 0.237 seconds for 360 frames or 1519.6 FPS
+Total Tracking took: 0.180 seconds for 360 frames or 1996.3 FPS
 --- End
 </pre></div>
 </div>
@@ -2020,30 +2018,29 @@ As for EKF, UKF implementations are already available to compute the distributio
 We propose a solution to compute this distribution when SMC is used, and performance comparisons between the EKF, UKF and SMC versions of our trackers are discussed.</p>
 <div class="section" id="smc-based-tracking">
 <h3>SMC-based tracking<a class="headerlink" href="#smc-based-tracking" title="Permalink to this headline">¶</a></h3>
-<p>Denote <span class="math notranslate nohighlight">\(\filtdist_k\)</span> the filtering distribution of the HMM <span class="math notranslate nohighlight">\((X_k,Z_k)_{k \geq 1}\)</span>  (omitting the dependancy in observations for notation ease).
+<p>Denote <span class="math notranslate nohighlight">\(\filtdist_k\)</span> the filtering distribution (ie. that of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(X_{1:k}\)</span>) for the HMM <span class="math notranslate nohighlight">\((X_k,Z_k)_{k \geq 1}\)</span>  (omitting the dependancy in observations for notation ease).
 Using a set of samples <span class="math notranslate nohighlight">\(\{X_k^i\}_{1 \leq i \leq N}\)</span> and importance weights <span class="math notranslate nohighlight">\(\{w_k^i\}_{1 \leq i \leq N}\)</span>, SMC methods build an approximation of the following form:</p>
 <div class="math notranslate nohighlight">
 \[
-\SMCfiltdist_k = \sum_{i=1}^N w_k^i \delta_{X_k^i} \approx \filtdist_k \eqsp.
+\SMCfiltdist_k(\rmd x_k) = \sum_{i=1}^N w_k^i \delta_{X_k^i}(\rmd x_k) \eqsp.
 \]</div>
 <p>Contrary to EKF and UKF, the distribution <span class="math notranslate nohighlight">\(\mathbb{L}_k\)</span> of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(Z_{1:k-1}\)</span> is not directly available but can be obtained via an additional Monte Carlo sampling step.
 Marginalizing over <span class="math notranslate nohighlight">\((X_{k-1}\)</span>, <span class="math notranslate nohighlight">\(X_k)\)</span> and using the conditional independence properties of HMMs, we decompose <span class="math notranslate nohighlight">\(\mathbb{L}_k\)</span> using the conditional state transition <span class="math notranslate nohighlight">\(\transdist_k(x,\rmd x')\)</span> and the likelihood of <span class="math notranslate nohighlight">\(Y_k\)</span> given <span class="math notranslate nohighlight">\(X_k\)</span>, denoted by <span class="math notranslate nohighlight">\(\likel_k(x, \rmd z)\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
-\mathbb{L}_k = \int \int \likel_k(x', \cdot)\transdist_k(x, \rmd x')\filtdist_{k-1}(\rmd x) \eqsp.
+\mathbb{L}_k(\rmd z_k) = \int \int \likel_k(x_k, \rmd z_k)\transdist_k(x_{k-1}, \rmd x_k)\filtdist_{k-1}(\rmd x_{k-1}) \eqsp.
 \]</div>
 <p>Replacing <span class="math notranslate nohighlight">\(\filtdist_k\)</span> with <span class="math notranslate nohighlight">\(\SMCfiltdist_k\)</span> into the previous equation yields</p>
 <div class="math notranslate nohighlight">
 \[
-\SMCpredictdist_k = \sum_{k=1}^N w_k^i \int \likel_k(x,\cdot) \transdist_k(X_k^i, \rmd x)  \eqsp.
+\SMCpredictdist_k(\rmd z_k) = \sum_{k=1}^N w_k^i \int \likel_k(x_k,\rmd z_k) \transdist_k(X_{k-1}^i, \rmd x_k)  \eqsp.
 \]</div>
 <p>In our model, the state transition is Gaussian and thererefore easy to sample from.
-Thus an approximated predictive distribution <span class="math notranslate nohighlight">\(\MCpredictdist_k\)</span> can be obtained using Monte Carlo estimates built from random samples <span class="math notranslate nohighlight">\(\{X_k^{i,j}\}_{1 \leq i \leq N}^{1 \leq j \leq M}\)</span> drawn using the state transition, ie.
-such that <span class="math notranslate nohighlight">\(\prob(X_k^{i,j} \in \rmd x) = \transdist_k(X_k^i,\rmd x)\)</span>.
+Thus an approximated predictive distribution <span class="math notranslate nohighlight">\(\MCpredictdist_k\)</span> can be obtained using Monte Carlo estimates built from random samples <span class="math notranslate nohighlight">\(\{X_k^{i,j}\}_{1 \leq i \leq N}^{1 \leq j \leq M}\)</span> drawn from <span class="math notranslate nohighlight">\(\transdist_k(X_{k-1}^i, \rmd x_k)\)</span>.
 This leads to</p>
 <div class="math notranslate nohighlight">
 \[
-\MCpredictdist_k = \sum_{i=1}^N \sum_{j=1}^M w_k^i \likel_k(X_k^{i,j},\cdot) \eqsp.
+\MCpredictdist_k(\rmd z_k) = \sum_{i=1}^N \sum_{j=1}^M w_k^i \likel_k(X_k^{i,j},\rmd z_k) \eqsp.
 \]</div>
 <p>Since the observation likelihood is also Gaussian, <span class="math notranslate nohighlight">\(\MCpredictdist_k\)</span> is a Gaussian mixture, thus values of <span class="math notranslate nohighlight">\(\MCpredictdist_k(\mathsf{A})\)</span> for any <span class="math notranslate nohighlight">\(\mathsf{A} \subset \Rset^2\)</span> can be computed by applying the tools in <span class="xref myst"></span> to all mixture components.
 Similar to EKF and UKF, this approximated predictive distribution is used to recover object identities via <span class="math notranslate nohighlight">\(\MCpredictdist_n^{\ell}(V_\delta(z_n^i))\)</span> computed for all incoming detections <span class="math notranslate nohighlight">\(\detectset_n = \{z_n^i\}_{1 \leq i \leq D_n}\)</span> and each of the <span class="math notranslate nohighlight">\(1 \leq \ell \leq L_n\)</span> filters, where <span class="math notranslate nohighlight">\(\MCpredictdist_n^{\ell}\)</span> is the predictive distribution associated with the <span class="math notranslate nohighlight">\(\ell\)</span>-th filter.</p>

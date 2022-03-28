@@ -1007,32 +1007,31 @@ We propose a solution to compute this distribution when SMC is used, and perform
 
 ### SMC-based tracking
 
-Denote $\filtdist_k$ the filtering distribution of the HMM $(X_k,Z_k)_{k \geq 1}$  (omitting the dependancy in observations for notation ease).
- Using a set of samples $\{X_k^i\}_{1 \leq i \leq N}$ and importance weights $\{w_k^i\}_{1 \leq i \leq N}$, SMC methods build an approximation of the following form:
+Denote $\filtdist_k$ the filtering distribution (ie. that of $Z_k$ given $X_{1:k}$) for the HMM $(X_k,Z_k)_{k \geq 1}$  (omitting the dependancy in observations for notation ease).
+Using a set of samples $\{X_k^i\}_{1 \leq i \leq N}$ and importance weights $\{w_k^i\}_{1 \leq i \leq N}$, SMC methods build an approximation of the following form:
 
 $$
-\SMCfiltdist_k = \sum_{i=1}^N w_k^i \delta_{X_k^i} \approx \filtdist_k \eqsp.
+\SMCfiltdist_k(\rmd x_k) = \sum_{i=1}^N w_k^i \delta_{X_k^i}(\rmd x_k) \eqsp.
 $$ 
 Contrary to EKF and UKF, the distribution $\mathbb{L}_k$ of $Z_k$ given $Z_{1:k-1}$ is not directly available but can be obtained via an additional Monte Carlo sampling step.
 Marginalizing over $(X_{k-1}$, $X_k)$ and using the conditional independence properties of HMMs, we decompose $\mathbb{L}_k$ using the conditional state transition $\transdist_k(x,\rmd x')$ and the likelihood of $Y_k$ given $X_k$, denoted by $\likel_k(x, \rmd z)$:
 
 $$
-\mathbb{L}_k = \int \int \likel_k(x', \cdot)\transdist_k(x, \rmd x')\filtdist_{k-1}(\rmd x) \eqsp.
+\mathbb{L}_k(\rmd z_k) = \int \int \likel_k(x_k, \rmd z_k)\transdist_k(x_{k-1}, \rmd x_k)\filtdist_{k-1}(\rmd x_{k-1}) \eqsp.
 $$ 
 
 Replacing $\filtdist_k$ with $\SMCfiltdist_k$ into the previous equation yields
 
 $$
-\SMCpredictdist_k = \sum_{k=1}^N w_k^i \int \likel_k(x,\cdot) \transdist_k(X_k^i, \rmd x)  \eqsp.
+\SMCpredictdist_k(\rmd z_k) = \sum_{k=1}^N w_k^i \int \likel_k(x_k,\rmd z_k) \transdist_k(X_{k-1}^i, \rmd x_k)  \eqsp.
 $$
 
 In our model, the state transition is Gaussian and thererefore easy to sample from.
-Thus an approximated predictive distribution $\MCpredictdist_k$ can be obtained using Monte Carlo estimates built from random samples $\{X_k^{i,j}\}_{1 \leq i \leq N}^{1 \leq j \leq M}$ drawn using the state transition, ie.
-such that $\prob(X_k^{i,j} \in \rmd x) = \transdist_k(X_k^i,\rmd x)$.
+Thus an approximated predictive distribution $\MCpredictdist_k$ can be obtained using Monte Carlo estimates built from random samples $\{X_k^{i,j}\}_{1 \leq i \leq N}^{1 \leq j \leq M}$ drawn from $\transdist_k(X_{k-1}^i, \rmd x_k)$.
 This leads to
 
 $$
-\MCpredictdist_k = \sum_{i=1}^N \sum_{j=1}^M w_k^i \likel_k(X_k^{i,j},\cdot) \eqsp.
+\MCpredictdist_k(\rmd z_k) = \sum_{i=1}^N \sum_{j=1}^M w_k^i \likel_k(X_k^{i,j},\rmd z_k) \eqsp.
 $$ 
 
 Since the observation likelihood is also Gaussian, $\MCpredictdist_k$ is a Gaussian mixture, thus values of $\MCpredictdist_k(\mathsf{A})$ for any $\mathsf{A} \subset \Rset^2$ can be computed by applying the tools in [](tracking-module) to all mixture components.
