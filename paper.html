@@ -1015,7 +1015,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.137 seconds for 360 frames or 2621.7 FPS
+Total Tracking took: 0.178 seconds for 360 frames or 2020.8 FPS
 --- End
 </pre></div>
 </div>
@@ -2030,7 +2030,7 @@ Marginalizing over <span class="math notranslate nohighlight">\((X_{k-1}\)</span
 \[
 \mathbb{L}_k(\rmd z_k) = \int \int \likel_k(x_k, \rmd z_k)\transdist_k(x_{k-1}, \rmd x_k)\filtdist_{k-1}(\rmd x_{k-1}) \eqsp.
 \]</div>
-<p>Replacing <span class="math notranslate nohighlight">\(\filtdist_k\)</span> with <span class="math notranslate nohighlight">\(\SMCfiltdist_k\)</span> into the previous equation yields</p>
+<p>Replacing <span class="math notranslate nohighlight">\(\filtdist_{k-1}\)</span> with <span class="math notranslate nohighlight">\(\SMCfiltdist_{k-1}\)</span> into the previous equation yields</p>
 <div class="math notranslate nohighlight">
 \[
 \SMCpredictdist_k(\rmd z_k) = \sum_{k=1}^N w_k^i \int \likel_k(x_k,\rmd z_k) \transdist_k(X_{k-1}^i, \rmd x_k)  \eqsp.
