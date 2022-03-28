@@ -1015,7 +1015,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.180 seconds for 360 frames or 1996.3 FPS
+Total Tracking took: 0.137 seconds for 360 frames or 2621.7 FPS
 --- End
 </pre></div>
 </div>
@@ -2018,7 +2018,7 @@ As for EKF, UKF implementations are already available to compute the distributio
 We propose a solution to compute this distribution when SMC is used, and performance comparisons between the EKF, UKF and SMC versions of our trackers are discussed.</p>
 <div class="section" id="smc-based-tracking">
 <h3>SMC-based tracking<a class="headerlink" href="#smc-based-tracking" title="Permalink to this headline">¶</a></h3>
-<p>Denote <span class="math notranslate nohighlight">\(\filtdist_k\)</span> the filtering distribution (ie. that of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(X_{1:k}\)</span>) for the HMM <span class="math notranslate nohighlight">\((X_k,Z_k)_{k \geq 1}\)</span>  (omitting the dependancy in observations for notation ease).
+<p>Denote <span class="math notranslate nohighlight">\(\filtdist_k\)</span> the filtering distribution (ie. that of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(X_{1:k}\)</span>) for the HMM <span class="math notranslate nohighlight">\((X_k,Z_k)_{k \geq 1}\)</span>  (omitting the dependancy on the observations for notation ease).
 Using a set of samples <span class="math notranslate nohighlight">\(\{X_k^i\}_{1 \leq i \leq N}\)</span> and importance weights <span class="math notranslate nohighlight">\(\{w_k^i\}_{1 \leq i \leq N}\)</span>, SMC methods build an approximation of the following form:</p>
 <div class="math notranslate nohighlight">
 \[
