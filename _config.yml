@@ -20,7 +20,7 @@ latex:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/computorg/template-computo-myst/  # Online location of your book
+  url: https://github.com/mchagneux/computo_paper/  # Online location of your book
   branch: master  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
