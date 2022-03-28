@@ -889,9 +889,7 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
+---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1015,7 +1013,9 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.178 seconds for 360 frames or 2020.8 FPS
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tracking took: 0.233 seconds for 360 frames or 1545.2 FPS
 --- End
 </pre></div>
 </div>
@@ -2042,7 +2042,7 @@ This leads to</p>
 \[
 \MCpredictdist_k(\rmd z_k) = \sum_{i=1}^N \sum_{j=1}^M w_k^i \likel_k(X_k^{i,j},\rmd z_k) \eqsp.
 \]</div>
-<p>Since the observation likelihood is also Gaussian, <span class="math notranslate nohighlight">\(\MCpredictdist_k\)</span> is a Gaussian mixture, thus values of <span class="math notranslate nohighlight">\(\MCpredictdist_k(\mathsf{A})\)</span> for any <span class="math notranslate nohighlight">\(\mathsf{A} \subset \Rset^2\)</span> can be computed by applying the tools in <span class="xref myst"></span> to all mixture components.
+<p>Since the observation likelihood is also Gaussian, <span class="math notranslate nohighlight">\(\MCpredictdist_k\)</span> is a Gaussian mixture, thus values of <span class="math notranslate nohighlight">\(\MCpredictdist_k(\mathsf{A})\)</span> for any <span class="math notranslate nohighlight">\(\mathsf{A} \subset \Rset^2\)</span> can be computed by applying the tools from <a class="reference internal" href="#confidence-regions-appendix"><span class="std std-ref">the section above</span></a> to all mixture components.
 Similar to EKF and UKF, this approximated predictive distribution is used to recover object identities via <span class="math notranslate nohighlight">\(\MCpredictdist_n^{\ell}(V_\delta(z_n^i))\)</span> computed for all incoming detections <span class="math notranslate nohighlight">\(\detectset_n = \{z_n^i\}_{1 \leq i \leq D_n}\)</span> and each of the <span class="math notranslate nohighlight">\(1 \leq \ell \leq L_n\)</span> filters, where <span class="math notranslate nohighlight">\(\MCpredictdist_n^{\ell}\)</span> is the predictive distribution associated with the <span class="math notranslate nohighlight">\(\ell\)</span>-th filter.</p>
 </div>
 <div class="section" id="performance-comparison">
