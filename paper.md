@@ -1034,7 +1034,7 @@ $$
 \MCpredictdist_k(\rmd z_k) = \sum_{i=1}^N \sum_{j=1}^M w_k^i \likel_k(X_k^{i,j},\rmd z_k) \eqsp.
 $$ 
 
-Since the observation likelihood is also Gaussian, $\MCpredictdist_k$ is a Gaussian mixture, thus values of $\MCpredictdist_k(\mathsf{A})$ for any $\mathsf{A} \subset \Rset^2$ can be computed by applying the tools in [](tracking-module) to all mixture components.
+Since the observation likelihood is also Gaussian, $\MCpredictdist_k$ is a Gaussian mixture, thus values of $\MCpredictdist_k(\mathsf{A})$ for any $\mathsf{A} \subset \Rset^2$ can be computed by applying the tools from [the section above](confidence-regions-appendix) to all mixture components.
 Similar to EKF and UKF, this approximated predictive distribution is used to recover object identities via $\MCpredictdist_n^{\ell}(V_\delta(z_n^i))$ computed for all incoming detections $\detectset_n = \{z_n^i\}_{1 \leq i \leq D_n}$ and each of the $1 \leq \ell \leq L_n$ filters, where $\MCpredictdist_n^{\ell}$ is the predictive distribution associated with the $\ell$-th filter.
 
 
