@@ -1020,7 +1020,7 @@ $$
 \mathbb{L}_k(\rmd z_k) = \int \int \likel_k(x_k, \rmd z_k)\transdist_k(x_{k-1}, \rmd x_k)\filtdist_{k-1}(\rmd x_{k-1}) \eqsp.
 $$ 
 
-Replacing $\filtdist_k$ with $\SMCfiltdist_k$ into the previous equation yields
+Replacing $\filtdist_{k-1}$ with $\SMCfiltdist_{k-1}$ into the previous equation yields
 
 $$
 \SMCpredictdist_k(\rmd z_k) = \sum_{k=1}^N w_k^i \int \likel_k(x_k,\rmd z_k) \transdist_k(X_{k-1}^i, \rmd x_k)  \eqsp.
