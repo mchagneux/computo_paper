@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Macrolitter video counting on riverbanks using state space models and moving cameras &#8212; Macrolitter video counting on riverbanks using state space models and moving cameras</title>
     
-  <link href="_static/css/theme.css" rel="stylesheet">
-  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -62,7 +61,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -71,9 +84,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -91,102 +105,191 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1 current">
-  <a class="reference internal" href="#">
-   Macrolitter video counting on riverbanks using state space models and moving cameras
-  </a>
- </li>
-</ul>
-    </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="_sources/paper.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/paper.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/mchagneux/computo_paper/master?urlpath=tree/paper.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1 current active">
+                <a class="reference internal" href="#">
+                    Macrolitter video counting on riverbanks using state space models and moving cameras
+                </a>
+            </li>
+        </ul>
         
     </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/mchagneux/computo_paper/master?urlpath=tree/paper.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/paper.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download notebook file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="_sources/paper.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#abstract">
    Abstract
@@ -468,12 +571,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Macrolitter video counting on riverbanks using state space models and moving cameras</h1>
@@ -771,7 +873,8 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
   <div class="math notranslate nohighlight">
@@ -803,10 +906,10 @@ const thebe_selector_output = ".output, .cell_output"
 \newcommand{\assre}{\mathsf{AssRe}}
 \newcommand{\asspr}{\mathsf{AssPr}}
 \newcommand{\tempwindow}{[\![n-\lfloor \kappa/2 \rfloor, n+\lfloor \kappa/2 \rfloor]\!]}\]</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="macrolitter-video-counting-on-riverbanks-using-state-space-models-and-moving-cameras">
-<h1>Macrolitter video counting on riverbanks using state space models and moving cameras<a class="headerlink" href="#macrolitter-video-counting-on-riverbanks-using-state-space-models-and-moving-cameras" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="abstract">
-<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<section class="tex2jax_ignore mathjax_ignore" id="macrolitter-video-counting-on-riverbanks-using-state-space-models-and-moving-cameras">
+<h1>Macrolitter video counting on riverbanks using state space models and moving cameras<a class="headerlink" href="#macrolitter-video-counting-on-riverbanks-using-state-space-models-and-moving-cameras" title="Permalink to this headline">#</a></h1>
+<section id="abstract">
+<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">#</a></h2>
 <p>Litter is a known cause of degradation in marine environments and most of it travels in rivers before reaching the oceans.
 In this paper, we present a novel algorithm to assist waste monitoring along watercourses.
 While several attempts have been made to quantify litter using neural object detection in photographs of floating items, we tackle the more challenging task of counting directly in videos using boat-embedded cameras.
@@ -816,9 +919,9 @@ We present a new open image dataset gathered through a crowdsourced campaign and
 Realistic video footage assembled by water monitoring experts is annotated and provided for evaluation.
 Improvements in count quality are demonstrated against systems built from state-of-the-art multi-object trackers sharing the same detection capabilities.
 A precise error decomposition allows clear analysis and highlights the remaining challenges.</p>
-</div>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
 <p>Litter pollution concerns every part of the globe.
 Each year, almost ten thousand million tons of plastic waste is generated, among which 80% ends up in landfills or in nature <span id="id1">[<a class="reference internal" href="#id59" title="Roland Geyer, Jenna Jambeck, and Kara Law. Production, use, and fate of all plastics ever made. Science Advances, 3:e1700782, 07 2017. doi:10.1126/sciadv.1700782.">1</a>]</span>, notably threatening all of the world’s oceans, seas and aquatic environments <span id="id2">[<a class="reference internal" href="#id57" title="Natalie Welden. The environmental impacts of plastic pollution. pages 195-222, 01 2020. doi:10.1016/B978-0-12-817880-5.00008-6.">2</a>, <a class="reference internal" href="#id58" title="Thushari Gamage and J.D.M. Senevirathna. Plastic pollution in the marine environment. Heliyon, 6:e04709, 08 2020. doi:10.1016/j.heliyon.2020.e04709.">3</a>]</span>.
 Plastic pollution is known to already impact more than 3763 marine species worldwide (see <a class="reference external" href="https://litterbase.awi.de/">this</a> detailed analysis) with risk of proliferation through the whole food chain.
@@ -939,12 +1042,14 @@ Tracking...
 </div>
 </div>
 </div>
-<div class="figure align-default" id="demo-ours">
+<figure class="align-default" id="demo-ours">
 <div class="cell_output docutils container">
 <img alt="_images/paper_5_0.png" src="_images/paper_5_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text"><em>Our method</em>: one object (red dot) is correctly detected at every frame and given a consistent identity throughout the sequence with low location uncertainty (red ellipse). Next to it, a false positive detection is generated at the first frame (brown dot) but immediatly lost in the following frames: the associated uncertainty grows fast (brown ellipse). In our solution, this type of track will not be counted. A third correctly detected object (pink) appears in the third frame and begins a new track.</span><a class="headerlink" href="#demo-ours" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text"><em>Our method</em>: one object (red dot) is correctly detected at every frame and given a consistent identity throughout the sequence with low location uncertainty (red ellipse). Next to it, a false positive detection is generated at the first frame (brown dot) but immediatly lost in the following frames: the associated uncertainty grows fast (brown ellipse). In our solution, this type of track will not be counted. A third correctly detected object (pink) appears in the third frame and begins a new track.</span><a class="headerlink" href="#demo-ours" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Tracker with SORT </span>
@@ -999,7 +1104,9 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.147 seconds for 360 frames or 2455.5 FPS
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tracking took: 0.197 seconds for 360 frames or 1828.3 FPS
 --- End
 </pre></div>
 </div>
@@ -1022,24 +1129,26 @@ Total Tracking took: 0.147 seconds for 360 frames or 2455.5 FPS
 </div>
 </div>
 </div>
-<div class="figure align-default" id="demo-sort">
+<figure class="align-default" id="demo-sort">
 <div class="cell_output docutils container">
 <img alt="_images/paper_8_0.png" src="_images/paper_8_0.png" />
 </div>
-<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text"><em>SORT</em>: the resulting count is also 2, but both counts arise from tracks generated by the same object, the latter not re-associated at all in the second frame. Additionally, the third object is discarded (in post-processing) by their strategy.</span><a class="headerlink" href="#demo-sort" title="Permalink to this image">¶</a></p>
-</div>
-</div>
-<div class="section" id="related-works">
-<h2>Related works<a class="headerlink" href="#related-works" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="ai-automated-counting">
-<h3>AI-automated counting<a class="headerlink" href="#ai-automated-counting" title="Permalink to this headline">¶</a></h3>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text"><em>SORT</em>: the resulting count is also 2, but both counts arise from tracks generated by the same object, the latter not re-associated at all in the second frame. Additionally, the third object is discarded (in post-processing) by their strategy.</span><a class="headerlink" href="#demo-sort" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="related-works">
+<h2>Related works<a class="headerlink" href="#related-works" title="Permalink to this headline">#</a></h2>
+<section id="ai-automated-counting">
+<h3>AI-automated counting<a class="headerlink" href="#ai-automated-counting" title="Permalink to this headline">#</a></h3>
 <p>Counting from images has been an ongoing challenge in computer vision.
 Most works can be divided into (i) detection-based methods where objects are individually located for counting (ii) density-based methods where counts are obtained by summing a predicted density map (iii) regression-based methods where counts are directly regressed from input images <span id="id14">[<a class="reference internal" href="#id85" title="Prithvijit Chattopadhyay, Ramakrishna Vedantam, Ramprasaath R Selvaraju, Dhruv Batra, and Devi Parikh. Counting everyday objects in everyday scenes. In Proceedings - 30th IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, volume 2017-Janua, 4428–4437. 2017. arXiv:1604.03505, doi:10.1109/CVPR.2017.471.">16</a>]</span>.
 While some of these works tackled the problem of counting in wild scenes <span id="id15">[<a class="reference internal" href="#id92" title="Carlos Arteta, Victor Lempitsky, and Andrew Zisserman. Counting in the wild. 9911:483-498, 10 2016. doi:10.1007/978-3-319-46478-7_30.">17</a>]</span>, most are focused on pedestrian and crowd counting.
 Though several works <span id="id16">[<a class="reference internal" href="#id93" title="Xingjiao Wu, Baohan Xu, Yingbin Zheng, Hao Ye, Jing Yang, and Liang He. Fast video crowd counting with a temporal aware network. Neurocomputing, 403:13-20, 2020. URL: https://www.sciencedirect.com/science/article/pii/S0925231220306561, doi:https://doi.org/10.1016/j.neucom.2020.04.071.">18</a>, <a class="reference internal" href="#id100" title="Feng Xiong, Xingjian Shi, and Dit-Yan Yeung. Spatiotemporal modeling for crowd counting in videos. In 2017 IEEE International Conference on Computer Vision (ICCV), volume, 5161-5169. 2017. doi:10.1109/ICCV.2017.551.">19</a>, <a class="reference internal" href="#id101" title="Yunqi Miao, Jungong Han, Yongsheng Gao, and Baochang Zhang. ST-CNN: Spatial-Temporal Convolutional Neural Network for crowd counting in videos. Pattern Recognition Letters, 125:113–118, jul 2019. doi:10.1016/j.patrec.2019.04.012.">20</a>]</span> showed the relevance of leveraging sequential inter-frame information to achieve better counts at every frame, none of these methods actually attempt to produce global video counts.</p>
-</div>
-<div class="section" id="computer-vision-for-macro-litter-monitoring">
-<h3>Computer vision for macro litter monitoring<a class="headerlink" href="#computer-vision-for-macro-litter-monitoring" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="computer-vision-for-macro-litter-monitoring">
+<h3>Computer vision for macro litter monitoring<a class="headerlink" href="#computer-vision-for-macro-litter-monitoring" title="Permalink to this headline">#</a></h3>
 <p>Automatic macro litter monitoring in rivers is still a relatively nascent initiative, yet there have already been several attempts at using DNN-based object recognition tools to count plastic trash.
 Recently, <span id="id17">[<a class="reference internal" href="#id95" title="Pedro F Proença and Pedro Simões. TACO: Trash Annotations in Context for Litter Detection. 2020. URL: http://tacodataset.org/ http://arxiv.org/abs/2003.06975, arXiv:2003.06975.">12</a>]</span> used a combination of two Convolutional Neural Networks (CNNs) to detect and quantify plastic litter using geospatial images from Cambodia.
 In <span id="id18">[<a class="reference internal" href="#id84" title="Mattis Wolf, Katelijn van den Berg, Shungudzemwoyo Pascal Garaba, Nina Gnann, Klaus Sattler, Frederic Theodor Stahl, and Oliver Zielinski. Machine learning for aquatic plastic litter detection, classification and quantification (APLASTIC–Q). Environmental Research Letters, 2020. doi:10.1088/1748-9326/abbd01.">21</a>]</span>, reliable estimates of plastic density were obtained using Faster R-CNN <span id="id19">[<a class="reference internal" href="#id94" title="Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun. Faster r-cnn: towards real-time object detection with region proposal networks. In Proceedings of the 28th International Conference on Neural Information Processing Systems - Volume 1, NIPS'15, 91–99. Cambridge, MA, USA, 2015. MIT Press.">22</a>]</span> on images extracted from bridge-mounted cameras.
@@ -1047,9 +1156,9 @@ For underwater waste monitoring, <span id="id20">[<a class="reference internal" 
 They later turned to generative models to obtain more synthetic data from a small dataset <span id="id21">[<a class="reference internal" href="#id99" title="Jungseok Hong, Michael Fulton, and Junaed Sattar. A Generative Approach Towards Improved Robotic Detection of Marine Litter. In Proceedings - IEEE International Conference on Robotics and Automation, 10525–10531. 2020. arXiv:1910.04754, doi:10.1109/ICRA40945.2020.9197575.">24</a>]</span>.
 While proving the practicality of deep learning for automatic waste detection in various contexts, these works only provide counts for separate images of photographed litter.
 To the best of our knowledge, no solution has been proposed to count litter directly in videos.</p>
-</div>
-<div class="section" id="multi-object-tracking">
-<h3>Multi-object tracking<a class="headerlink" href="#multi-object-tracking" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="multi-object-tracking">
+<h3>Multi-object tracking<a class="headerlink" href="#multi-object-tracking" title="Permalink to this headline">#</a></h3>
 <p>Multi-object tracking usually involves object detection, data association and track management, with a very large number of methods already existing before DNNs <span id="id22">[<a class="reference internal" href="#id102" title="Wenhan Luo, Junliang Xing, Anton Milan, Xiaoqin Zhang, Wei Liu, and Tae-Kyun Kim. Multiple object tracking: a literature review. Artificial Intelligence, 293:103448, 2021. URL: https://www.sciencedirect.com/science/article/pii/S0004370220301958, doi:https://doi.org/10.1016/j.artint.2020.103448.">25</a>]</span>.
 MOT approaches now mostly differ in the level of supervision they require for each step: until recently, most successful methods (like <span id="id23">[<a class="reference internal" href="#id103" title="Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft. Simple online and realtime tracking. In Proceedings - International Conference on Image Processing, ICIP, volume 2016-Augus, 3464–3468. 2016. URL: https://github.com/abewley/sort, arXiv:1602.00763, doi:10.1109/ICIP.2016.7533003.">26</a>]</span>) have been detection-based, i.e.
 involving only a DNN-based object detector trained at the image level and coupled with an unsupervised data association step.
@@ -1061,23 +1170,23 @@ Even more so, real shooting conditions induce chaotic movements on the boat-embe
 A close work of ours is that of <span id="id29">[<a class="reference internal" href="#id98" title="Michael Fulton, Jungseok Hong, Md Jahidul Islam, and Junaed Sattar. Robotic detection of marine litter using deep visual detection models. In 2019 International Conference on Robotics and Automation (ICRA), 5752–5758. IEEE, 2019.">33</a>]</span>, who paired Kalman filtering with optical flow to yield fruit count estimates on entire video sequences captured by moving robots.
 However, their video footage is captured at night with consistent lighting conditions, backgrounds are largely similar across sequences, and camera movements are less challenging.
 In our application context, we find that using MOT for the task of counting objects requires a new movement model, to take into account missing detections and large camera movements.</p>
-</div>
-</div>
-<div class="section" id="datasets-for-training-and-evaluation">
-<h2>Datasets for training and evaluation<a class="headerlink" href="#datasets-for-training-and-evaluation" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="datasets-for-training-and-evaluation">
+<h2>Datasets for training and evaluation<a class="headerlink" href="#datasets-for-training-and-evaluation" title="Permalink to this headline">#</a></h2>
 <p>Our main dataset of annotated images is used to train the object detector.
 Then, only for evaluation purposes, we provide videos with annotated object positions and known global counts.
 Our motivation is to avoid relying on training data that requires this resource-consuming process.</p>
-<div class="section" id="images">
-<h3>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="data-collection">
-<h4>Data collection<a class="headerlink" href="#data-collection" title="Permalink to this headline">¶</a></h4>
+<section id="images">
+<h3>Images<a class="headerlink" href="#images" title="Permalink to this headline">#</a></h3>
+<section id="data-collection">
+<h4>Data collection<a class="headerlink" href="#data-collection" title="Permalink to this headline">#</a></h4>
 <p>With help from benevolents, we compile photographs of litter stranded on river banks after increased river discharge, shot directly from kayaks navigating at varying distances from the shore.
 Images span multiple rivers with various levels of water current, on different seasons, mostly in southwestern France.
 The resulting pictures depict trash items under the same conditions as the video footage we wish to count on, while spanning a wide variety of backgrounds, light conditions, viewing angles and picture quality.</p>
-</div>
-<div class="section" id="bounding-box-annotation">
-<h4>Bounding box annotation<a class="headerlink" href="#bounding-box-annotation" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="bounding-box-annotation">
+<h4>Bounding box annotation<a class="headerlink" href="#bounding-box-annotation" title="Permalink to this headline">#</a></h4>
 <p>For object detection applications, the images are annotated using a custom online platform where each object is located using a bounding box.
 In this work, we focus only on litter counting without classification, however the annotated objects are already classified into specific categories which are described in <a class="reference internal" href="#trash-categories-image"><span class="std std-ref">Trash categories defined to facilitate porting to a counting system that allows trash identification</span></a>.</p>
 <p>A few samples are depicted below:</p>
@@ -1169,34 +1278,34 @@ index created!
 <img alt="_images/paper_12_15.png" src="_images/paper_12_15.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="video-sequences">
-<h3>Video sequences<a class="headerlink" href="#video-sequences" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id30">
-<h4>Data collection<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+</section>
+</section>
+<section id="video-sequences">
+<h3>Video sequences<a class="headerlink" href="#video-sequences" title="Permalink to this headline">#</a></h3>
+<section id="id30">
+<h4>Data collection<a class="headerlink" href="#id30" title="Permalink to this headline">#</a></h4>
 <p>For evaluation, an on-field study was conducted with 20 volunteers to manually count litter along three different riverbank sections in April 2021, on the Gave d’Oloron near Auterrive (Pyrénées-Atlantiques, France), using kayaks.
 The river sections, each 500 meters long, were precisely defined for their differences in background, vegetation, river current, light conditions and accessibility (see <a class="reference internal" href="#video-dataset-appendix"><span class="std std-ref">this section</span></a> for aerial views of the shooting site and details on the river sections).
 In total, the three videos amount to 20 minutes of footage at 24 frames per second (fps) and a resolution of 1920x1080 pixels.</p>
-</div>
-<div class="section" id="track-annotation">
-<h4>Track annotation<a class="headerlink" href="#track-annotation" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="track-annotation">
+<h4>Track annotation<a class="headerlink" href="#track-annotation" title="Permalink to this headline">#</a></h4>
 <p>On video footage, we manually recovered all visible object trajectories on each river section using an online video annotation tool (more details <a class="reference internal" href="#video-dataset-appendix"><span class="std std-ref">here</span></a> for the precise methodology).
 From that, we obtained a collection of distinct object tracks spanning the entire footage.</p>
-</div>
-</div>
-</div>
-<div class="section" id="optical-flow-based-counting-via-bayesian-filtering-and-confidence-regions">
-<h2>Optical flow-based counting via Bayesian filtering and confidence regions<a class="headerlink" href="#optical-flow-based-counting-via-bayesian-filtering-and-confidence-regions" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+</section>
+<section id="optical-flow-based-counting-via-bayesian-filtering-and-confidence-regions">
+<h2>Optical flow-based counting via Bayesian filtering and confidence regions<a class="headerlink" href="#optical-flow-based-counting-via-bayesian-filtering-and-confidence-regions" title="Permalink to this headline">#</a></h2>
 <p>Our counting method is divided into several interacting blocks.
 First, a detector outputs a set of predicted positions for objects in the current frame.
 The second block is a tracking module designing consistent trajectories of potential objects within the video.
 At each frame, a third block links the successive detections together using confidence regions provided by the tracking module, proposing distinct tracks for each object.
 A final postprocessing step only keeps the best tracks which are enumerated to yield the final count.</p>
-<div class="section" id="detector">
-<h3>Detector<a class="headerlink" href="#detector" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="center-based-anchor-free-detection">
-<h4>Center-based anchor-free detection<a class="headerlink" href="#center-based-anchor-free-detection" title="Permalink to this headline">¶</a></h4>
+<section id="detector">
+<h3>Detector<a class="headerlink" href="#detector" title="Permalink to this headline">#</a></h3>
+<section id="center-based-anchor-free-detection">
+<h4>Center-based anchor-free detection<a class="headerlink" href="#center-based-anchor-free-detection" title="Permalink to this headline">#</a></h4>
 <p>In most benchmarks, the prediction quality of object attributes like bounding boxes is often used to  improve tracking.
 For counting, however, point detection is theoretically enough and advantageous in many ways.
 First, to build large datasets, a method which only requires the lightest annotation format may benefit from more data due to annotation ease.
@@ -1208,10 +1317,10 @@ An encoder-decoder network takes an input image <span class="math notranslate no
 At inference, peak detection and thresholding are applied to <span class="math notranslate nohighlight">\(\hat{Y}\)</span>, yielding the set of detections.
 The bulk of this detector relies on the DLA34 architecture <span id="id35">[<a class="reference internal" href="#id52" title="Fisher Yu, Dequan Wang, Evan Shelhamer, and Trevor Darrell. Deep layer aggregation. In 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition, volume, 2403-2412. 2018. doi:10.1109/CVPR.2018.00255.">36</a>]</span>.
 In a video, for each frame <span class="math notranslate nohighlight">\(I_n \in [0,1]^{w \times h \times 3}\)</span> (where <span class="math notranslate nohighlight">\(n\)</span> indexes the frame number), the detector outputs a set <span class="math notranslate nohighlight">\(\detectset_n = \{z_n^i\}_{1 \leq i \leq D_n}\)</span> where each <span class="math notranslate nohighlight">\(z_n^i = (x_n^i,y_n^i)\)</span> specifies the coordinates of one of the <span class="math notranslate nohighlight">\(D_n\)</span> detected objects.</p>
-</div>
-</div>
-<div class="section" id="training">
-<span id="detector-training"></span><h3>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="training">
+<span id="detector-training"></span><h3>Training<a class="headerlink" href="#training" title="Permalink to this headline">#</a></h3>
 <p>Training the detector is done similarly as in <span id="id36">[<a class="reference internal" href="#id95" title="Pedro F Proença and Pedro Simões. TACO: Trash Annotations in Context for Litter Detection. 2020. URL: http://tacodataset.org/ http://arxiv.org/abs/2003.06975, arXiv:2003.06975.">12</a>]</span>.
 For every image, the corresponding set <span class="math notranslate nohighlight">\(\mathcal{B} = \{(c^w_i,c^h_i,w_i,h_i)\}_{1 \leq i\leq B}\)</span> of <span class="math notranslate nohighlight">\(B\)</span> annotated bounding boxes – <em>i.e.</em> a center <span class="math notranslate nohighlight">\((c^w_i,c^h_i)\)</span>, a width <span class="math notranslate nohighlight">\(w_i\)</span> and a height <span class="math notranslate nohighlight">\(h_i\)</span>– is rendered into a ground truth heatmap <span class="math notranslate nohighlight">\(Y \in [0,1]^{{\lfloor w/p\rfloor \times \lfloor h/p\rfloor}}\)</span> by applying kernels at the bounding box centers and taking element-wise maximum.
 For all <span class="math notranslate nohighlight">\(1 \leq x \leq w/p\)</span>, <span class="math notranslate nohighlight">\(1 \leq y \leq h/p\)</span>, the ground truth at <span class="math notranslate nohighlight">\((x,y)\)</span> is</p>
@@ -1235,11 +1344,11 @@ Training the detector is done by minimizing a penalty-reduced weighted focal los
     \end{array}
 \right.
 \end{split}\]</div>
-</div>
-<div class="section" id="bayesian-tracking-with-optical-flow">
-<span id="bayesian-tracking"></span><h3>Bayesian tracking with optical flow<a class="headerlink" href="#bayesian-tracking-with-optical-flow" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="optical-flow">
-<h4>Optical flow<a class="headerlink" href="#optical-flow" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="bayesian-tracking-with-optical-flow">
+<span id="bayesian-tracking"></span><h3>Bayesian tracking with optical flow<a class="headerlink" href="#bayesian-tracking-with-optical-flow" title="Permalink to this headline">#</a></h3>
+<section id="optical-flow">
+<h4>Optical flow<a class="headerlink" href="#optical-flow" title="Permalink to this headline">#</a></h4>
 <p>Between two timesteps <span class="math notranslate nohighlight">\(n-1\)</span> and <span class="math notranslate nohighlight">\(n\)</span>, the optical flow <span class="math notranslate nohighlight">\(\Delta_n\)</span> is a mapping  satisfying the following consistency constraint <span id="id37">[<a class="reference internal" href="#id53" title="Nikos Paragios, Yunmei Chen, and Olivier D Faugeras. Handbook of mathematical models in computer vision. Springer Science &amp; Business Media, 2006.">37</a>]</span>:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1247,14 +1356,14 @@ Training the detector is done by minimizing a penalty-reduced weighted focal los
 \]</div>
 <p>where, in our case, <span class="math notranslate nohighlight">\(\widetilde{I}_n\)</span> denotes the frame <span class="math notranslate nohighlight">\(n\)</span> downsampled to dimensions <span class="math notranslate nohighlight">\(\lfloor w/p\rfloor \times \lfloor h/p\rfloor\)</span> and <span class="math notranslate nohighlight">\(u = (x,y)\)</span> is a coordinate on that grid.
 To estimate <span class="math notranslate nohighlight">\(\Delta_n\)</span>, we choose a simple unsupervised Gunner-Farneback algorithm which does not require further annotations, see <span id="id38">[<a class="reference internal" href="#id63" title="G. Farnebäck. Two-frame motion estimation based on polynomial expansion. In Scandinavian conference on Image analysis, 363–370. Springer, 2003.">38</a>]</span> for details.</p>
-</div>
-<div class="section" id="state-space-model">
-<h4>State-space model<a class="headerlink" href="#state-space-model" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="state-space-model">
+<h4>State-space model<a class="headerlink" href="#state-space-model" title="Permalink to this headline">#</a></h4>
 <p>Using optical flow as a building block, we posit a state-space model where estimates of <span class="math notranslate nohighlight">\(\Delta_n\)</span> are used as a time and state-dependent offset for the state transition.
 Let <span class="math notranslate nohighlight">\((X_k)_{k \geq 1}\)</span> and <span class="math notranslate nohighlight">\((Z_k)_{k \geq 1}\)</span> be the true (but hidden) and observed (detected) positions of a target object in <span class="math notranslate nohighlight">\(\Rset^2\)</span>, respectively.
 Considering the optical flow value associated with <span class="math notranslate nohighlight">\(X_{k-1}\)</span> on the discrete grid of dimensions <span class="math notranslate nohighlight">\(\lfloor w/p\rfloor \times \lfloor h/p\rfloor\)</span>, write</p>
 <div class="math notranslate nohighlight" id="equation-state-transition-eq">
-<span class="eqno">(1)<a class="headerlink" href="#equation-state-transition-eq" title="Permalink to this equation">¶</a></span>\[X_k = X_{k-1} + \Delta_k(\lfloor X_{k-1} \rfloor) + \eta_k\]</div>
+<span class="eqno">(1)<a class="headerlink" href="#equation-state-transition-eq" title="Permalink to this equation">#</a></span>\[X_k = X_{k-1} + \Delta_k(\lfloor X_{k-1} \rfloor) + \eta_k\]</div>
 <p>and</p>
 <div class="math notranslate nohighlight">
 \[
@@ -1262,9 +1371,9 @@ Z_k = X_k + \varepsilon_k,
 \]</div>
 <p>where <span class="math notranslate nohighlight">\((\eta_k)_{k\geq 1}\)</span> are i.i.d. centered Gaussian random variables with covariance matrix <span class="math notranslate nohighlight">\(Q\)</span> independent of <span class="math notranslate nohighlight">\((\varepsilon_k)_{k\geq 1}\)</span> i.i.d. centered Gaussian random variables with covariance matrix <span class="math notranslate nohighlight">\(R\)</span>.
 In the following, <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(R\)</span> are assumed to be diagonal, and are hyperparameters set to values given in <a class="reference internal" href="#covariance-matrices"><span class="std std-ref">Covariance matrices for state and observation noises</span></a></p>
-</div>
-<div class="section" id="approximations-of-the-filtering-distributions">
-<h4>Approximations of the filtering distributions<a class="headerlink" href="#approximations-of-the-filtering-distributions" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="approximations-of-the-filtering-distributions">
+<h4>Approximations of the filtering distributions<a class="headerlink" href="#approximations-of-the-filtering-distributions" title="Permalink to this headline">#</a></h4>
 <p>Denoting <span class="math notranslate nohighlight">\(u_{1:k} = (u_1,\ldots,u_k)\)</span> for any <span class="math notranslate nohighlight">\(k\)</span> and sequence <span class="math notranslate nohighlight">\((u_i)_{i \geq 0}\)</span>, Bayesian filtering aims at computing the conditional distribution of <span class="math notranslate nohighlight">\(X_k\)</span> given <span class="math notranslate nohighlight">\(Z_{1:k}\)</span>, referred to as the filtering distribution.
 In the case of linear and Gaussian state space models, this distribution is known to be Gaussian, and Kalman filtering allows to update exactly the posterior mean <span class="math notranslate nohighlight">\(\mu_k = \esp[X_k|Z_{1:k}]\)</span> and posterior variance matrix <span class="math notranslate nohighlight">\(\Sigma_k = \var[X_k|Z_{1:k}]\)</span>.
 This algorithm and its extensions are prevalent and used extensively in time-series and sequential-data analysis.
@@ -1277,15 +1386,15 @@ X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \
 \]</div>
 <p>This allows the implementation of Kalman updates. For completeness, we present <a class="reference internal" href="#impact-algorithm-appendix"><span class="std std-ref">here</span></a> an SMC-based solution, discuss the empirical differences and use-cases where the latter might be a more relevant choice.
 In any case, the state-space model naturally accounts for missing observations, as the contribution of <span class="math notranslate nohighlight">\(\Delta_k\)</span> in every transition ensures that each filter can cope with arbitrary inter-frame motion to keep track of its target.</p>
-</div>
-<div class="section" id="generating-potential-object-tracks">
-<h4>Generating potential object tracks<a class="headerlink" href="#generating-potential-object-tracks" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="generating-potential-object-tracks">
+<h4>Generating potential object tracks<a class="headerlink" href="#generating-potential-object-tracks" title="Permalink to this headline">#</a></h4>
 <p>The full MOT algorithm consists of a set of single-object trackers following the previous model, but each provided with distinct observations at every frame.
 These separate filters provide track proposals for every object detected in the video.</p>
-</div>
-</div>
-<div class="section" id="data-association-using-confidence-regions">
-<span id="data-association"></span><h3>Data association using confidence regions<a class="headerlink" href="#data-association-using-confidence-regions" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="data-association-using-confidence-regions">
+<span id="data-association"></span><h3>Data association using confidence regions<a class="headerlink" href="#data-association-using-confidence-regions" title="Permalink to this headline">#</a></h3>
 <p>Throughout the video, depending on various conditions on the incoming detections, existing trackers must be updated (with or without a new observation) and others might need to be created.
 This traditional Multiple Hypothesis Tracking (MHT) setup requires a third party data association block to link the incoming detections with the correct filters.
 At the frame <span class="math notranslate nohighlight">\(n\)</span>, a set of <span class="math notranslate nohighlight">\(L_n\)</span> Bayesian filters track previously seen objects and a new set of detections <span class="math notranslate nohighlight">\(\mathcal{D}_n\)</span> is provided by the detector.
@@ -1306,13 +1415,15 @@ Though the Hungarian algorithm is a very popular algorithm in MOT, it is often u
 Using confidence regions for the distributions of <span class="math notranslate nohighlight">\(Z_n\)</span> given <span class="math notranslate nohighlight">\(Z_{1:(n - 1)}\)</span> instead allows to naturally include uncertainty in the decision process.
 Note that we deactivate filters whose posterior mean estimates lie outside the image subspace in <span class="math notranslate nohighlight">\(\Rset^2\)</span>.</p>
 <p>A visual depiction of the entire tracking (from detection to final association) is provided below.</p>
-<div class="figure align-default" id="diagram">
+<figure class="align-default" id="diagram">
 <img alt="_images/diagram.png" src="_images/diagram.png" />
-<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Visual representation of the tracking pipeline.</span><a class="headerlink" href="#diagram" title="Permalink to this image">¶</a></p>
-</div>
-</div>
-<div class="section" id="counting">
-<h3>Counting<a class="headerlink" href="#counting" title="Permalink to this headline">¶</a></h3>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Visual representation of the tracking pipeline.</span><a class="headerlink" href="#diagram" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="counting">
+<h3>Counting<a class="headerlink" href="#counting" title="Permalink to this headline">#</a></h3>
 <p>At the end of the video, the previous process returns a set of candidate tracks.
 For counting purposes, we find that simple heuristics can be further applied to filter out tracks that do not follow actual objects.
 More precisely, we observe that tracks of real objects usually contain more (i) observations and (ii) streams of uninterrupted observations.
@@ -1320,20 +1431,20 @@ Denote by <span class="math notranslate nohighlight">\(T_\ell = \left\{n \in \ma
 To discard false counts according to (i) and (ii), we compute the moving average <span class="math notranslate nohighlight">\(M_\ell^\kappa\)</span> of <span class="math notranslate nohighlight">\(1_{n \in T_\ell}\)</span> defined on <span class="math notranslate nohighlight">\([\![\min(T_\ell), \max(T_\ell)]\!]\)</span> using windows of size <span class="math notranslate nohighlight">\(\kappa\)</span>, and build <span class="math notranslate nohighlight">\(T_\ell^\kappa = \left\{n \in T_\ell \mid M_\ell^\kappa[n] &gt; \nu\right\}\)</span> .
 Defining <span class="math notranslate nohighlight">\(\mathcal{N} = \left\{\ell \mid |T_\ell^\kappa| &gt; \tau\right\}\)</span>, the final object count is <span class="math notranslate nohighlight">\(|\mathcal{N}|\)</span>.
 We choose <span class="math notranslate nohighlight">\(\nu = 0.6\)</span> while <span class="math notranslate nohighlight">\(\kappa,\tau\)</span> are optimized for best count performance (see <span class="xref myst">here</span> for a more comprehensive study).</p>
-</div>
-</div>
-<div class="section" id="metrics-for-mot-based-counting">
-<h2>Metrics for MOT-based counting<a class="headerlink" href="#metrics-for-mot-based-counting" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="metrics-for-mot-based-counting">
+<h2>Metrics for MOT-based counting<a class="headerlink" href="#metrics-for-mot-based-counting" title="Permalink to this headline">#</a></h2>
 <p>Counting in videos using embedded moving cameras is not a common task, and as such it requires a specific evaluation protocol to understand and compare the performance of competing methods.
 First, not all MOT metrics are relevant, even if some do provide insights to assist evaluation of count performance.
 Second, considering only raw counts on long videos gives little information on which of the final counts effectively arise from well detected objects.</p>
-<div class="section" id="count-related-mot-metrics">
-<h3>Count-related MOT metrics<a class="headerlink" href="#count-related-mot-metrics" title="Permalink to this headline">¶</a></h3>
+<section id="count-related-mot-metrics">
+<h3>Count-related MOT metrics<a class="headerlink" href="#count-related-mot-metrics" title="Permalink to this headline">#</a></h3>
 <p>Popular MOT benchmarks usually report several sets of metrics such as ClearMOT <span id="id41">[<a class="reference internal" href="#id109" title="Keni Bernardin and Rainer Stiefelhagen. Evaluating multiple object tracking performance: the clear mot metrics. EURASIP Journal on Image and Video Processing, 2008:, 01 2008. doi:10.1155/2008/246309.">41</a>]</span> or IDF1 <span id="id42">[<a class="reference internal" href="#id110" title="Ergys Ristani, Francesco Solera, Roger Zou, Rita Cucchiara, and Carlo Tomasi. Performance measures and a data set for multi-target, multi-camera tracking. In European conference on computer vision, 17–35. Springer, 2016.">42</a>]</span> which can account for different components of tracking performance.
 Recently, <span id="id43">[<a class="reference internal" href="#id95" title="Pedro F Proença and Pedro Simões. TACO: Trash Annotations in Context for Litter Detection. 2020. URL: http://tacodataset.org/ http://arxiv.org/abs/2003.06975, arXiv:2003.06975.">12</a>]</span> built the so-called HOTA metrics that allow separate evaluation of detection and association using the Jaccard index.
 The following components of their work are relevant to our task (we provide equation numbers in the original paper for formal definitions).</p>
-<div class="section" id="detection">
-<h4>Detection<a class="headerlink" href="#detection" title="Permalink to this headline">¶</a></h4>
+<section id="detection">
+<h4>Detection<a class="headerlink" href="#detection" title="Permalink to this headline">#</a></h4>
 <p>First, when considering all frames independently, traditional detection recall (<span class="math notranslate nohighlight">\(\detre\)</span>, eq.
 23) and precision (<span class="math notranslate nohighlight">\(\detpr\)</span>, eq.
 24) can be computed to assess the capabilities of the object detector.
@@ -1349,9 +1460,9 @@ Thus, low <span class="math notranslate nohighlight">\(\detre\)</span> could the
 <li><p>If our approach can rule out faulty tracks which do not follow actual objects, then good counts can still be obtained using a detector generating many false positives.
 Again, this suggests that low <span class="math notranslate nohighlight">\(\detpr\)</span> may allow decent counting performance.</p></li>
 </ol>
-</div>
-<div class="section" id="association">
-<h4>Association<a class="headerlink" href="#association" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="association">
+<h4>Association<a class="headerlink" href="#association" title="Permalink to this headline">#</a></h4>
 <p>HOTA association metrics are built to measure tracking performance irrespective of the detection capabilities, by comparing predicted tracks against true object trajectories.
 In our experiments, we compute the Association recall (<span class="math notranslate nohighlight">\(\assre\)</span>, eq. 26) and the Association Precision (<span class="math notranslate nohighlight">\(\asspr\)</span>, eq. 27).
 In brief, a low <span class="math notranslate nohighlight">\(\asspr\)</span> implies that several objects are often mingled into only one track, resulting in undercount.
@@ -1367,14 +1478,14 @@ A high <span class="math notranslate nohighlight">\(\assre\)</span> therefore ty
 Consequently, <span class="math notranslate nohighlight">\(\assre\)</span> does not account for tracks predicted from streams of false positive detections generated by the detector (e.g.
 arising from rocks, water reflections, etc).
 Since such tracks induce false counts, a tracker which produces the fewest is better, but MOT metrics do not measure it.</p>
-</div>
-</div>
-<div class="section" id="count-metrics">
-<h3>Count metrics<a class="headerlink" href="#count-metrics" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="count-metrics">
+<h3>Count metrics<a class="headerlink" href="#count-metrics" title="Permalink to this headline">#</a></h3>
 <p>Denoting by <span class="math notranslate nohighlight">\(\hatN\)</span> and <span class="math notranslate nohighlight">\(\N\)</span> the respective predicted and ground truth counts for the validation material, the error <span class="math notranslate nohighlight">\(\hatN - \N\)</span> is misleading as no information is provided on the quality of the predicted counts.
 Additionally, results on the original validation footage do not measure the statistical variability of the proposed estimators.</p>
-<div class="section" id="count-decomposition">
-<h4>Count decomposition<a class="headerlink" href="#count-decomposition" title="Permalink to this headline">¶</a></h4>
+<section id="count-decomposition">
+<h4>Count decomposition<a class="headerlink" href="#count-decomposition" title="Permalink to this headline">#</a></h4>
 <p>Define <span class="math notranslate nohighlight">\(\gtlabels\)</span> and <span class="math notranslate nohighlight">\(\predlabels\)</span> the labels of the annotated ground truth tracks and the predicted tracks, respectively.
 At evaluation, we assign each predicted track to either none or at most one ground truth track, writing <span class="math notranslate nohighlight">\(j \rightarrow \emptyset\)</span> or <span class="math notranslate nohighlight">\(j \rightarrow i\)</span> for the corresponding assignments.
 Denote <span class="math notranslate nohighlight">\(A_i = \{\predlabels \mid j \rightarrow i\}\)</span> the set of predicted tracks assigned to the <span class="math notranslate nohighlight">\(i\)</span>-th ground truth track.
@@ -1393,22 +1504,22 @@ We define:</p>
 <p>while <span class="math notranslate nohighlight">\(\Nmis\)</span> completely summarises the number of undetected objects.
 Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
 In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward.</p>
-</div>
-<div class="section" id="statistics">
-<h4>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="statistics">
+<h4>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">#</a></h4>
 <p>Since the original validation set comprises only a few unequally long videos, only absolute results are available.
 Splitting the original sequences into shorter independent sequences of equal length allows to compute basic statistics.
 For any quantity <span class="math notranslate nohighlight">\(\hatN_\bullet\)</span> defined above, we provide <span class="math notranslate nohighlight">\((\hat{\mu}_{\hatN_\bullet}, \hat{\sigma}_{\hatN_\bullet})\)</span> the associated empirical means and standard deviations computed on the set of short sequences.</p>
-</div>
-</div>
-</div>
-<div class="section" id="experiments">
-<h2>Experiments<a class="headerlink" href="#experiments" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+</section>
+<section id="experiments">
+<h2>Experiments<a class="headerlink" href="#experiments" title="Permalink to this headline">#</a></h2>
 <p>We denote by <span class="math notranslate nohighlight">\(S_1\)</span>, <span class="math notranslate nohighlight">\(S_2\)</span> and <span class="math notranslate nohighlight">\(S_3\)</span> the three river sections of the evaluation material and split the associated footage into independent segments of 30 seconds.</p>
 <p>To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT <span id="id44">[<a class="reference internal" href="#id103" title="Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft. Simple online and realtime tracking. In Proceedings - International Conference on Image Processing, ICIP, volume 2016-Augus, 3464–3468. 2016. URL: https://github.com/abewley/sort, arXiv:1602.00763, doi:10.1109/ICIP.2016.7533003.">26</a>]</span>, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions.Similar to our system, it only relies on image supervision for training, and though DeepSORT <span id="id45">[<a class="reference internal" href="#id106" title="Nicolai Wojke, Alex Bewley, and Dietrich Paulus. Simple online and realtime tracking with a deep association metric. In Proceedings - International Conference on Image Processing, ICIP, volume 2017-Septe, 3645–3649. 2018. arXiv:1703.07402, doi:10.1109/ICIP.2017.8296962.">29</a>]</span> is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT <span id="id46">[<a class="reference internal" href="#id74" title="Yifu Zhang, Chunyu Wang, Xinggang Wang, Wenjun Zeng, and Wenyu Liu. Fairmot: on the fairness of detection and re-identification in multiple object tracking. International Journal of Computer Vision, pages 1–19, 2021.">30</a>]</span>, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack <span id="id47">[<a class="reference internal" href="#id75" title="Xingyi Zhou, Vladlen Koltun, and Philipp Krähenbühl. Tracking objects as points. pages 474-490, 10 2020. doi:10.1007/978-3-030-58548-8_28.">43</a>]</span>. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.</p>
 <p>Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in <a class="reference internal" href="#detector-training"><span class="std std-ref">Training</span></a>. We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance with a given object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden. Note that both SORT and FairMOT use custom postprocessing methods to filter out implausible tracks, and we leave these mechanisms untouched.</p>
-<div class="section" id="id48">
-<h3>Detection<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
+<section id="id48">
+<h3>Detection<a class="headerlink" href="#id48" title="Permalink to this headline">#</a></h3>
 <p>In the following section, we present the performance of the trained detector.
 Having annotated all frames of the evaluation videos, we directly compute <span class="math notranslate nohighlight">\(\detre\)</span> and <span class="math notranslate nohighlight">\(\detpr\)</span> on those instead of a test split of the image dataset used for training.
 This allows realistic assessment of the detection quality of our system on true videos that may include blurry frames or artifacts caused by strong motion.
@@ -1508,9 +1619,9 @@ To better focus on count performance in the next sections, we remove segments th
 </table>
 </div></div></div>
 </div>
-</div>
-<div class="section" id="counts">
-<h3>Counts<a class="headerlink" href="#counts" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="counts">
+<h3>Counts<a class="headerlink" href="#counts" title="Permalink to this headline">#</a></h3>
 <p>We now compare our method against FairMOT and SORT with the count-related tracking metrics and count decompositions defined in the previous section.
 We run our algorithm with <span class="math notranslate nohighlight">\(\kappa = 7,\tau = 5\)</span>, values obtained after a simple hyperparameter study described in <a class="reference internal" href="#image-dataset-appendix"><span class="std std-ref">Details on the image dataset</span></a>.</p>
 <p>Across all videos and all methods, we report <span class="math notranslate nohighlight">\(\asspr\)</span> between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of <span class="math notranslate nohighlight">\(\asspr\)</span> values.
@@ -1826,10 +1937,10 @@ The increased stability of all error types results in more stable overall <span 
 </div>
 </div>
 <!-- ```{glue:} fairmot_star_tracking_results
-``` --></div>
-</div>
-<div class="section" id="practical-impact-and-future-goals">
-<h2>Practical impact and future goals<a class="headerlink" href="#practical-impact-and-future-goals" title="Permalink to this headline">¶</a></h2>
+``` --></section>
+</section>
+<section id="practical-impact-and-future-goals">
+<h2>Practical impact and future goals<a class="headerlink" href="#practical-impact-and-future-goals" title="Permalink to this headline">#</a></h2>
 <p>We successfully tackled video object counting on river banks, in particular issues which could be adressed independently of detection quality.
 Moreover the methodology developed to assess count quality enables us to precisely highlight the challenges that pertain to video object counting on river banks.
 Conducted in coordination with Sufrider Foundation Europe, an NGO specialized on water preservation, our work marks an important milestone in a broader campaign for macrolitter monitoring and is already being used in a production version of a monitoring system.
@@ -1843,13 +1954,13 @@ In a citizen science perspective, a fully embedded version for portable devices 
 The resulting field data will help better understand litter origin, allowing to model and predict litter density in non surveyed areas.
 Correlations between macro litter density and environmental parameters will be studied (e.g., population density, catchment size, land use and hydromorphology).
 Finally, our work naturally benefits any extension of macrolitter monitoring in other areas (urban, coastal, etc) that may rely on a similar setup of moving cameras.</p>
-</div>
-<div class="section" id="supplements">
-<h2>Supplements<a class="headerlink" href="#supplements" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="details-on-the-image-dataset">
-<span id="image-dataset-appendix"></span><h3>Details on the image dataset<a class="headerlink" href="#details-on-the-image-dataset" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="categories">
-<h4>Categories<a class="headerlink" href="#categories" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="supplements">
+<h2>Supplements<a class="headerlink" href="#supplements" title="Permalink to this headline">#</a></h2>
+<section id="details-on-the-image-dataset">
+<span id="image-dataset-appendix"></span><h3>Details on the image dataset<a class="headerlink" href="#details-on-the-image-dataset" title="Permalink to this headline">#</a></h3>
+<section id="categories">
+<h4>Categories<a class="headerlink" href="#categories" title="Permalink to this headline">#</a></h4>
 <p>In this work, we do not seek to precisely predict the proportions of the different types of counted litter.
 However, we build our dataset to allow classification tasks.
 Though litter classifications built by experts already exist, most are based on semantic rather than visual features and do not particularily consider the problem of class imbalance, which makes statistical learning more delicate.
@@ -1871,16 +1982,18 @@ Images containing items denoted as such will not be used for applications involv
 </ul>
 </li>
 </ol>
-<div class="figure align-default" id="trash-categories-image">
+<figure class="align-default" id="trash-categories-image">
 <a class="reference internal image-reference" href="_images/trash_categories.png"><img alt="_images/trash_categories.png" src="_images/trash_categories.png" style="height: 400px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Trash categories defined to facilitate porting to a counting system that allows trash identification</span><a class="headerlink" href="#trash-categories-image" title="Permalink to this image">¶</a></p>
-</div>
-</div>
-</div>
-<div class="section" id="details-on-the-evaluation-videos">
-<span id="video-dataset-appendix"></span><h3>Details on the evaluation videos<a class="headerlink" href="#details-on-the-evaluation-videos" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="river-segments">
-<h4>River segments<a class="headerlink" href="#river-segments" title="Permalink to this headline">¶</a></h4>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Trash categories defined to facilitate porting to a counting system that allows trash identification</span><a class="headerlink" href="#trash-categories-image" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="details-on-the-evaluation-videos">
+<span id="video-dataset-appendix"></span><h3>Details on the evaluation videos<a class="headerlink" href="#details-on-the-evaluation-videos" title="Permalink to this headline">#</a></h3>
+<section id="river-segments">
+<h4>River segments<a class="headerlink" href="#river-segments" title="Permalink to this headline">#</a></h4>
 <p>In this section, we provide further details on the evaluation material.
 <a class="reference internal" href="#river-sections"><span class="std std-numref">Fig. 5</span></a> shows the setup and positioning of the three river segments <span class="math notranslate nohighlight">\(S_1\)</span>, <span class="math notranslate nohighlight">\(S_2\)</span> and <span class="math notranslate nohighlight">\(S_3\)</span> used to evaluate the methods.
 The segments differ in the following aspects.</p>
@@ -1889,13 +2002,15 @@ The segments differ in the following aspects.</p>
 <li><p>Segment 2: High current, low and dense vegetation obstructing vision of the right riverbank from watercrafts.</p></li>
 <li><p>Segment 3: Medium current, high and little vegetation not obstructing vision  of the left riverbank from watercrafts.</p></li>
 </ul>
-<div class="figure align-default" id="river-sections">
+<figure class="align-default" id="river-sections">
 <a class="reference internal image-reference" href="_images/river_sections.png"><img alt="_images/river_sections.png" src="_images/river_sections.png" style="height: 400px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Aerial view of the three river segments of the evaluation material</span><a class="headerlink" href="#river-sections" title="Permalink to this image">¶</a></p>
-</div>
-</div>
-<div class="section" id="track-annotation-protocol">
-<h4>Track annotation protocol<a class="headerlink" href="#track-annotation-protocol" title="Permalink to this headline">¶</a></h4>
+<figcaption>
+<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Aerial view of the three river segments of the evaluation material</span><a class="headerlink" href="#river-sections" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="track-annotation-protocol">
+<h4>Track annotation protocol<a class="headerlink" href="#track-annotation-protocol" title="Permalink to this headline">#</a></h4>
 <p>To annotate tracks on the evaluation sequences, we used the online tool “CVAT” which allows to locate bounding boxes on video frames and propagate them in time.
 The following items provide further details on the exact annotation process.</p>
 <ul class="simple">
@@ -1904,12 +2019,12 @@ The following items provide further details on the exact annotation process.</p>
 <li><p>We do not provide inferred locations when an object is fully occluded, but tracks restart with the same identity whenever the object becomes visible again.</p></li>
 <li><p>Tracks stop whenever an object becomes indistinguishable and will not reappear again.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="implementation-details-for-the-tracking-module">
-<span id="tracking-module-appendix"></span><h3>Implementation details for the tracking module<a class="headerlink" href="#implementation-details-for-the-tracking-module" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="covariance-matrices-for-state-and-observation-noises">
-<span id="covariance-matrices"></span><h4>Covariance matrices for state and observation noises<a class="headerlink" href="#covariance-matrices-for-state-and-observation-noises" title="Permalink to this headline">¶</a></h4>
+</section>
+</section>
+<section id="implementation-details-for-the-tracking-module">
+<span id="tracking-module-appendix"></span><h3>Implementation details for the tracking module<a class="headerlink" href="#implementation-details-for-the-tracking-module" title="Permalink to this headline">#</a></h3>
+<section id="covariance-matrices-for-state-and-observation-noises">
+<span id="covariance-matrices"></span><h4>Covariance matrices for state and observation noises<a class="headerlink" href="#covariance-matrices-for-state-and-observation-noises" title="Permalink to this headline">#</a></h4>
 <p>In our state-space model, <span class="math notranslate nohighlight">\(Q\)</span> models the noise associated to the movement model we posit in <a class="reference internal" href="#bayesian-tracking"><span class="std std-ref">Bayesian tracking with optical flow</span></a> involving optical flow estimates, while <span class="math notranslate nohighlight">\(R\)</span> models the noise associated to the observation of the true position via our object detector.
 An attempt to estimate the diagonal values of these matrices was the following.</p>
 <ul class="simple">
@@ -1921,9 +2036,9 @@ We computed a mean <span class="math notranslate nohighlight">\(L_2\)</span> err
 All other coefficients were not estimated and supposed to be 0.</p>
 <p>An important remark is that though we use these values in practise, we found that tracking results are largely unaffected by small variations of <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(Q\)</span>.
 As long as values are meaningful relative to the image dimensions and the size of the objects, most noise levels show relatively similar performance.</p>
-</div>
-<div class="section" id="computing-the-confidence-regions">
-<span id="confidence-regions-appendix"></span><h4>Computing the confidence regions<a class="headerlink" href="#computing-the-confidence-regions" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="computing-the-confidence-regions">
+<span id="confidence-regions-appendix"></span><h4>Computing the confidence regions<a class="headerlink" href="#computing-the-confidence-regions" title="Permalink to this headline">#</a></h4>
 <p>In words, <span class="math notranslate nohighlight">\(P(i,\ell)\)</span> is the mass in <span class="math notranslate nohighlight">\(V_\delta(z_n^i) \subset \Rset^2\)</span> of the probability distribution of <span class="math notranslate nohighlight">\(Z_n^\ell\)</span> given <span class="math notranslate nohighlight">\(Z_{1:n-1}^\ell\)</span>.
 Denote with <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> this distribution.
 When EKF is used, <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> is a multivariate Gaussian with mean <span class="math notranslate nohighlight">\(\mathbb{E}[Z_k^\ell|Z_{1:k-1}^\ell]\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\mathbb{V}[Z_k^\ell|Z_{1:k-1}^\ell]\)</span>.
@@ -1935,9 +2050,9 @@ If <span class="math notranslate nohighlight">\(V_\delta(z)\)</span> is a square
 \predictdist_n^{\ell}(V_\delta(z)) = F_n^\ell(x+\delta,y+\delta) + F_n^\ell(x-\delta,y-\delta) - \left[F_n^\ell(x+\delta,y-\delta) + F_n^\ell(x-\delta,y+\delta)\right]
 \]</div>
 <p>This allows easy computation of <span class="math notranslate nohighlight">\(P(i,\ell) = \predictdist_n^\ell(V_\delta(z_n^i))\)</span>.</p>
-</div>
-<div class="section" id="influence-of-tau-and-kappa">
-<span id="tau-kappy-appendix"></span><h4>Influence of <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(\kappa\)</span><a class="headerlink" href="#influence-of-tau-and-kappa" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="influence-of-tau-and-kappa">
+<span id="tau-kappy-appendix"></span><h4>Influence of <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(\kappa\)</span><a class="headerlink" href="#influence-of-tau-and-kappa" title="Permalink to this headline">#</a></h4>
 <p>An understanding of <span class="math notranslate nohighlight">\(\kappa\)</span>, <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(\nu\)</span> can be stated as follows.
 For any track, given a value for <span class="math notranslate nohighlight">\(\kappa\)</span> and <span class="math notranslate nohighlight">\(\nu\)</span>, an observation at time <span class="math notranslate nohighlight">\(n\)</span> is only kept if there are also <span class="math notranslate nohighlight">\(\nu \cdot \kappa\)</span> observations in the temporal window of size <span class="math notranslate nohighlight">\(\kappa\)</span> that surrounds <span class="math notranslate nohighlight">\(n\)</span> (windows are centered around <span class="math notranslate nohighlight">\(n\)</span> except at the start and end of the track).
 The track is only counted if the remaining number of observations is strictly higher than <span class="math notranslate nohighlight">\(\tau\)</span>.
@@ -1992,15 +2107,15 @@ As a byproduct, this choice positively affects <span class="math notranslate noh
 <img alt="_images/paper_28_0.png" src="_images/paper_28_0.png" />
 </div>
 </div>
-</div>
-</div>
-<div class="section" id="impact-of-the-filtering-algorithm">
-<span id="impact-algorithm-appendix"></span><h3>Impact of the filtering algorithm<a class="headerlink" href="#impact-of-the-filtering-algorithm" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="impact-of-the-filtering-algorithm">
+<span id="impact-algorithm-appendix"></span><h3>Impact of the filtering algorithm<a class="headerlink" href="#impact-of-the-filtering-algorithm" title="Permalink to this headline">#</a></h3>
 <p>An advantage of the data association method proposed in <a class="reference internal" href="#data-association"><span class="std std-ref">Data association using confidence regions</span></a> is that it is very generic and does not constrain the tracking solution to any particular choice of filtering algorithm.
 As for EKF, UKF implementations are already available to compute the distribution of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(Z_{1:k-1}\)</span> and the corresponding confidence regions (see [](tracking-module-appendix] above).
 We propose a solution to compute this distribution when SMC is used, and performance comparisons between the EKF, UKF and SMC versions of our trackers are discussed.</p>
-<div class="section" id="smc-based-tracking">
-<h4>SMC-based tracking<a class="headerlink" href="#smc-based-tracking" title="Permalink to this headline">¶</a></h4>
+<section id="smc-based-tracking">
+<h4>SMC-based tracking<a class="headerlink" href="#smc-based-tracking" title="Permalink to this headline">#</a></h4>
 <p>Denote <span class="math notranslate nohighlight">\(\filtdist_k\)</span> the filtering distribution (ie. that of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(X_{1:k}\)</span>) for the HMM <span class="math notranslate nohighlight">\((X_k,Z_k)_{k \geq 1}\)</span>  (omitting the dependancy on the observations for notation ease).
 Using a set of samples <span class="math notranslate nohighlight">\(\{X_k^i\}_{1 \leq i \leq N}\)</span> and importance weights <span class="math notranslate nohighlight">\(\{w_k^i\}_{1 \leq i \leq N}\)</span>, SMC methods build an approximation of the following form:</p>
 <div class="math notranslate nohighlight">
@@ -2027,9 +2142,9 @@ This leads to</p>
 \]</div>
 <p>Since the observation likelihood is also Gaussian, <span class="math notranslate nohighlight">\(\MCpredictdist_k\)</span> is a Gaussian mixture, thus values of <span class="math notranslate nohighlight">\(\MCpredictdist_k(\mathsf{A})\)</span> for any <span class="math notranslate nohighlight">\(\mathsf{A} \subset \Rset^2\)</span> can be computed by applying the tools from <a class="reference internal" href="#confidence-regions-appendix"><span class="std std-ref">the section above</span></a> to all mixture components.
 Similar to EKF and UKF, this approximated predictive distribution is used to recover object identities via <span class="math notranslate nohighlight">\(\MCpredictdist_n^{\ell}(V_\delta(z_n^i))\)</span> computed for all incoming detections <span class="math notranslate nohighlight">\(\detectset_n = \{z_n^i\}_{1 \leq i \leq D_n}\)</span> and each of the <span class="math notranslate nohighlight">\(1 \leq \ell \leq L_n\)</span> filters, where <span class="math notranslate nohighlight">\(\MCpredictdist_n^{\ell}\)</span> is the predictive distribution associated with the <span class="math notranslate nohighlight">\(\ell\)</span>-th filter.</p>
-</div>
-<div class="section" id="performance-comparison">
-<h4>Performance comparison<a class="headerlink" href="#performance-comparison" title="Permalink to this headline">¶</a></h4>
+</section>
+<section id="performance-comparison">
+<h4>Performance comparison<a class="headerlink" href="#performance-comparison" title="Permalink to this headline">#</a></h4>
 <p>In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in [](bayesian-tracking}.
 However, we observe very few differences in count results when upgrading from EKF to UKF to SMC.
 In practise, there is no difference at all between our EKF and UKF implementations, which show strictly identical values for <span class="math notranslate nohighlight">\(\Ntrue\)</span>, <span class="math notranslate nohighlight">\(\Nfalse\)</span> and <span class="math notranslate nohighlight">\(\Nred\)</span>.
@@ -2171,10 +2286,10 @@ This allows easier extension of our work to more challenging data.</p>
 </dd>
 </dl>
 </div>
-</div>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -2198,28 +2313,34 @@ This allows easier extension of our work to more challenging data.</p>
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
 <div class='prev-next-area'>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By The Jupyter Book Community<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By The Jupyter Book Community<br/>
-    
-        &copy; Copyright 2021.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>
