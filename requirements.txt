@@ -8,7 +8,6 @@ pandas
 pykalman
 filterpy
 scikit-image
-lap
 tqdm
 seaborn
 pytk
