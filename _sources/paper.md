@@ -451,6 +451,7 @@ $$
 where, in our case, $\widetilde{I}_n$ denotes the frame $n$ downsampled to dimensions $\lfloor w/p\rfloor \times \lfloor h/p\rfloor$ and $u = (x,y)$ is a coordinate on that grid.
 To estimate $\Delta_n$, we choose a simple unsupervised Gunner-Farneback algorithm which does not require further annotations, see {cite}`farneback2003two` for details.
 
+(state-space-model)=
 #### State-space model
 
 Using optical flow as a building block, we posit a state-space model where estimates of $\Delta_n$ are used as a time and state-dependent offset for the state transition.
@@ -945,7 +946,7 @@ $$
 
 This allows easy computation of $P(i,\ell) = \predictdist_n^\ell(V_\delta(z_n^i))$.
 
-(tau-kappy-appendix)=
+(tau-kappa-appendix)=
 #### Influence of $\tau$ and $\kappa$
 
 An understanding of $\kappa$, $\tau$ and $\nu$ can be stated as follows.
@@ -1041,7 +1042,7 @@ Similar to EKF and UKF, this approximated predictive distribution is used to rec
 
 #### Performance comparison
 
-In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in [](bayesian-tracking}.
+In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in [](state-space-model}.
 However, we observe very few differences in count results when upgrading from EKF to UKF to SMC.
 In practise, there is no difference at all between our EKF and UKF implementations, which show strictly identical values for $\Ntrue$, $\Nfalse$ and $\Nred$.
 For the SMC version, values for $\Nfalse$ and $\Nred$ improve by a very small amount (2 and 1, respectively), but $\Nmis$ is slightly worse (one more object missed), and these results depend loosely on the number of samples used to approximate the filtering distributions and the number of samples for the Monte Carlo scheme.
