@@ -11,3 +11,4 @@ scikit-image
 tqdm
 seaborn
 pytk
+lap==0.4.0
