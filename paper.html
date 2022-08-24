@@ -950,7 +950,7 @@ For these videos only, litter positions are manually annotated at every frame in
 This allows us to build new informative count metrics.
 We compare the count performance of our method against other MOT-based alternatives.</p></li>
 </ol>
-<p>A first visual illustation of the second claim is presented via the following code chunks: on three selected frames, we present a typical scenario where our strategy can avoid overcounting the same object (we depict internal workings of our solution against the end result of the competitors).</p>
+<p>A first visual illustration of the second claim is presented via the following code chunks: on three selected frames, we present a typical scenario where our strategy can avoid overcounting the same object (we depict internal workings of our solution against the end result of the competitors).</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
@@ -978,7 +978,9 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
----Downloading: saved_frames.pickle
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1104,7 +1106,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.136 seconds for 360 frames or 2648.1 FPS
+Total Tracking took: 0.135 seconds for 360 frames or 2656.9 FPS
 --- End
 </pre></div>
 </div>
@@ -1179,7 +1181,7 @@ Our motivation is to avoid relying on training data that requires this resource-
 <h3>Images<a class="headerlink" href="#images" title="Permalink to this headline">#</a></h3>
 <section id="data-collection">
 <h4>Data collection<a class="headerlink" href="#data-collection" title="Permalink to this headline">#</a></h4>
-<p>With help from benevolents, we compile photographs of litter stranded on river banks after increased river discharge, shot directly from kayaks navigating at varying distances from the shore.
+<p>With help from volunteers, we compile photographs of litter stranded on river banks after increased river discharge, shot directly from kayaks navigating at varying distances from the shore.
 Images span multiple rivers with various levels of water current, on different seasons, mostly in southwestern France.
 The resulting pictures depict trash items under the same conditions as the video footage we wish to count on, while spanning a wide variety of backgrounds, light conditions, viewing angles and picture quality.</p>
 </section>
@@ -2032,7 +2034,7 @@ We computed a mean <span class="math notranslate nohighlight">\(L_2\)</span> err
 </ul>
 <p>This led to <span class="math notranslate nohighlight">\(R_{00} = R_{11} = 1.1\)</span>, <span class="math notranslate nohighlight">\(Q_{00} = 4.7\)</span> and <span class="math notranslate nohighlight">\(Q_{11} = 0.9\)</span>, for grids of dimensions <span class="math notranslate nohighlight">\(\lfloor w/p\rfloor \times \lfloor h/p\rfloor = 480 \times 270\)</span>.
 All other coefficients were not estimated and supposed to be 0.</p>
-<p>An important remark is that though we use these values in practise, we found that tracking results are largely unaffected by small variations of <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(Q\)</span>.
+<p>An important remark is that though we use these values in practice, we found that tracking results are largely unaffected by small variations of <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(Q\)</span>.
 As long as values are meaningful relative to the image dimensions and the size of the objects, most noise levels show relatively similar performance.</p>
 </section>
 <section id="computing-the-confidence-regions">
@@ -2131,7 +2133,7 @@ Marginalizing over <span class="math notranslate nohighlight">\((X_{k-1}\)</span
 \[
 \SMCpredictdist_k(\rmd z_k) = \sum_{k=1}^N w_k^i \int \likel_k(x_k,\rmd z_k) \transdist_k(X_{k-1}^i, \rmd x_k)  \eqsp.
 \]</div>
-<p>In our model, the state transition is Gaussian and thererefore easy to sample from.
+<p>In our model, the state transition is Gaussian and therefore easy to sample from.
 Thus an approximated predictive distribution <span class="math notranslate nohighlight">\(\MCpredictdist_k\)</span> can be obtained using Monte Carlo estimates built from random samples <span class="math notranslate nohighlight">\(\{X_k^{i,j}\}_{1 \leq i \leq N}^{1 \leq j \leq M}\)</span> drawn from <span class="math notranslate nohighlight">\(\transdist_k(X_{k-1}^i, \rmd x_k)\)</span>.
 This leads to</p>
 <div class="math notranslate nohighlight">
