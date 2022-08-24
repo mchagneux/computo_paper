@@ -4,8 +4,7 @@ from urllib.request import urlretrieve
 
 def download_from_url(url, filename, folder):
     model_filename = op.realpath(op.join(folder, filename))
-    if not op.exists(folder):
-        os.mkdir(folder)
+    os.makedirs(folder, exist_ok=True)
     if not op.exists(model_filename):
         print('---Downloading: '+filename)
         urlretrieve(url, model_filename)
