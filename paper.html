@@ -1106,9 +1106,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tracking took: 0.240 seconds for 360 frames or 1498.7 FPS
+Total Tracking took: 0.151 seconds for 360 frames or 2385.4 FPS
 --- End
 </pre></div>
 </div>
@@ -2147,7 +2145,7 @@ Similar to EKF and UKF, this approximated predictive distribution is used to rec
 </section>
 <section id="performance-comparison">
 <h4>Performance comparison<a class="headerlink" href="#performance-comparison" title="Permalink to this headline">#</a></h4>
-<p>In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in [](state-space-model}.
+<p>In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in <a class="reference internal" href="#state-space-model"><span class="std std-ref">State-space model</span></a>.
 However, we observe very few differences in count results when upgrading from EKF to UKF to SMC.
 In practise, there is no difference at all between our EKF and UKF implementations, which show strictly identical values for <span class="math notranslate nohighlight">\(\Ntrue\)</span>, <span class="math notranslate nohighlight">\(\Nfalse\)</span> and <span class="math notranslate nohighlight">\(\Nred\)</span>.
 For the SMC version, values for <span class="math notranslate nohighlight">\(\Nfalse\)</span> and <span class="math notranslate nohighlight">\(\Nred\)</span> improve by a very small amount (2 and 1, respectively), but <span class="math notranslate nohighlight">\(\Nmis\)</span> is slightly worse (one more object missed), and these results depend loosely on the number of samples used to approximate the filtering distributions and the number of samples for the Monte Carlo scheme.

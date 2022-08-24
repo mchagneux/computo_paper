@@ -1042,7 +1042,7 @@ Similar to EKF and UKF, this approximated predictive distribution is used to rec
 
 #### Performance comparison
 
-In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in [](state-space-model}.
+In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in [](state-space-model).
 However, we observe very few differences in count results when upgrading from EKF to UKF to SMC.
 In practise, there is no difference at all between our EKF and UKF implementations, which show strictly identical values for $\Ntrue$, $\Nfalse$ and $\Nred$.
 For the SMC version, values for $\Nfalse$ and $\Nred$ improve by a very small amount (2 and 1, respectively), but $\Nmis$ is slightly worse (one more object missed), and these results depend loosely on the number of samples used to approximate the filtering distributions and the number of samples for the Monte Carlo scheme.
