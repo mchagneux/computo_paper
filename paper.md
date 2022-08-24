@@ -101,7 +101,7 @@ For these videos only, litter positions are manually annotated at every frame in
 This allows us to build new informative count metrics.
 We compare the count performance of our method against other MOT-based alternatives.
 
-A first visual illustation of the second claim is presented via the following code chunks: on three selected frames, we present a typical scenario where our strategy can avoid overcounting the same object (we depict internal workings of our solution against the end result of the competitors).
+A first visual illustration of the second claim is presented via the following code chunks: on three selected frames, we present a typical scenario where our strategy can avoid overcounting the same object (we depict internal workings of our solution against the end result of the competitors).
 
 ```{code-cell} ipython3
 :tags: [hide-input]
@@ -300,7 +300,7 @@ Our motivation is to avoid relying on training data that requires this resource-
 
 ### Images
 #### Data collection
-With help from benevolents, we compile photographs of litter stranded on river banks after increased river discharge, shot directly from kayaks navigating at varying distances from the shore.
+With help from volunteers, we compile photographs of litter stranded on river banks after increased river discharge, shot directly from kayaks navigating at varying distances from the shore.
 Images span multiple rivers with various levels of water current, on different seasons, mostly in southwestern France.
 The resulting pictures depict trash items under the same conditions as the video footage we wish to count on, while spanning a wide variety of backgrounds, light conditions, viewing angles and picture quality.
 
@@ -925,7 +925,7 @@ This led to $R_{00} = R_{11} = 1.1$, $Q_{00} = 4.7$ and $Q_{11} = 0.9$, for grid
 All other coefficients were not estimated and supposed to be 0.
 
 
-An important remark is that though we use these values in practise, we found that tracking results are largely unaffected by small variations of $R$ and $Q$.
+An important remark is that though we use these values in practice, we found that tracking results are largely unaffected by small variations of $R$ and $Q$.
 As long as values are meaningful relative to the image dimensions and the size of the objects, most noise levels show relatively similar performance.
 
 (confidence-regions-appendix)=
@@ -1027,7 +1027,7 @@ $$
 \SMCpredictdist_k(\rmd z_k) = \sum_{k=1}^N w_k^i \int \likel_k(x_k,\rmd z_k) \transdist_k(X_{k-1}^i, \rmd x_k)  \eqsp.
 $$
 
-In our model, the state transition is Gaussian and thererefore easy to sample from.
+In our model, the state transition is Gaussian and therefore easy to sample from.
 Thus an approximated predictive distribution $\MCpredictdist_k$ can be obtained using Monte Carlo estimates built from random samples $\{X_k^{i,j}\}_{1 \leq i \leq N}^{1 \leq j \leq M}$ drawn from $\transdist_k(X_{k-1}^i, \rmd x_k)$.
 This leads to
 
