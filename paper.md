@@ -1004,7 +1004,7 @@ plt.tight_layout()
 (impact-algorithm-appendix)=
 ### Impact of the filtering algorithm 
 An advantage of the data association method proposed in [](data-association) is that it is very generic and does not constrain the tracking solution to any particular choice of filtering algorithm.
-As for EKF, UKF implementations are already available to compute the distribution of $Z_k$ given $Z_{1:k-1}$ and the corresponding confidence regions (see [](tracking-module-appendix] above).
+As for EKF, UKF implementations are already available to compute the distribution of $Z_k$ given $Z_{1:k-1}$ and the corresponding confidence regions (see [the section](tracking-module-appendix) above).
 We propose a solution to compute this distribution when SMC is used, and performance comparisons between the EKF, UKF and SMC versions of our trackers are discussed.
 
 #### SMC-based tracking
