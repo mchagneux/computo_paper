@@ -40,6 +40,14 @@ kernelspec:
 \newcommand{\detpr}{\mathsf{DetPr}}
 \newcommand{\assre}{\mathsf{AssRe}}
 \newcommand{\asspr}{\mathsf{AssPr}}
+\newcommand{\tp}{\mathsf{TP}}
+\newcommand{\fp}{\mathsf{FP}}
+\newcommand{\fn}{\mathsf{FN}}
+\newcommand{\tpa}{\mathsf{TPA}}
+\newcommand{\fpa}{\mathsf{FPA}}
+\newcommand{\gtID}{\mathsf{gtID}}
+\newcommand{\prID}{\mathsf{prID}}
+\newcommand{\fna}{\mathsf{FNA}}
 \newcommand{\tempwindow}{[\![n-\lfloor \kappa/2 \rfloor, n+\lfloor \kappa/2 \rfloor]\!]}
 ```
 
@@ -542,13 +550,17 @@ Second, considering only raw counts on long videos gives little information on w
 ### Count-related MOT metrics
 
 Popular MOT benchmarks usually report several sets of metrics such as ClearMOT {cite}`bernardin2008` or IDF1 {cite}`RistaniSZCT16` which can account for different components of tracking performance.
-Recently, {cite}`Proenca2020` built the so-called HOTA metrics that allow separate evaluation of detection and association using the Jaccard index.
+Recently, {cite}`luiten2020` built the so-called HOTA metrics that allow separate evaluation of detection and association using the Jaccard index.
 The following components of their work are relevant to our task (we provide equation numbers in the original paper for formal definitions).
 
 #### Detection
-First, when considering all frames independently, traditional detection recall ($\detre$, eq.
-23) and precision ($\detpr$, eq.
-24) can be computed to assess the capabilities of the object detector.
+First, when considering all frames independently, traditional detection recall ($\detre$) and precision ($\detpr$) can be computed to assess the capabilities of the object detector. Denoting with $\tp_n$, $\fp_n$, $\fn_n$ the number of true positive, false positive and false negative detections at frame $n$, respectively, we define $\tp = \sum_n \tp_n$, $\fp = \sum_n \fp_n$ and $\fn = \sum_n \fn_n$, then:
+
+$$\detre = \frac{\tp}{\tp + \fn}$$
+
+$$\detpr = \frac{\tp}{\tp + \fp}$$
+
+
 In classical object detection, those metrics are the main target.
 In our context, as the first step of the system, this framewise performance impacts the difficulty of counting.
 However, we must keep in mind that these metrics are computed framewise and might not guarantee anything at a video scale.
@@ -566,7 +578,13 @@ Again, this suggests that low $\detpr$ may allow decent counting performance.
 #### Association
 
 HOTA association metrics are built to measure tracking performance irrespective of the detection capabilities, by comparing predicted tracks against true object trajectories.
-In our experiments, we compute the Association recall ($\assre$, eq. 26) and the Association Precision ($\asspr$, eq. 27).
+In our experiments, we compute the Association Recall ($\assre$) and the Association Precision ($\asspr$). Several intermediate quantities are necessary to introduce these final metrics. Following {cite}`luiten2020`, we denote with $\prID$ the ID of a predicted track and $\gtID$ the ID of a ground truth track. Given 
+$C$ all couples of $\prID-\gtID$ found among the true positive detections, and $c \in C$ one of these couples, $\tpa(c)$ is the number of true positive detections which also correspond to $c$, $\fpa(c)$ is the number of true positive detections where $\prID$ is associated to another ground truth ID, and $\fn(a)$ is the number of frames where $\gtID$ is associated to another predicted ID or missed altogether. Then:
+
+$$\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fpa(c)}$$
+
+$$\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fna(c)}$$
+
 In brief, a low $\asspr$ implies that several objects are often mingled into only one track, resulting in undercount.
 A low $\assre$ implies that single objects are often associated with multiple tracks.
 If no method is used to discard redundant tracks this results in overcount.
