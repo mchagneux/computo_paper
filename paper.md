@@ -579,11 +579,13 @@ Again, this suggests that low $\detpr$ may allow decent counting performance.
 
 HOTA association metrics are built to measure tracking performance irrespective of the detection capabilities, by comparing predicted tracks against true object trajectories.
 In our experiments, we compute the Association Recall ($\assre$) and the Association Precision ($\asspr$). Several intermediate quantities are necessary to introduce these final metrics. Following {cite}`luiten2020`, we denote with $\prID$ the ID of a predicted track and $\gtID$ the ID of a ground truth track. Given 
-$C$ all couples of $\prID-\gtID$ found among the true positive detections, and $c \in C$ one of these couples, $\tpa(c)$ is the number of true positive detections which also correspond to $c$, $\fpa(c)$ is the number of true positive detections where $\prID$ is associated to another ground truth ID, and $\fn(a)$ is the number of frames where $\gtID$ is associated to another predicted ID or missed altogether. Then:
+$C$ all couples of $\prID-\gtID$ found among the true positive detections, and $c \in C$ one of these couples, $\tpa(c)$ is the number of frames where $\prID$ is also associated to $gtID$, $\fpa(c)$ is the number of frames where $\prID$ is associated to another ground truth ID or to no ground truth ID, and $\fn(a)$ is the number of frames where $\gtID$ is associated to another predicted ID or to no predicted ID. Then:
 
 $$\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fpa(c)}$$
 
-$$\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fna(c)}$$
+$$\assre = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fna(c)}$$
+
+See {cite}`luiten2020` (fig. 2) for a clear illustration of these quantities. 
 
 In brief, a low $\asspr$ implies that several objects are often mingled into only one track, resulting in undercount.
 A low $\assre$ implies that single objects are often associated with multiple tracks.
