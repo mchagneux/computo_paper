@@ -1106,7 +1106,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.151 seconds for 360 frames or 2385.4 FPS
+Total Tracking took: 0.180 seconds for 360 frames or 1996.3 FPS
 --- End
 </pre></div>
 </div>
@@ -2112,7 +2112,7 @@ As a byproduct, this choice positively affects <span class="math notranslate noh
 <section id="impact-of-the-filtering-algorithm">
 <span id="impact-algorithm-appendix"></span><h3>Impact of the filtering algorithm<a class="headerlink" href="#impact-of-the-filtering-algorithm" title="Permalink to this headline">#</a></h3>
 <p>An advantage of the data association method proposed in <a class="reference internal" href="#data-association"><span class="std std-ref">Data association using confidence regions</span></a> is that it is very generic and does not constrain the tracking solution to any particular choice of filtering algorithm.
-As for EKF, UKF implementations are already available to compute the distribution of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(Z_{1:k-1}\)</span> and the corresponding confidence regions (see [](tracking-module-appendix] above).
+As for EKF, UKF implementations are already available to compute the distribution of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(Z_{1:k-1}\)</span> and the corresponding confidence regions (see <a class="reference internal" href="#tracking-module-appendix"><span class="std std-ref">the section</span></a> above).
 We propose a solution to compute this distribution when SMC is used, and performance comparisons between the EKF, UKF and SMC versions of our trackers are discussed.</p>
 <section id="smc-based-tracking">
 <h4>SMC-based tracking<a class="headerlink" href="#smc-based-tracking" title="Permalink to this headline">#</a></h4>
