@@ -1,3 +1,4 @@
+from sys import stderr
 import pandas as pd
 import os 
 import matplotlib.pyplot as plt
@@ -121,22 +122,41 @@ def get_summary(results, index_start=0, index_stop=-1):
 
     ass_re_cb = (ass_re * hota_tp).sum() / hota_tp.sum()
 
-
+    correct = results['correct']
     redundant = results['redundant']
     false = results['false']
     missing = results['missing']
     # mingled = results['mingled'] 
-    gt = results['gt']
-    count_error = false + redundant - missing
+    # gt = results['gt']
+    # count_error = false + redundant - missing
 
+
+    
     summary = dict()
-    summary['missing'], summary['missing_mean'], summary['missing_std'] = f'{missing.sum()}',f'{missing.mean():.1f}',f'{missing.std():.1f}'
-    summary['false'], summary['false_mean'], summary['false_std'] = f'{false.sum()}', f'{false.mean():.1f}', f'{false.std():.1f}'
-    summary['redundant'], summary['redundant_mean'], summary['redundant_std'] = f'{redundant.sum()}', f'{redundant.mean():.1f}', f'{redundant.std():.1f}'
-    summary['gt'] = f'{gt.sum()}'
-    summary['ass_re_cb'], summary['ass_re_mean'], summary['ass_re_std'] = f'{100*ass_re_cb:.1f}',f'{100*ass_re.mean():.1f}',f'{100*ass_re.std():.1f}'
-    summary['count_error'], summary['count_error_mean'], summary['count_error_std'] = f'{count_error.sum()}',f'{count_error.mean():.1f}',f'{count_error.std():.1f}'
+    # summary['missing'], summary['missing_mean'], summary['missing_std'] = f'{missing.sum()}',f'{missing.mean():.1f}',f'{np.nan_to_num(missing.std()):.1f}'
+    # summary['false'], summary['false_mean'], summary['false_std'] = f'{false.sum()}', f'{false.mean():.1f}', f'{np.nan_to_num(false.std()):.1f}'
+    # summary['redundant'], summary['redundant_mean'], summary['redundant_std'] = f'{redundant.sum()}', f'{redundant.mean():.1f}', f'{np.nan_to_num(redundant.std()):.1f}'
+    # summary['gt'] = f'{gt.sum()}'
+    summary['ass_re_cb'], summary['ass_re_std'] = f'{100*ass_re_cb:.1f}',f'{100*np.nan_to_num(ass_re.std()):.1f}'
+    # summary['count_error'], summary['count_error_mean'], summary['count_error_std'] = f'{count_error.sum()}',f'{count_error.mean():.1f}',f'{np.nan_to_num(count_error.std()):.1f}'
+    
+    count_re = correct.sum() / (correct + missing).sum()
+    summary['count_re_cb'] = f'{100*count_re:.1f}'
+    
+    # count_re_mean = (correct / (correct + missing)).mean()
+    # summary['count_re_mean'] = f'{100*count_re_mean:.1f}'
+    
+    count_re_std = (correct / (correct + missing)).std()
+    summary['count_re_std'] = f'{100*np.nan_to_num(count_re_std):.1f}'
 
+    count_pr = correct.sum() / (correct + false + redundant).sum()
+    summary['count_pr_cb'] = f'{100*count_pr:.1f}'
+    
+    # count_pr_mean = (correct / (correct + false + redundant)).mean()
+    # summary['count_pr_mean'] = f'{100*count_pr_mean:.1f}'
+    
+    count_pr_std = (correct / (correct + false + redundant)).std()
+    summary['count_pr_std'] = f'{100*np.nan_to_num(count_pr_std):.1f}'
 
     return summary 
 
@@ -144,7 +164,7 @@ def get_summaries(results, sequence_names):
 
     summaries = dict()
 
-    for (sequence_name, index_start, index_stop) in zip(sequence_names, indices[:-1],indices[1:]):
+    for (sequence_name, index_start, index_stop) in zip(sequence_names, indices[:-1], indices[1:]):
 
         summaries[sequence_name] = get_summary(results, index_start, index_stop)
     
@@ -164,9 +184,11 @@ def table_values_for_sequence(summaries, sequence_name):
     table_values = f"${sequence_name}$ " + \
                    f"& " + \
                    f"{summary['ass_re_cb']} ({summary['ass_re_std']}) & " + \
-                   f"{summary['missing']} ({summary['missing_std']}) & " + \
-                   f"{summary['false']} ({summary['false_std']}) & " + \
-                   f"{summary['redundant']} ({summary['redundant_std']}) & \\\ \n\hhline{{~~~~~}} & "
+                   f"{summary['count_re_cb']} ({summary['count_re_std']}) & " + \
+                   f"{summary['count_pr_cb']} ({summary['count_pr_std']})  & \\\ \n\hhline{{~~~~~}} &"
+                #    f"{summary['missing']} ({summary['missing_std']}) & " + \
+                #    f"{summary['false']} ({summary['false_std']}) & " + \
+                #    f"{summary['redundant']} ({summary['redundant_std']}) & \\\ \n\hhline{{~~~~~}} & "
 
     return table_values
 
@@ -174,18 +196,13 @@ def get_table_values(tracker_name, tracker_new_name):
 
 
     results = pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv'))
+
+    results = pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv'))
     sequence_names = ['S_1','S_2','S_3']
 
     summaries = get_summaries(results, sequence_names)
 
-
-    table = f"\\multirow{{ 3 }}{{*}}  {{{tracker_new_name}}} & "
-
-    for sequence_name in sequence_names:
-        table += table_values_for_sequence(summaries, sequence_name)
-    table += table_values_for_sequence(summaries, 'All')[:-17] + "\hline \\\[-1.8ex]"
-    
-    print(table)
+    return pd.DataFrame(summaries).T
 
 def get_count_errors(tracker_name):
     results = pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv'))
@@ -211,61 +228,95 @@ def read_mot_results_file(filename):
 
     return sorted(tracklets, key=lambda x:x[0][0])
 
-def hyperparameters():
-    tau_values = [i for i in range(4,10)]
-    versions = ['v0','v2_3','v2_5','v2_7']
+def hyperparameters(method_name):
+    tau_values = [i for i in range(1,10)]
+    kappa_values = [1,3,5,7]
     fig, (ax0, ax1, ax2) = plt.subplots(3,1)
-
-    for version in versions:
-        tracker_names = [f'ours_EKF_1_12fps_{version}_tau_{tau}' for tau in tau_values]
-        all_results = {tracker_name: pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv')).iloc[[-1]] for tracker_name in tracker_names}
+    pretty_names=[f'$\kappa={kappa}$' for kappa in kappa_values]
+    n_count = {}
+    for kappa, pretty_name in zip(kappa_values, pretty_names):
+        tracker_names = [f'{method_name}_kappa_{kappa}_tau_{tau}' for tau in tau_values]
+        all_results = {tracker_name: pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv')).iloc[:-1] for tracker_name in tracker_names}
 
         n_missing = []
         n_false = []
         n_redundant = []
         for tracker_name, tracker_results in all_results.items():
-            missing = (tracker_results['GT_IDs'] - tracker_results['Correct_IDs___50'])[27]
-            false = tracker_results['False_IDs___50'][27]
-            redundant = tracker_results['Redundant_IDs___50'][27]
+            missing = (tracker_results['GT_IDs'].sum() - tracker_results['Correct_IDs___50'].sum())
+            false = tracker_results['False_IDs___50'].sum()
+            redundant = tracker_results['Redundant_IDs___50'].sum()
 
             n_missing.append(missing)
             n_false.append(false)
             n_redundant.append(redundant)
+            n_count[tracker_name] = missing + false + redundant
+        
 
-        ax0.scatter(tau_values, n_missing, label=version)
-        ax0.plot(tau_values, n_missing, label=version, linestyle='dashed')
+
+
+        ax0.scatter(tau_values, n_missing)
+        ax0.plot(tau_values, n_missing, label=pretty_name, linestyle='dashed')
         # ax0.set_xlabel('$\\tau$')
-        ax0.set_ylabel('$N_{missing}$')
+        ax0.set_ylabel('$N_{mis}$')
 
-        ax1.scatter(tau_values, n_false, label=version)
-        ax1.plot(tau_values, n_false, label=version, linestyle='dashed')
+        ax1.scatter(tau_values, n_false)
+        ax1.plot(tau_values, n_false, label=pretty_name, linestyle='dashed')
 
         # ax1.set_xlabel('$\\tau$')
-        ax1.set_ylabel('$N_{incorrect}$')
+        ax1.set_ylabel('$N_{false}$')
 
-        ax2.scatter(tau_values, n_redundant, label=version)
-        ax2.plot(tau_values, n_redundant, label=version, linestyle='dashed')
+        ax2.scatter(tau_values, n_redundant)
+        ax2.plot(tau_values, n_redundant, label=pretty_name, linestyle='dashed')
         ax2.set_xlabel('$\\tau$')
-        ax2.set_ylabel('$N_{redundant}$')
-    # handles, labels = ax2.get_legend_handles_labels()
-    # fig.legend(handles, labels, loc='upper center')
-    # plt.autoscale(True)
+        ax2.set_ylabel('$N_{red}$')
+
+
+    best_value = np.inf
+    best_key = ''
+
+    for k, v in n_count.items():
+        if v < best_value: best_key = k
+        best_value = v
+    print(best_key)
+    handles, labels = ax2.get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper center')
+    plt.autoscale(True)
 
     plt.tight_layout()
-    plt.savefig('comparison.pdf',format='pdf')
+    plt.savefig(f'comparison_{method_name}.pdf',format='pdf')
     
 if __name__ == '__main__':
 
     fps = 12
     fps = f'{fps}fps'
 
+    split = 'test'
 
-    gt_dir_short = f'TrackEval/data/gt/surfrider_short_segments_{fps}/surfrider-test' 
-    eval_dir_short = f'TrackEval/data/trackers/surfrider_short_segments_{fps}' 
-    
-    long_segments_names = ['part_1_1','part_1_2','part_2','part_3']
-    indices = [0,16,19,27]
+    long_segments_names = ['part_1_1',
+                        'part_1_2',
+                        'part_2',
+                        'part_3']
+
+    indices_test = [0,7,9,13]
+    indices_val = [0,9,10,14]
     indices_det = [0,17,24,38]
+
+    def set_split(split):
+
+        if split == 'val':
+            indices = indices_val
+        elif split == 'test':
+            indices = indices_test
+        gt_dir_short = f'TrackEval/data/gt/surfrider_short_segments_{fps}'
+        eval_dir_short = f'TrackEval/data/trackers/surfrider_short_segments_{fps}'
+        if split is not None: 
+            gt_dir_short += f'_{split}'
+            eval_dir_short += f'_{split}'
+        gt_dir_short += '/surfrider-test'
+        return indices, eval_dir_short, gt_dir_short
+    
+    indices, eval_dir_short, gt_dir_short = set_split(split)
+
 
     # get_table_values_averages('fairmot','FairMOT')
     # get_table_values_averages('fairmot_cleaned','FairMOT*')
@@ -274,10 +325,13 @@ if __name__ == '__main__':
 
     # get_table_values('fairmot','$FairMOT$')
     # get_table_values('fairmot_cleaned','$FairMOT^{*}$')
-    # get_table_values('sort','$SORT$')
-    # get_table_values('ours_EKF_1_12fps_v2_7_tau_5','$Ours$')
+    print(get_table_values('fairmot_kappa_7_tau_9','FairMOT*'))
+    print(get_table_values('sort_kappa_7_tau_9','$SORT$'))
+    print(get_table_values('ours_EKF_1_kappa_7_tau_8','$Ours$'))
 
-    # hyperparameters()
+    # hyperparameters('sort')
+    # hyperparameters('fairmot')
+    # hyperparameters('ours_EKF_1')
 
 
     # get_count_errors('fairmot_cleaned')

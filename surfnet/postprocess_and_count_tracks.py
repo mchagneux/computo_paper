@@ -10,12 +10,13 @@ def main(args):
     if raw_results.ndim == 1: raw_results = np.expand_dims(raw_results,axis=0)
     tracklets = defaultdict(list)
     for result in raw_results:
-        track_id = int(result[1])
-        frame_id = int(result[0])
-        left, top, width, height = result[2:6]
-        center_x = left + width/2
-        center_y = top + height/2
-        tracklets[track_id].append((frame_id, center_x, center_y))
+        if len(result) > 1:
+            track_id = int(result[1])
+            frame_id = int(result[0])
+            left, top, width, height = result[2:6]
+            center_x = left + width/2
+            center_y = top + height/2
+            tracklets[track_id].append((frame_id, center_x, center_y))
 
     tracklets = list(tracklets.values())
 

@@ -26,7 +26,6 @@ class Evaluator:
             'PRINT_CONFIG': True,
             'TIME_PROGRESS': True,
             'DISPLAY_LESS_PROGRESS': True,
-
             'OUTPUT_SUMMARY': True,
             'OUTPUT_EMPTY_CLASSES': True,  # If False, summary files are not output for classes with no detections
             'OUTPUT_DETAILED': True,

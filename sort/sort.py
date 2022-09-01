@@ -257,7 +257,7 @@ class Sort(object):
 def track(detections_dir='data/external_detections', output_dir='sort/results'):
 
     detection_subdirs = next(os.walk(detections_dir))[1]
-    detection_filenames = [os.path.join(detections_dir,detection_subdir,'saved_detections.pickle') for detection_subdir in detection_subdirs]
+    detection_filenames = [os.path.join(detections_dir, detection_subdir,'saved_detections.pickle') for detection_subdir in detection_subdirs]
 
     for detection_filename in detection_filenames:
         with open(detection_filename,'rb') as f:
@@ -267,8 +267,8 @@ def track(detections_dir='data/external_detections', output_dir='sort/results'):
         total_frames = 0
         if not os.path.exists('output'):
             os.makedirs('output')
-        mot_tracker = Sort(max_age=20, 
-                            min_hits=3,
+        mot_tracker = Sort(max_age=1, 
+                            min_hits=1,
                             iou_threshold=0.3) #create instance of the SORT tracker    
         seq_dets = []
         for frame_nb, detections_for_frame in enumerate(detections):
@@ -324,3 +324,7 @@ def track(detections_dir='data/external_detections', output_dir='sort/results'):
                                                                         -1,
                                                                         -1,
                                                                         -1))
+
+# if __name__ == '__main__':
+
+#   track('data/external_detections/external_detections')
