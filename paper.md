@@ -5,9 +5,9 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.11.5
+    jupytext_version: 1.14.1
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: Python 3.10.4 ('computo')
   language: python
   name: python3
 ---
@@ -48,11 +48,10 @@ kernelspec:
 \newcommand{\gtID}{\mathsf{gtID}}
 \newcommand{\prID}{\mathsf{prID}}
 \newcommand{\fna}{\mathsf{FNA}}
+\newcommand{\countre}{\mathsf{CountRe}}
+\newcommand{\countpr}{\mathsf{CountPr}}
 \newcommand{\tempwindow}{[\![n-\lfloor \kappa/2 \rfloor, n+\lfloor \kappa/2 \rfloor]\!]}
 ```
-
-+++
-
 
 +++
 
@@ -118,7 +117,7 @@ from myst_nb import glue
 import matplotlib
 import matplotlib.pyplot as plt
 import os
-
+import pandas as pd
 from surfnet.prepare_data import download_data
 from surfnet.track import default_args as args
 
@@ -623,8 +622,22 @@ $$
 \hatN = \Ntrue + \Nred + \Nfalse
 $$ 
 while $\Nmis$ completely summarises the number of undetected objects.
+
+Conveniently, the quantities can be used to define the count precision ($\countpr$) and count recall ($\countre$) as follows: 
+
+$$
+\countpr = \frac{\Ntrue}{\Ntrue + \Nred + \Nfalse}
+$$
+
+$$
+\countre = \frac{\Ntrue}{\Ntrue + \Nmis}
+$$ 
+
+which provide good summaries for the overall count quality, letting aside the tracking performance. 
+
 Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
-In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward.
+In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward. 
+
 
 #### Statistics
 Since the original validation set comprises only a few unequally long videos, only absolute results are available.
@@ -634,11 +647,12 @@ For any quantity $\hatN_\bullet$ defined above, we provide $(\hat{\mu}_{\hatN_\b
 +++
 
 ## Experiments
-We denote by $S_1$, $S_2$ and $S_3$ the three river sections of the evaluation material and split the associated footage into independent segments of 30 seconds. 
+We denote by $S_1$, $S_2$ and $S_3$ the three river sections of the evaluation material and split the associated footage into independent segments of 30 seconds. We further divide this material into two distinct validation (6min30) and test (7min) splits. 
 
-To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT {cite}`Bewley2016`, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions.Similar to our system, it only relies on image supervision for training, and though DeepSORT {cite}`Wojke2018` is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT {cite}`Zhanga`, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack {cite}`zhou2020`. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.
 
-Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in [](detector-training). We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance with a given object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden. Note that both SORT and FairMOT use custom postprocessing methods to filter out implausible tracks, and we leave these mechanisms untouched.
+To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT {cite}`Bewley2016`, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions. Similar to our system, it only relies on image supervision for training, and though DeepSORT {cite}`Wojke2018` is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT {cite}`Zhanga`, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack {cite}`zhou2020`. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.
+
+Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in [](detector-training). We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance given a fixed object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden. 
 
 +++
 
@@ -655,18 +669,39 @@ To better focus on count performance in the next sections, we remove segments th
 from IPython.display import display
 import pandas as pd
 
-indices = [0,16,19,27]
 fps = 12
-fps_str = f'{fps}fps'
+fps = f'{fps}fps'
 
-gt_dir_short = f'TrackEval/data/gt/surfrider_short_segments_{fps_str}/surfrider-test' 
-eval_dir_short = f'TrackEval/data/trackers/surfrider_short_segments_{fps_str}' 
+split = 'test'
 
-long_segments_names = ['part_1_1','part_1_2','part_2','part_3']
+long_segments_names = ['part_1_1',
+                    'part_1_2',
+                    'part_2',
+                    'part_3']
+
+indices_test = [0,7,9,13]
+indices_val = [0,9,10,14]
+indices_det = [0,17,24,38]
+
+def set_split(split):
+
+    if split == 'val':
+        indices = indices_val
+    elif split == 'test':
+        indices = indices_test
+    gt_dir_short = f'TrackEval/data/gt/surfrider_short_segments_{fps}'
+    eval_dir_short = f'TrackEval/data/trackers/surfrider_short_segments_{fps}'
+    if split is not None: 
+        gt_dir_short += f'_{split}'
+        eval_dir_short += f'_{split}'
+    gt_dir_short += '/surfrider-test'
+    return indices, eval_dir_short, gt_dir_short
+
+indices, eval_dir_short, gt_dir_short = set_split(split)
 
 def get_det_values(index_start=0, index_stop=-1):
 
-    results_for_det = pd.read_csv(os.path.join(eval_dir_short,'surfrider-test','ours_EKF_1_12fps_v0_tau_0','pedestrian_detailed.csv'))
+    results_for_det = pd.read_csv(os.path.join(f'TrackEval/data/trackers/surfrider_short_segments_{fps}','surfrider-test','ours_EKF_1_kappa_1_tau_0','pedestrian_detailed.csv'))
     results_det = results_for_det.loc[:,['DetRe___50','DetPr___50', 'HOTA_TP___50','HOTA_FN___50','HOTA_FP___50']].iloc[index_start:index_stop]
     results_det.columns = ['hota_det_re','hota_det_pr','hota_det_tp','hota_det_fn','hota_det_fp']
     hota_det_re = results_det['hota_det_re']
@@ -685,7 +720,7 @@ def get_det_values(index_start=0, index_stop=-1):
     
 def get_table_det():
 
-    table_values = [get_det_values(index_start, index_stop) for (index_start, index_stop) in zip(indices[:-1],indices[1:])]
+    table_values = [get_det_values(index_start, index_stop) for (index_start, index_stop) in zip(indices_det[:-1],indices_det[1:])]
     table_values.append(get_det_values())
     return pd.DataFrame(table_values)
 
@@ -696,11 +731,8 @@ display(table_det)
 ```
 
 ### Counts
-We now compare our method against FairMOT and SORT with the count-related tracking metrics and count decompositions defined in the previous section.
-We run our algorithm with $\kappa = 7,\tau = 5$, values obtained after a simple hyperparameter study described in [](image-dataset-appendix).
+To fairly compare the three solutions, we calibrate the hyperparameters of our postprocessing block on the validation split and keep the values that minimize the overall count error $\hatN$ for each of them separately (see [this appendix](tau-kappa-appendix) for more information). We then report with the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report $\assre$, $\countre$ and $\countpr$ as tabled values (the first gives an simple overview of the quality of the predicted tacks while the latter summarises the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find $\asspr$ between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of $\asspr$ values.
 
-Across all videos and all methods, we report $\asspr$ between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of $\asspr$ values.
-The remaining and most important results are summarized in the tables below. For detailed visualisation of the results, we also plot the error decompositions for all sequences.
 The first row reveals the unreliability of the off-the-shelf self-supervised version of FairMOT (FMOT) as a counting system.
 Though being the most recent, the lack of video supervision prevents this method from learning usable visual features.
 This results in poor association performance (the lowest $\assre$ of all methods) and a largely impractical and unstable number of incorrect or redundant counts.
@@ -718,6 +750,7 @@ The increased stability of all error types results in more stable overall $\hatN
 ```{code-cell} ipython3
 :tags: [hide-input]
 
+
 def get_summary(results, index_start=0, index_stop=-1):
 
     results = results.loc[:,['Correct_IDs___50','Redundant_IDs___50','False_IDs___50','Missing_IDs___50','Fused_IDs___50', 'GT_IDs','HOTA_TP___50','AssRe___50']].iloc[index_start:index_stop]
@@ -727,31 +760,57 @@ def get_summary(results, index_start=0, index_stop=-1):
     ass_re = results['ass_re']
     hota_tp = results['hota_tp']
 
+
     ass_re_cb = (ass_re * hota_tp).sum() / hota_tp.sum()
 
+    correct = results['correct']
     redundant = results['redundant']
     false = results['false']
     missing = results['missing']
     # mingled = results['mingled'] 
-    gt = results['gt']
-    count_error = false + redundant - missing
+    # gt = results['gt']
+    # count_error = false + redundant - missing
 
+
+    
     summary = dict()
-    summary['missing'], summary['missing_mean'], summary['missing_std'] = f'{missing.sum()}',f'{missing.mean():.1f}',f'{missing.std():.1f}'
-    summary['false'], summary['false_mean'], summary['false_std'] = f'{false.sum()}', f'{false.mean():.1f}', f'{false.std():.1f}'
-    summary['redundant'], summary['redundant_mean'], summary['redundant_std'] = f'{redundant.sum()}', f'{redundant.mean():.1f}', f'{redundant.std():.1f}'
-    summary['ass_re_cb'], summary['ass_re_mean'], summary['ass_re_std'] = f'{100*ass_re_cb:.1f}',f'{100*ass_re.mean():.1f}',f'{100*ass_re.std():.1f}'
-    summary['gt'] = f'{gt.sum()}'
-    summary['count_error'], summary['count_error_mean'], summary['count_error_std'] = f'{count_error.sum()}',f'{count_error.mean():.1f}',f'{count_error.std():.1f}'
+    # summary['missing'], summary['missing_mean'], summary['missing_std'] = f'{missing.sum()}',f'{missing.mean():.1f}',f'{np.nan_to_num(missing.std()):.1f}'
+    # summary['false'], summary['false_mean'], summary['false_std'] = f'{false.sum()}', f'{false.mean():.1f}', f'{np.nan_to_num(false.std()):.1f}'
+    # summary['redundant'], summary['redundant_mean'], summary['redundant_std'] = f'{redundant.sum()}', f'{redundant.mean():.1f}', f'{np.nan_to_num(redundant.std()):.1f}'
+    # summary['gt'] = f'{gt.sum()}'
+    summary['ass_re_cb'] = f'{100*ass_re_cb:.1f}'
+
+    # summary['count_error'], summary['count_error_mean'], summary['count_error_std'] = f'{count_error.sum()}',f'{count_error.mean():.1f}',f'{np.nan_to_num(count_error.std()):.1f}'
+    
+    count_re = correct.sum() / (correct + missing).sum()
+    summary['count_re_cb'] = f'{100*count_re:.1f}'
+    
+    # count_re_mean = (correct / (correct + missing)).mean()
+    # summary['count_re_mean'] = f'{100*count_re_mean:.1f}'
+    
+    count_re_std = (correct / (correct + missing)).std()
+    summary['count_re_std'] = f'{100*np.nan_to_num(count_re_std):.1f}'
+
+    count_pr = correct.sum() / (correct + false + redundant).sum()
+    summary['count_pr_cb'] = f'{100*count_pr:.1f}'
+    
+    # count_pr_mean = (correct / (correct + false + redundant)).mean()
+    # summary['count_pr_mean'] = f'{100*count_pr_mean:.1f}'
+    
+    count_pr_std = (correct / (correct + false + redundant)).std()
+    summary['count_pr_std'] = f'{100*np.nan_to_num(count_pr_std):.1f}'
 
     return summary 
+
+
+
 
 
 def get_summaries(results, sequence_names):
 
     summaries = dict()
 
-    for (sequence_name, index_start, index_stop) in zip(sequence_names, indices[:-1],indices[1:]):
+    for (sequence_name, index_start, index_stop) in zip(sequence_names, indices[:-1], indices[1:]):
 
         summaries[sequence_name] = get_summary(results, index_start, index_stop)
     
@@ -761,75 +820,100 @@ def get_summaries(results, sequence_names):
 
 
 
+
 summaries = []
-for tracker_name in ['fairmot_cleaned', 'sort','ours_EKF_1_12fps_v2_7_tau_5']:
+method_names = ['fairmot_kappa_7_tau_9', 'sort_kappa_7_tau_9','ours_EKF_1_kappa_7_tau_8']
+pretty_method_names = ['FairMOT','SORT','Ours']
+for tracker_name in method_names:
     results = pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv'))
     sequence_names = ['S1','S2','S3']
-    summaries.append(pd.DataFrame(get_summaries(results, sequence_names))[:10].T)
+    summaries.append(pd.DataFrame(get_summaries(results, sequence_names)).T)
 
 
 fairmot_star, sort, ours = summaries
 
-nmis = '$\hat{\mathsf{N}}_{mis}$'
-mu_nmis ='$\hat{\mu}_{\hat{\mathsf{N}}_{mis}}$'
-sigma_nmis = '$\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}$'
+# nmis = '$\hat{\mathsf{N}}_{mis}$'
+# mu_nmis ='$\hat{\mu}_{\hat{\mathsf{N}}_{mis}}$'
+# sigma_nmis = '$\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}$'
 
-nfalse = '$\hat{\mathsf{N}}_{false}$'
-mu_nfalse = '$\hat{\mu}_{\hat{\mathsf{N}}_{false}}$'
-sigma_nfalse = '$\hat{\sigma}_{\hat{\mathsf{N}}_{false}}$'
+# nfalse = '$\hat{\mathsf{N}}_{false}$'
+# mu_nfalse = '$\hat{\mu}_{\hat{\mathsf{N}}_{false}}$'
+# sigma_nfalse = '$\hat{\sigma}_{\hat{\mathsf{N}}_{false}}$'
 
-nred =  '$\hat{\mathsf{N}}_{red}$'
-mu_nred = '$\hat{\mu}_{\hat{\mathsf{N}}_{red}}$'
-sigma_nred = '$\hat{\sigma}_{\hat{\mathsf{N}}_{red}}$'
+# nred =  '$\hat{\mathsf{N}}_{red}$'
+# mu_nred = '$\hat{\mu}_{\hat{\mathsf{N}}_{red}}$'
+# sigma_nred = '$\hat{\sigma}_{\hat{\mathsf{N}}_{red}}$'
+
 ass_re = '$\mathsf{AssRe}$'
-rows = ['S1','S2','S3','All']
-columns = ['nmis', 'mu_nmis', 'sigma_nmis', 'nfalse', 'mu_nfalse', 'sigma_nfalse', 'nred', 'mu_nred', 'sigma_nred', 'ass_re']
+count_re = '$\mathsf{CountRe}$'
+count_pr = '$\mathsf{CountPr}$'
+
+rows = ['fairmot_kappa_7_tau_9','sort_kappa_7_tau_9','ours_EKF_1_kappa_7_tau_8']
+columns = ['ass_re','count_re', 'count_re_std', 'count_pr', 'count_pr_std']
 
 for summary in summaries:    
     summary.columns = columns
 
-for name, summary in zip(['fairmot_star','sort','ours'], summaries):
+results_S1 = pd.DataFrame([summary.iloc[0] for summary in summaries])
+results_S1.index = method_names
+
+results_S2 = pd.DataFrame([summary.iloc[1] for summary in summaries])
+results_S2.index = method_names
+
+results_S3 = pd.DataFrame([summary.iloc[2] for summary in summaries])
+results_S3.index = method_names
+
+results_All = pd.DataFrame([summary.iloc[3] for summary in summaries])
+results_All.index = method_names
+
+results = [results_S1, results_S2, results_S3, results_All]
+
+results_S1.to_latex()
+
+for sequence_name, result in zip(['S_1','S_2','S_3','All'], results):
     for row in rows:
         for col in columns: 
-            glue(f'{name}_{row}_{col}', summary.loc[row,col], display=False)
+            glue(f'{sequence_name}_{row}_{col}', result.loc[row,col], display=False)
 ```
 
-|     |   $\hat{\mathsf{N}}_{mis}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{mis}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}$ |   $\hat{\mathsf{N}}_{false}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{false}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{false}}$ |   $\hat{\mathsf{N}}_{red}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{red}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{red}}$ |  $\mathsf{AssRe}$ |
-|:----|-------:|----------:|-------------:|---------:|------------:|---------------:|-------:|----------:|-------------:|-------------:|
-| S1  |     {glue:text}`fairmot_star_S1_nmis` |       {glue:text}`fairmot_star_S1_mu_nmis` |       {glue:text}`fairmot_star_S1_sigma_nmis` |       {glue:text}`fairmot_star_S1_nfalse` |         {glue:text}`fairmot_star_S1_mu_nfalse` |            {glue:text}`fairmot_star_S1_sigma_nfalse` |      {glue:text}`fairmot_star_S1_nred` |       {glue:text}`fairmot_star_S1_mu_nred` |       {glue:text}`fairmot_star_S1_sigma_nred` | {glue:text}`fairmot_star_S1_ass_re` |
-| S2  |      {glue:text}`fairmot_star_S2_nmis` |       {glue:text}`fairmot_star_S2_mu_nmis` |       {glue:text}`fairmot_star_S2_sigma_nmis` |       {glue:text}`fairmot_star_S2_nfalse` |         {glue:text}`fairmot_star_S2_mu_nfalse` |            {glue:text}`fairmot_star_S2_sigma_nfalse` |      {glue:text}`fairmot_star_S2_nred` |       {glue:text}`fairmot_star_S2_mu_nred` |       {glue:text}`fairmot_star_S2_sigma_nred` | {glue:text}`fairmot_star_S2_ass_re` |
-| S3  |     {glue:text}`fairmot_star_S3_nmis` |       {glue:text}`fairmot_star_S3_mu_nmis` |       {glue:text}`fairmot_star_S3_sigma_nmis` |       {glue:text}`fairmot_star_S3_nfalse` |         {glue:text}`fairmot_star_S3_mu_nfalse` |            {glue:text}`fairmot_star_S3_sigma_nfalse` |      {glue:text}`fairmot_star_S3_nred` |       {glue:text}`fairmot_star_S3_mu_nred` |       {glue:text}`fairmot_star_S3_sigma_nred` | {glue:text}`fairmot_star_S3_ass_re` |
-| All |     {glue:text}`fairmot_star_All_nmis` |       {glue:text}`fairmot_star_All_mu_nmis` |       {glue:text}`fairmot_star_All_sigma_nmis` |       {glue:text}`fairmot_star_All_nfalse` |         {glue:text}`fairmot_star_All_mu_nfalse` |            {glue:text}`fairmot_star_All_sigma_nfalse` |      {glue:text}`fairmot_star_All_nred` |       {glue:text}`fairmot_star_All_mu_nred` |       {glue:text}`fairmot_star_All_sigma_nred` | {glue:text}`fairmot_star_All_sigma_nred` |
+|     |   $\mathsf{AssRe}$ |     $\mathsf{CountRe}$ |   $\hat{\sigma}_\mathsf{CountRe}$ |   $\mathsf{CountPr}$ |   $\hat{\sigma}_\mathsf{CountPr}$ |   
+|:----|----------:|-------------:|---------:|------------:|---------------:|
+| FairMOT  |     {glue:text}`S_1_fairmot_kappa_7_tau_9_ass_re` |              {glue:text}`S_1_fairmot_kappa_7_tau_9_count_re` |       {glue:text}`S_1_fairmot_kappa_7_tau_9_count_re_std` |         {glue:text}`S_1_fairmot_kappa_7_tau_9_count_pr` |            {glue:text}`S_1_fairmot_kappa_7_tau_9_count_pr_std` |     
+| Sort  |     {glue:text}`S_1_sort_kappa_7_tau_9_ass_re` |            {glue:text}`S_1_sort_kappa_7_tau_9_count_re` |       {glue:text}`S_1_sort_kappa_7_tau_9_count_re_std` |         {glue:text}`S_1_sort_kappa_7_tau_9_count_pr` |            {glue:text}`S_1_sort_kappa_7_tau_9_count_pr_std` |     
+| Ours  |     {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_ass_re` |             {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_count_pr_std` |     
 
-+++
 
-|     |   $\hat{\mathsf{N}}_{mis}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{mis}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}$ |   $\hat{\mathsf{N}}_{false}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{false}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{false}}$ |   $\hat{\mathsf{N}}_{red}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{red}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{red}}$ |  $\mathsf{AssRe}$  |
-|:----|-------:|----------:|-------------:|---------:|------------:|---------------:|-------:|----------:|-------------:|-------------:|
-| S1  |     {glue:text}`sort_S1_nmis` |       {glue:text}`sort_S1_mu_nmis` |       {glue:text}`sort_S1_sigma_nmis` |       {glue:text}`sort_S1_nfalse` |         {glue:text}`sort_S1_mu_nfalse` |            {glue:text}`sort_S1_sigma_nfalse` |      {glue:text}`sort_S1_nred` |       {glue:text}`sort_S1_mu_nred` |       {glue:text}`sort_S1_sigma_nred` | {glue:text}`sort_S1_ass_re` |
-| S2  |      {glue:text}`sort_S2_nmis` |       {glue:text}`sort_S2_mu_nmis` |       {glue:text}`sort_S2_sigma_nmis` |       {glue:text}`sort_S2_nfalse` |         {glue:text}`sort_S2_mu_nfalse` |            {glue:text}`sort_S2_sigma_nfalse` |      {glue:text}`sort_S2_nred` |       {glue:text}`sort_S2_mu_nred` |       {glue:text}`sort_S2_sigma_nred` | {glue:text}`sort_S2_ass_re` |
-| S3  |     {glue:text}`sort_S3_nmis` |       {glue:text}`sort_S3_mu_nmis` |       {glue:text}`sort_S3_sigma_nmis` |       {glue:text}`sort_S3_nfalse` |         {glue:text}`sort_S3_mu_nfalse` |            {glue:text}`sort_S3_sigma_nfalse` |      {glue:text}`sort_S3_nred` |       {glue:text}`sort_S3_mu_nred` |       {glue:text}`sort_S3_sigma_nred` | {glue:text}`sort_S3_ass_re` |
-| All |     {glue:text}`sort_All_nmis` |       {glue:text}`sort_All_mu_nmis` |       {glue:text}`sort_All_sigma_nmis` |       {glue:text}`sort_All_nfalse` |         {glue:text}`sort_All_mu_nfalse` |            {glue:text}`sort_All_sigma_nfalse` |      {glue:text}`sort_All_nred` |       {glue:text}`sort_All_mu_nred` |       {glue:text}`sort_All_sigma_nred` | {glue:text}`sort_All_sigma_nred` |
+|     |   $\mathsf{AssRe}$ |     $\mathsf{CountRe}$ |   $\hat{\sigma}_\mathsf{CountRe}$ |   $\mathsf{CountPr}$ |   $\hat{\sigma}_\mathsf{CountPr}$ |   
+|:----|----------:|-------------:|---------:|------------:|---------------:|
+| FairMOT  |     {glue:text}`S_2_fairmot_kappa_7_tau_9_ass_re` |            {glue:text}`S_2_fairmot_kappa_7_tau_9_count_re` |       {glue:text}`S_2_fairmot_kappa_7_tau_9_count_re_std` |         {glue:text}`S_2_fairmot_kappa_7_tau_9_count_pr` |            {glue:text}`S_2_fairmot_kappa_7_tau_9_count_pr_std` |     
+| Sort  |     {glue:text}`S_2_sort_kappa_7_tau_9_ass_re` |           {glue:text}`S_2_sort_kappa_7_tau_9_count_re` |       {glue:text}`S_2_sort_kappa_7_tau_9_count_re_std` |         {glue:text}`S_2_sort_kappa_7_tau_9_count_pr` |            {glue:text}`S_2_sort_kappa_7_tau_9_count_pr_std` |     
+| Ours  |     {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_ass_re` |           {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_count_pr_std` |     
 
-+++
 
-|     |   $\hat{\mathsf{N}}_{mis}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{mis}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}$ |   $\hat{\mathsf{N}}_{false}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{false}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{false}}$ |   $\hat{\mathsf{N}}_{red}$ |   $\hat{\mu}_{\hat{\mathsf{N}}_{red}}$ |   $\hat{\sigma}_{\hat{\mathsf{N}}_{red}}$ |  $\mathsf{AssRe}$  |
-|:----|-------:|----------:|-------------:|---------:|------------:|---------------:|-------:|----------:|-------------:|-------------:|
-| S1  |     {glue:text}`ours_S1_nmis` |       {glue:text}`ours_S1_mu_nmis` |       {glue:text}`ours_S1_sigma_nmis` |       {glue:text}`ours_S1_nfalse` |         {glue:text}`ours_S1_mu_nfalse` |            {glue:text}`ours_S1_sigma_nfalse` |      {glue:text}`ours_S1_nred` |       {glue:text}`ours_S1_mu_nred` |       {glue:text}`ours_S1_sigma_nred` | {glue:text}`ours_S1_ass_re` |
-| S2  |      {glue:text}`ours_S2_nmis` |       {glue:text}`ours_S2_mu_nmis` |       {glue:text}`ours_S2_sigma_nmis` |       {glue:text}`ours_S2_nfalse` |         {glue:text}`ours_S2_mu_nfalse` |            {glue:text}`ours_S2_sigma_nfalse` |      {glue:text}`ours_S2_nred` |       {glue:text}`ours_S2_mu_nred` |       {glue:text}`ours_S2_sigma_nred` | {glue:text}`ours_S2_ass_re` |
-| S3  |     {glue:text}`ours_S3_nmis` |       {glue:text}`ours_S3_mu_nmis` |       {glue:text}`ours_S3_sigma_nmis` |       {glue:text}`ours_S3_nfalse` |         {glue:text}`ours_S3_mu_nfalse` |            {glue:text}`ours_S3_sigma_nfalse` |      {glue:text}`ours_S3_nred` |       {glue:text}`ours_S3_mu_nred` |       {glue:text}`ours_S3_sigma_nred` | {glue:text}`ours_S3_ass_re` |
-| All |     {glue:text}`ours_All_nmis` |       {glue:text}`ours_All_mu_nmis` |       {glue:text}`ours_All_sigma_nmis` |       {glue:text}`ours_All_nfalse` |         {glue:text}`ours_All_mu_nfalse` |            {glue:text}`ours_All_sigma_nfalse` |      {glue:text}`ours_All_nred` |       {glue:text}`ours_All_mu_nred` |       {glue:text}`ours_All_sigma_nred` | {glue:text}`ours_All_sigma_nred` |
+|     |   $\mathsf{AssRe}$ |     $\mathsf{CountRe}$ |   $\hat{\sigma}_\mathsf{CountRe}$ |   $\mathsf{CountPr}$ |   $\hat{\sigma}_\mathsf{CountPr}$ |   
+|:----|----------:|-------------:|---------:|------------:|---------------:|
+| FairMOT  |     {glue:text}`S_3_fairmot_kappa_7_tau_9_ass_re` |         {glue:text}`S_3_fairmot_kappa_7_tau_9_count_re` |       {glue:text}`S_3_fairmot_kappa_7_tau_9_count_re_std` |         {glue:text}`S_3_fairmot_kappa_7_tau_9_count_pr` |            {glue:text}`S_3_fairmot_kappa_7_tau_9_count_pr_std` |     
+| Sort  |     {glue:text}`S_3_sort_kappa_7_tau_9_ass_re` |          {glue:text}`S_3_sort_kappa_7_tau_9_count_re` |       {glue:text}`S_3_sort_kappa_7_tau_9_count_re_std` |         {glue:text}`S_3_sort_kappa_7_tau_9_count_pr` |            {glue:text}`S_3_sort_kappa_7_tau_9_count_pr_std` |     
+| Ours  |     {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_ass_re` |            {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_count_pr_std` |     
+
+|     |   $\mathsf{AssRe}$ |     $\mathsf{CountRe}$ |   $\hat{\sigma}_\mathsf{CountRe}$ |   $\mathsf{CountPr}$ |   $\hat{\sigma}_\mathsf{CountPr}$ |   
+|:----|----------:|-------------:|---------:|------------:|---------------:|
+| FairMOT  |     {glue:text}`All_fairmot_kappa_7_tau_9_ass_re` |          {glue:text}`All_fairmot_kappa_7_tau_9_count_re` |       {glue:text}`All_fairmot_kappa_7_tau_9_count_re_std` |         {glue:text}`All_fairmot_kappa_7_tau_9_count_pr` |            {glue:text}`All_fairmot_kappa_7_tau_9_count_pr_std` |     
+| Sort  |     {glue:text}`All_sort_kappa_7_tau_9_ass_re` |         {glue:text}`All_sort_kappa_7_tau_9_count_re` |       {glue:text}`All_sort_kappa_7_tau_9_count_re_std` |         {glue:text}`All_sort_kappa_7_tau_9_count_pr` |            {glue:text}`All_sort_kappa_7_tau_9_count_pr_std` |     
+| Ours  |     {glue:text}`All_ours_EKF_1_kappa_7_tau_8_ass_re` |          {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_pr_std` |     
 
 ```{code-cell} ipython3
 :tags: [hide-input]
 
-fig, axes = plt.subplots(1,3, figsize=(30,10))
-for ax, title, tracker_name in zip(axes, ['FairMOT*','SORT','Ours'] ,['fairmot_cleaned', 'sort', 'ours_EKF_1_12fps_v2_7_tau_5']):
+set_split('test')
+fig, axes = plt.subplots(1,3, figsize=(30,10), sharey=True)
+for ax, title, tracker_name in zip(axes, pretty_method_names,  method_names):
     results = pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv'))
     results = results.loc[:,['Redundant_IDs___50','False_IDs___50','Missing_IDs___50']].iloc[:-1]
     results.columns = ['redundant', 'false', 'missing']
     results.loc[:,'missing'] = - results.loc[:,'missing']
     results.columns = ['$\hat{\mathsf{N}}_{red}$', '$\hat{\mathsf{N}}_{false}$', '$-\hat{\mathsf{N}}_{mis}$']
-    results.plot(ax = ax, kind='bar', stacked=True, color=['orange', 'red', 'black'], sharey=True, title=title, xlabel='Sequence nb')
+    results.plot(ax = ax, kind='bar', stacked=True, color=['orange', 'red', 'black'], title=title, xlabel='Sequence nb')
 ```
 
 <!-- ```{glue:} fairmot_star_tracking_results
@@ -979,44 +1063,71 @@ As a byproduct, this choice positively affects $\Nred$.
 ```{code-cell} ipython3
 :tags: [hide-input]
 
-tau_values = [i for i in range(4,10)]
-versions = ['v0','v2_3','v2_5','v2_7']
-fig, (ax0, ax1, ax2) = plt.subplots(3,1)
+set_split('val')
+def hyperparameters(method_name, pretty_method_name):
+    tau_values = [i for i in range(1,10)]
+    kappa_values = [1,3,5,7]
+    fig, (ax0, ax1, ax2) = plt.subplots(3,1)
+    pretty_names=[f'$\kappa={kappa}$' for kappa in kappa_values]
+    n_count = {}
+    for kappa, pretty_name in zip(kappa_values, pretty_names):
+        tracker_names = [f'{method_name}_kappa_{kappa}_tau_{tau}' for tau in tau_values]
+        all_results = {tracker_name: pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv')).iloc[:-1] for tracker_name in tracker_names}
 
-for version in versions:
-    tracker_names = [f'ours_EKF_1_12fps_{version}_tau_{tau}' for tau in tau_values]
-    all_results = {tracker_name: pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv')).iloc[[-1]] for tracker_name in tracker_names}
+        n_missing = []
+        n_false = []
+        n_redundant = []
+        for tracker_name, tracker_results in all_results.items():
+            missing = (tracker_results['GT_IDs'].sum() - tracker_results['Correct_IDs___50'].sum())
+            false = tracker_results['False_IDs___50'].sum()
+            redundant = tracker_results['Redundant_IDs___50'].sum()
 
-    n_missing = []
-    n_false = []
-    n_redundant = []
-    for tracker_name, tracker_results in all_results.items():
-        missing = (tracker_results['GT_IDs'] - tracker_results['Correct_IDs___50'])[27]
-        false = tracker_results['False_IDs___50'][27]
-        redundant = tracker_results['Redundant_IDs___50'][27]
-
-        n_missing.append(missing)
-        n_false.append(false)
-        n_redundant.append(redundant)
-
-    ax0.scatter(tau_values, n_missing, label=version)
-    ax0.plot(tau_values, n_missing, label=version, linestyle='dashed')
-    # ax0.set_xlabel('$\\tau$')
-    ax0.set_ylabel('$N_{missing}$')
-
-    ax1.scatter(tau_values, n_false, label=version)
-    ax1.plot(tau_values, n_false, label=version, linestyle='dashed')
-
-    # ax1.set_xlabel('$\\tau$')
-    ax1.set_ylabel('$N_{incorrect}$')
-
-    ax2.scatter(tau_values, n_redundant, label=version)
-    ax2.plot(tau_values, n_redundant, label=version, linestyle='dashed')
-    ax2.set_xlabel('$\\tau$')
-    ax2.set_ylabel('$N_{redundant}$')
+            n_missing.append(missing)
+            n_false.append(false)
+            n_redundant.append(redundant)
+            n_count[tracker_name] = missing + false + redundant
+        
 
 
-plt.tight_layout()
+
+        ax0.scatter(tau_values, n_missing)
+        ax0.plot(tau_values, n_missing, label=pretty_name, linestyle='dashed')
+        # ax0.set_xlabel('$\\tau$')
+        ax0.set_ylabel('$N_{mis}$')
+
+        ax1.scatter(tau_values, n_false)
+        ax1.plot(tau_values, n_false, label=pretty_name, linestyle='dashed')
+
+        # ax1.set_xlabel('$\\tau$')
+        ax1.set_ylabel('$N_{false}$')
+
+        ax2.scatter(tau_values, n_redundant)
+        ax2.plot(tau_values, n_redundant, label=pretty_name, linestyle='dashed')
+        ax2.set_xlabel('$\\tau$')
+        ax2.set_ylabel('$N_{red}$')
+
+
+    best_value = np.inf
+    best_key = ''
+
+    for k, v in n_count.items():
+        if v < best_value: best_key = k
+        best_value = v
+    best_key = best_key.split('kappa')[1]
+    best_kappa = int(best_key.split('_')[1])
+    best_tau = int(best_key.split('_')[-1])
+    print(f'Best parameters for {pretty_method_name}: (kappa, tau) = ({best_kappa}, {best_tau})')
+    handles, labels = ax2.get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper center')
+    plt.autoscale(True)
+
+    plt.tight_layout()
+    plt.show()
+    plt.close()
+
+for method_name, pretty_method_name in zip(method_names, pretty_method_names):
+    hyperparameters(method_name.split('kappa')[0][:-1], pretty_method_name)
+
 ```
 
 (impact-algorithm-appendix)=
@@ -1034,7 +1145,7 @@ $$
 \SMCfiltdist_k(\rmd x_k) = \sum_{i=1}^N w_k^i \delta_{X_k^i}(\rmd x_k) \eqsp.
 $$ 
 Contrary to EKF and UKF, the distribution $\mathbb{L}_k$ of $Z_k$ given $Z_{1:k-1}$ is not directly available but can be obtained via an additional Monte Carlo sampling step.
-Marginalizing over $(X_{k-1}$, $X_k)$ and using the conditional independence properties of HMMs, we decompose $\mathbb{L}_k$ using the conditional state transition $\transdist_k(x,\rmd x')$ and the likelihood of $Y_k$ given $X_k$, denoted by $\likel_k(x, \rmd z)$:
+Marginalizing over $(X_{k-1}$, $X_k)$ and using the conditional independence properties of HMMs, we decompose $\mathbb{L}_k$ using the conditional state transition $\transdist_k(x,\rmd x')$ and the likelihood of $Z_k$ given $X_k$, denoted by $\likel_k(x, \rmd z)$:
 
 $$
 \mathbb{L}_k(\rmd z_k) = \int \int \likel_k(x_k, \rmd z_k)\transdist_k(x_{k-1}, \rmd x_k)\filtdist_{k-1}(\rmd x_{k-1}) \eqsp.
