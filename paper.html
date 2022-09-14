@@ -171,7 +171,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/mchagneux/computo_paper/master?urlpath=tree/paper.md"
+        <a href="https://mybinder.org/v2/gh/mchagneux/computo_paper/master?urlpath=tree/paper.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -913,6 +913,8 @@ title="Print to PDF"
 \newcommand{\gtID}{\mathsf{gtID}}
 \newcommand{\prID}{\mathsf{prID}}
 \newcommand{\fna}{\mathsf{FNA}}
+\newcommand{\countre}{\mathsf{CountRe}}
+\newcommand{\countpr}{\mathsf{CountPr}}
 \newcommand{\tempwindow}{[\![n-\lfloor \kappa/2 \rfloor, n+\lfloor \kappa/2 \rfloor]\!]}\]</div>
 <section class="tex2jax_ignore mathjax_ignore" id="macrolitter-video-counting-on-riverbanks-using-state-space-models-and-moving-cameras">
 <h1>Macrolitter video counting on riverbanks using state space models and moving cameras<a class="headerlink" href="#macrolitter-video-counting-on-riverbanks-using-state-space-models-and-moving-cameras" title="Permalink to this headline">#</a></h1>
@@ -965,7 +967,7 @@ We compare the count performance of our method against other MOT-based alternati
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">os</span>
-
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">surfnet.prepare_data</span> <span class="kn">import</span> <span class="n">download_data</span>
 <span class="kn">from</span> <span class="nn">surfnet.track</span> <span class="kn">import</span> <span class="n">default_args</span> <span class="k">as</span> <span class="n">args</span>
 
@@ -1114,7 +1116,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.131 seconds for 360 frames or 2747.9 FPS
+Total Tracking took: 0.113 seconds for 360 frames or 3181.7 FPS
 --- End
 </pre></div>
 </div>
@@ -1517,8 +1519,18 @@ We define:</p>
 \[
 \hatN = \Ntrue + \Nred + \Nfalse
 \]</div>
-<p>while <span class="math notranslate nohighlight">\(\Nmis\)</span> completely summarises the number of undetected objects.
-Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
+<p>while <span class="math notranslate nohighlight">\(\Nmis\)</span> completely summarises the number of undetected objects.</p>
+<p>Conveniently, the quantities can be used to define the count precision (<span class="math notranslate nohighlight">\(\countpr\)</span>) and count recall (<span class="math notranslate nohighlight">\(\countre\)</span>) as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+\countpr = \frac{\Ntrue}{\Ntrue + \Nred + \Nfalse}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\countre = \frac{\Ntrue}{\Ntrue + \Nmis}
+\]</div>
+<p>which provide good summaries for the overall count quality, letting aside the tracking performance.</p>
+<p>Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
 In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward.</p>
 </section>
 <section id="statistics">
@@ -1531,9 +1543,9 @@ For any quantity <span class="math notranslate nohighlight">\(\hatN_\bullet\)</s
 </section>
 <section id="experiments">
 <h2>Experiments<a class="headerlink" href="#experiments" title="Permalink to this headline">#</a></h2>
-<p>We denote by <span class="math notranslate nohighlight">\(S_1\)</span>, <span class="math notranslate nohighlight">\(S_2\)</span> and <span class="math notranslate nohighlight">\(S_3\)</span> the three river sections of the evaluation material and split the associated footage into independent segments of 30 seconds.</p>
-<p>To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT <span id="id47">[<a class="reference internal" href="#id106" title="Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft. Simple online and realtime tracking. In Proceedings - International Conference on Image Processing, ICIP, volume 2016-Augus, 3464–3468. 2016. URL: https://github.com/abewley/sort, arXiv:1602.00763, doi:10.1109/ICIP.2016.7533003.">26</a>]</span>, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions.Similar to our system, it only relies on image supervision for training, and though DeepSORT <span id="id48">[<a class="reference internal" href="#id109" title="Nicolai Wojke, Alex Bewley, and Dietrich Paulus. Simple online and realtime tracking with a deep association metric. In Proceedings - International Conference on Image Processing, ICIP, volume 2017-Septe, 3645–3649. 2018. arXiv:1703.07402, doi:10.1109/ICIP.2017.8296962.">29</a>]</span> is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT <span id="id49">[<a class="reference internal" href="#id77" title="Yifu Zhang, Chunyu Wang, Xinggang Wang, Wenjun Zeng, and Wenyu Liu. Fairmot: on the fairness of detection and re-identification in multiple object tracking. International Journal of Computer Vision, pages 1–19, 2021.">30</a>]</span>, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack <span id="id50">[<a class="reference internal" href="#id78" title="Xingyi Zhou, Vladlen Koltun, and Philipp Krähenbühl. Tracking objects as points. pages 474-490, 10 2020. doi:10.1007/978-3-030-58548-8_28.">43</a>]</span>. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.</p>
-<p>Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in <a class="reference internal" href="#detector-training"><span class="std std-ref">Training</span></a>. We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance with a given object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden. Note that both SORT and FairMOT use custom postprocessing methods to filter out implausible tracks, and we leave these mechanisms untouched.</p>
+<p>We denote by <span class="math notranslate nohighlight">\(S_1\)</span>, <span class="math notranslate nohighlight">\(S_2\)</span> and <span class="math notranslate nohighlight">\(S_3\)</span> the three river sections of the evaluation material and split the associated footage into independent segments of 30 seconds. We further divide this material into two distinct validation (6min30) and test (7min) splits.</p>
+<p>To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT <span id="id47">[<a class="reference internal" href="#id106" title="Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft. Simple online and realtime tracking. In Proceedings - International Conference on Image Processing, ICIP, volume 2016-Augus, 3464–3468. 2016. URL: https://github.com/abewley/sort, arXiv:1602.00763, doi:10.1109/ICIP.2016.7533003.">26</a>]</span>, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions. Similar to our system, it only relies on image supervision for training, and though DeepSORT <span id="id48">[<a class="reference internal" href="#id109" title="Nicolai Wojke, Alex Bewley, and Dietrich Paulus. Simple online and realtime tracking with a deep association metric. In Proceedings - International Conference on Image Processing, ICIP, volume 2017-Septe, 3645–3649. 2018. arXiv:1703.07402, doi:10.1109/ICIP.2017.8296962.">29</a>]</span> is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT <span id="id49">[<a class="reference internal" href="#id77" title="Yifu Zhang, Chunyu Wang, Xinggang Wang, Wenjun Zeng, and Wenyu Liu. Fairmot: on the fairness of detection and re-identification in multiple object tracking. International Journal of Computer Vision, pages 1–19, 2021.">30</a>]</span>, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack <span id="id50">[<a class="reference internal" href="#id78" title="Xingyi Zhou, Vladlen Koltun, and Philipp Krähenbühl. Tracking objects as points. pages 474-490, 10 2020. doi:10.1007/978-3-030-58548-8_28.">43</a>]</span>. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.</p>
+<p>Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in <a class="reference internal" href="#detector-training"><span class="std std-ref">Training</span></a>. We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance given a fixed object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden.</p>
 <section id="id51">
 <h3>Detection<a class="headerlink" href="#id51" title="Permalink to this headline">#</a></h3>
 <p>In the following section, we present the performance of the trained detector.
@@ -1546,18 +1558,39 @@ To better focus on count performance in the next sections, we remove segments th
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">27</span><span class="p">]</span>
 <span class="n">fps</span> <span class="o">=</span> <span class="mi">12</span>
-<span class="n">fps_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">fps&#39;</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">fps&#39;</span>
 
-<span class="n">gt_dir_short</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;TrackEval/data/gt/surfrider_short_segments_</span><span class="si">{</span><span class="n">fps_str</span><span class="si">}</span><span class="s1">/surfrider-test&#39;</span> 
-<span class="n">eval_dir_short</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;TrackEval/data/trackers/surfrider_short_segments_</span><span class="si">{</span><span class="n">fps_str</span><span class="si">}</span><span class="s1">&#39;</span> 
+<span class="n">split</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
 
-<span class="n">long_segments_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;part_1_1&#39;</span><span class="p">,</span><span class="s1">&#39;part_1_2&#39;</span><span class="p">,</span><span class="s1">&#39;part_2&#39;</span><span class="p">,</span><span class="s1">&#39;part_3&#39;</span><span class="p">]</span>
+<span class="n">long_segments_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;part_1_1&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;part_1_2&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;part_2&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;part_3&#39;</span><span class="p">]</span>
+
+<span class="n">indices_test</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">13</span><span class="p">]</span>
+<span class="n">indices_val</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">14</span><span class="p">]</span>
+<span class="n">indices_det</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">38</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">set_split</span><span class="p">(</span><span class="n">split</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;val&#39;</span><span class="p">:</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">indices_val</span>
+    <span class="k">elif</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span><span class="p">:</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">indices_test</span>
+    <span class="n">gt_dir_short</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;TrackEval/data/gt/surfrider_short_segments_</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">eval_dir_short</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;TrackEval/data/trackers/surfrider_short_segments_</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">if</span> <span class="n">split</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> 
+        <span class="n">gt_dir_short</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">eval_dir_short</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">gt_dir_short</span> <span class="o">+=</span> <span class="s1">&#39;/surfrider-test&#39;</span>
+    <span class="k">return</span> <span class="n">indices</span><span class="p">,</span> <span class="n">eval_dir_short</span><span class="p">,</span> <span class="n">gt_dir_short</span>
+
+<span class="n">indices</span><span class="p">,</span> <span class="n">eval_dir_short</span><span class="p">,</span> <span class="n">gt_dir_short</span> <span class="o">=</span> <span class="n">set_split</span><span class="p">(</span><span class="n">split</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">get_det_values</span><span class="p">(</span><span class="n">index_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_stop</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
 
-    <span class="n">results_for_det</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eval_dir_short</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="s1">&#39;ours_EKF_1_12fps_v0_tau_0&#39;</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span>
+    <span class="n">results_for_det</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;TrackEval/data/trackers/surfrider_short_segments_</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="s1">&#39;ours_EKF_1_kappa_1_tau_0&#39;</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span>
     <span class="n">results_det</span> <span class="o">=</span> <span class="n">results_for_det</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;DetRe___50&#39;</span><span class="p">,</span><span class="s1">&#39;DetPr___50&#39;</span><span class="p">,</span> <span class="s1">&#39;HOTA_TP___50&#39;</span><span class="p">,</span><span class="s1">&#39;HOTA_FN___50&#39;</span><span class="p">,</span><span class="s1">&#39;HOTA_FP___50&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index_start</span><span class="p">:</span><span class="n">index_stop</span><span class="p">]</span>
     <span class="n">results_det</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hota_det_re&#39;</span><span class="p">,</span><span class="s1">&#39;hota_det_pr&#39;</span><span class="p">,</span><span class="s1">&#39;hota_det_tp&#39;</span><span class="p">,</span><span class="s1">&#39;hota_det_fn&#39;</span><span class="p">,</span><span class="s1">&#39;hota_det_fp&#39;</span><span class="p">]</span>
     <span class="n">hota_det_re</span> <span class="o">=</span> <span class="n">results_det</span><span class="p">[</span><span class="s1">&#39;hota_det_re&#39;</span><span class="p">]</span>
@@ -1576,7 +1609,7 @@ To better focus on count performance in the next sections, we remove segments th
     
 <span class="k">def</span> <span class="nf">get_table_det</span><span class="p">():</span>
 
-    <span class="n">table_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_det_values</span><span class="p">(</span><span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+    <span class="n">table_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_det_values</span><span class="p">(</span><span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">indices_det</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">indices_det</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
     <span class="n">table_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_det_values</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">table_values</span><span class="p">)</span>
 
@@ -1613,18 +1646,18 @@ To better focus on count performance in the next sections, we remove segments th
   <tbody>
     <tr>
       <th>S1</th>
-      <td>37.4</td>
-      <td>59.8</td>
+      <td>37.2</td>
+      <td>60.7</td>
     </tr>
     <tr>
       <th>S2</th>
-      <td>30.3</td>
-      <td>71.7</td>
+      <td>29.4</td>
+      <td>38.2</td>
     </tr>
     <tr>
       <th>S3</th>
-      <td>28.4</td>
-      <td>32.3</td>
+      <td>35.1</td>
+      <td>53.6</td>
     </tr>
     <tr>
       <th>All</th>
@@ -1638,11 +1671,8 @@ To better focus on count performance in the next sections, we remove segments th
 </section>
 <section id="counts">
 <h3>Counts<a class="headerlink" href="#counts" title="Permalink to this headline">#</a></h3>
-<p>We now compare our method against FairMOT and SORT with the count-related tracking metrics and count decompositions defined in the previous section.
-We run our algorithm with <span class="math notranslate nohighlight">\(\kappa = 7,\tau = 5\)</span>, values obtained after a simple hyperparameter study described in <a class="reference internal" href="#image-dataset-appendix"><span class="std std-ref">Details on the image dataset</span></a>.</p>
-<p>Across all videos and all methods, we report <span class="math notranslate nohighlight">\(\asspr\)</span> between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of <span class="math notranslate nohighlight">\(\asspr\)</span> values.
-The remaining and most important results are summarized in the tables below. For detailed visualisation of the results, we also plot the error decompositions for all sequences.
-The first row reveals the unreliability of the off-the-shelf self-supervised version of FairMOT (FMOT) as a counting system.
+<p>To fairly compare the three solutions, we calibrate the hyperparameters of our postprocessing block on the validation split and keep the values that minimize the overall count error <span class="math notranslate nohighlight">\(\hatN\)</span> for each of them separately (see <a class="reference internal" href="#tau-kappa-appendix"><span class="std std-ref">this appendix</span></a> for more information). We then report with the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report <span class="math notranslate nohighlight">\(\assre\)</span>, <span class="math notranslate nohighlight">\(\countre\)</span> and <span class="math notranslate nohighlight">\(\countpr\)</span> as tabled values (the first gives an simple overview of the quality of the predicted tacks while the latter summarises the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find <span class="math notranslate nohighlight">\(\asspr\)</span> between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of <span class="math notranslate nohighlight">\(\asspr\)</span> values.</p>
+<p>The first row reveals the unreliability of the off-the-shelf self-supervised version of FairMOT (FMOT) as a counting system.
 Though being the most recent, the lack of video supervision prevents this method from learning usable visual features.
 This results in poor association performance (the lowest <span class="math notranslate nohighlight">\(\assre\)</span> of all methods) and a largely impractical and unstable number of incorrect or redundant counts.
 However, we observe for FairMOT that many false tracks only last for one frame.
@@ -1666,31 +1696,57 @@ The increased stability of all error types results in more stable overall <span 
     <span class="n">ass_re</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;ass_re&#39;</span><span class="p">]</span>
     <span class="n">hota_tp</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;hota_tp&#39;</span><span class="p">]</span>
 
+
     <span class="n">ass_re_cb</span> <span class="o">=</span> <span class="p">(</span><span class="n">ass_re</span> <span class="o">*</span> <span class="n">hota_tp</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">hota_tp</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
+    <span class="n">correct</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;correct&#39;</span><span class="p">]</span>
     <span class="n">redundant</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">]</span>
     <span class="n">false</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;false&#39;</span><span class="p">]</span>
     <span class="n">missing</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;missing&#39;</span><span class="p">]</span>
     <span class="c1"># mingled = results[&#39;mingled&#39;] </span>
-    <span class="n">gt</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;gt&#39;</span><span class="p">]</span>
-    <span class="n">count_error</span> <span class="o">=</span> <span class="n">false</span> <span class="o">+</span> <span class="n">redundant</span> <span class="o">-</span> <span class="n">missing</span>
+    <span class="c1"># gt = results[&#39;gt&#39;]</span>
+    <span class="c1"># count_error = false + redundant - missing</span>
 
+
+    
     <span class="n">summary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;missing&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;missing_mean&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;missing_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">missing</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">missing</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">missing</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;false&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;false_mean&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;false_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">false</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">false</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">false</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;redundant_mean&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;redundant_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">redundant</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">redundant</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">redundant</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ass_re_cb&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ass_re_mean&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ass_re_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ass_re_cb</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ass_re</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ass_re</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;gt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">gt</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_error&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_error_mean&#39;</span><span class="p">],</span> <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_error_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">count_error</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">count_error</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">count_error</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="c1"># summary[&#39;missing&#39;], summary[&#39;missing_mean&#39;], summary[&#39;missing_std&#39;] = f&#39;{missing.sum()}&#39;,f&#39;{missing.mean():.1f}&#39;,f&#39;{np.nan_to_num(missing.std()):.1f}&#39;</span>
+    <span class="c1"># summary[&#39;false&#39;], summary[&#39;false_mean&#39;], summary[&#39;false_std&#39;] = f&#39;{false.sum()}&#39;, f&#39;{false.mean():.1f}&#39;, f&#39;{np.nan_to_num(false.std()):.1f}&#39;</span>
+    <span class="c1"># summary[&#39;redundant&#39;], summary[&#39;redundant_mean&#39;], summary[&#39;redundant_std&#39;] = f&#39;{redundant.sum()}&#39;, f&#39;{redundant.mean():.1f}&#39;, f&#39;{np.nan_to_num(redundant.std()):.1f}&#39;</span>
+    <span class="c1"># summary[&#39;gt&#39;] = f&#39;{gt.sum()}&#39;</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ass_re_cb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ass_re_cb</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="c1"># summary[&#39;count_error&#39;], summary[&#39;count_error_mean&#39;], summary[&#39;count_error_std&#39;] = f&#39;{count_error.sum()}&#39;,f&#39;{count_error.mean():.1f}&#39;,f&#39;{np.nan_to_num(count_error.std()):.1f}&#39;</span>
+    
+    <span class="n">count_re</span> <span class="o">=</span> <span class="n">correct</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">correct</span> <span class="o">+</span> <span class="n">missing</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_re_cb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">count_re</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
+    
+    <span class="c1"># count_re_mean = (correct / (correct + missing)).mean()</span>
+    <span class="c1"># summary[&#39;count_re_mean&#39;] = f&#39;{100*count_re_mean:.1f}&#39;</span>
+    
+    <span class="n">count_re_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">correct</span> <span class="o">/</span> <span class="p">(</span><span class="n">correct</span> <span class="o">+</span> <span class="n">missing</span><span class="p">))</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_re_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">count_re_std</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="n">count_pr</span> <span class="o">=</span> <span class="n">correct</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">correct</span> <span class="o">+</span> <span class="n">false</span> <span class="o">+</span> <span class="n">redundant</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_pr_cb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">count_pr</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
+    
+    <span class="c1"># count_pr_mean = (correct / (correct + false + redundant)).mean()</span>
+    <span class="c1"># summary[&#39;count_pr_mean&#39;] = f&#39;{100*count_pr_mean:.1f}&#39;</span>
+    
+    <span class="n">count_pr_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">correct</span> <span class="o">/</span> <span class="p">(</span><span class="n">correct</span> <span class="o">+</span> <span class="n">false</span> <span class="o">+</span> <span class="n">redundant</span><span class="p">))</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_pr_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">count_pr_std</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
 
     <span class="k">return</span> <span class="n">summary</span> 
+
+
+
 
 
 <span class="k">def</span> <span class="nf">get_summaries</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">sequence_names</span><span class="p">):</span>
 
     <span class="n">summaries</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 
-    <span class="k">for</span> <span class="p">(</span><span class="n">sequence_name</span><span class="p">,</span> <span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sequence_names</span><span class="p">,</span> <span class="n">indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">sequence_name</span><span class="p">,</span> <span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sequence_names</span><span class="p">,</span> <span class="n">indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
 
         <span class="n">summaries</span><span class="p">[</span><span class="n">sequence_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_summary</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span>
     
@@ -1700,256 +1756,222 @@ The increased stability of all error types results in more stable overall <span 
 
 
 
+
 <span class="n">summaries</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;fairmot_cleaned&#39;</span><span class="p">,</span> <span class="s1">&#39;sort&#39;</span><span class="p">,</span><span class="s1">&#39;ours_EKF_1_12fps_v2_7_tau_5&#39;</span><span class="p">]:</span>
+<span class="n">method_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fairmot_kappa_7_tau_9&#39;</span><span class="p">,</span> <span class="s1">&#39;sort_kappa_7_tau_9&#39;</span><span class="p">,</span><span class="s1">&#39;ours_EKF_1_kappa_7_tau_8&#39;</span><span class="p">]</span>
+<span class="n">pretty_method_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FairMOT&#39;</span><span class="p">,</span><span class="s1">&#39;SORT&#39;</span><span class="p">,</span><span class="s1">&#39;Ours&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="n">method_names</span><span class="p">:</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eval_dir_short</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="n">tracker_name</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span>
     <span class="n">sequence_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span><span class="s1">&#39;S2&#39;</span><span class="p">,</span><span class="s1">&#39;S3&#39;</span><span class="p">]</span>
-    <span class="n">summaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">get_summaries</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">sequence_names</span><span class="p">))[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">summaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">get_summaries</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">sequence_names</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 
 
 <span class="n">fairmot_star</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">ours</span> <span class="o">=</span> <span class="n">summaries</span>
 
-<span class="n">nmis</span> <span class="o">=</span> <span class="s1">&#39;$\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{mis}</span><span class="s1">$&#39;</span>
-<span class="n">mu_nmis</span> <span class="o">=</span><span class="s1">&#39;$\hat{\mu}_{\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{mis}</span><span class="s1">}$&#39;</span>
-<span class="n">sigma_nmis</span> <span class="o">=</span> <span class="s1">&#39;$\hat{\sigma}_{\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{mis}</span><span class="s1">}$&#39;</span>
+<span class="c1"># nmis = &#39;$\hat{\mathsf{N}}_{mis}$&#39;</span>
+<span class="c1"># mu_nmis =&#39;$\hat{\mu}_{\hat{\mathsf{N}}_{mis}}$&#39;</span>
+<span class="c1"># sigma_nmis = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}$&#39;</span>
 
-<span class="n">nfalse</span> <span class="o">=</span> <span class="s1">&#39;$\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{false}</span><span class="s1">$&#39;</span>
-<span class="n">mu_nfalse</span> <span class="o">=</span> <span class="s1">&#39;$\hat{\mu}_{\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{false}</span><span class="s1">}$&#39;</span>
-<span class="n">sigma_nfalse</span> <span class="o">=</span> <span class="s1">&#39;$\hat{\sigma}_{\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{false}</span><span class="s1">}$&#39;</span>
+<span class="c1"># nfalse = &#39;$\hat{\mathsf{N}}_{false}$&#39;</span>
+<span class="c1"># mu_nfalse = &#39;$\hat{\mu}_{\hat{\mathsf{N}}_{false}}$&#39;</span>
+<span class="c1"># sigma_nfalse = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{false}}$&#39;</span>
 
-<span class="n">nred</span> <span class="o">=</span>  <span class="s1">&#39;$\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{red}</span><span class="s1">$&#39;</span>
-<span class="n">mu_nred</span> <span class="o">=</span> <span class="s1">&#39;$\hat{\mu}_{\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{red}</span><span class="s1">}$&#39;</span>
-<span class="n">sigma_nred</span> <span class="o">=</span> <span class="s1">&#39;$\hat{\sigma}_{\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{red}</span><span class="s1">}$&#39;</span>
+<span class="c1"># nred =  &#39;$\hat{\mathsf{N}}_{red}$&#39;</span>
+<span class="c1"># mu_nred = &#39;$\hat{\mu}_{\hat{\mathsf{N}}_{red}}$&#39;</span>
+<span class="c1"># sigma_nred = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{red}}$&#39;</span>
+
 <span class="n">ass_re</span> <span class="o">=</span> <span class="s1">&#39;$\mathsf</span><span class="si">{AssRe}</span><span class="s1">$&#39;</span>
-<span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span><span class="s1">&#39;S2&#39;</span><span class="p">,</span><span class="s1">&#39;S3&#39;</span><span class="p">,</span><span class="s1">&#39;All&#39;</span><span class="p">]</span>
-<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;nmis&#39;</span><span class="p">,</span> <span class="s1">&#39;mu_nmis&#39;</span><span class="p">,</span> <span class="s1">&#39;sigma_nmis&#39;</span><span class="p">,</span> <span class="s1">&#39;nfalse&#39;</span><span class="p">,</span> <span class="s1">&#39;mu_nfalse&#39;</span><span class="p">,</span> <span class="s1">&#39;sigma_nfalse&#39;</span><span class="p">,</span> <span class="s1">&#39;nred&#39;</span><span class="p">,</span> <span class="s1">&#39;mu_nred&#39;</span><span class="p">,</span> <span class="s1">&#39;sigma_nred&#39;</span><span class="p">,</span> <span class="s1">&#39;ass_re&#39;</span><span class="p">]</span>
+<span class="n">count_re</span> <span class="o">=</span> <span class="s1">&#39;$\mathsf</span><span class="si">{CountRe}</span><span class="s1">$&#39;</span>
+<span class="n">count_pr</span> <span class="o">=</span> <span class="s1">&#39;$\mathsf</span><span class="si">{CountPr}</span><span class="s1">$&#39;</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fairmot_kappa_7_tau_9&#39;</span><span class="p">,</span><span class="s1">&#39;sort_kappa_7_tau_9&#39;</span><span class="p">,</span><span class="s1">&#39;ours_EKF_1_kappa_7_tau_8&#39;</span><span class="p">]</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ass_re&#39;</span><span class="p">,</span><span class="s1">&#39;count_re&#39;</span><span class="p">,</span> <span class="s1">&#39;count_re_std&#39;</span><span class="p">,</span> <span class="s1">&#39;count_pr&#39;</span><span class="p">,</span> <span class="s1">&#39;count_pr_std&#39;</span><span class="p">]</span>
 
 <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">:</span>    
     <span class="n">summary</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
 
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">summary</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;fairmot_star&#39;</span><span class="p">,</span><span class="s1">&#39;sort&#39;</span><span class="p">,</span><span class="s1">&#39;ours&#39;</span><span class="p">],</span> <span class="n">summaries</span><span class="p">):</span>
+<span class="n">results_S1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">])</span>
+<span class="n">results_S1</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">method_names</span>
+
+<span class="n">results_S2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">])</span>
+<span class="n">results_S2</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">method_names</span>
+
+<span class="n">results_S3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">])</span>
+<span class="n">results_S3</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">method_names</span>
+
+<span class="n">results_All</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">])</span>
+<span class="n">results_All</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">method_names</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">results_S1</span><span class="p">,</span> <span class="n">results_S2</span><span class="p">,</span> <span class="n">results_S3</span><span class="p">,</span> <span class="n">results_All</span><span class="p">]</span>
+
+<span class="n">results_S1</span><span class="o">.</span><span class="n">to_latex</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">sequence_name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;S_1&#39;</span><span class="p">,</span><span class="s1">&#39;S_2&#39;</span><span class="p">,</span><span class="s1">&#39;S_3&#39;</span><span class="p">,</span><span class="s1">&#39;All&#39;</span><span class="p">],</span> <span class="n">results</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span> 
-            <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">],</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sequence_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">],</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2374/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+  results_S1.to_latex()
+</pre></div>
+</div>
 </div>
 </div>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{mis}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{mis}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{false}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{false}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{false}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{red}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{red}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{red}}\)</span></p></th>
 <th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{AssRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{CountRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_\mathsf{CountRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{CountPr}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_\mathsf{CountPr}\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>S1</p></td>
-<td class="text-align:right"><p><span class="pasted-text">58</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.6</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.2</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">62</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.9</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.7</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">24</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.5</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.2</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">54.9</span></p></td>
+<tr class="row-even"><td class="text-align:left"><p>FairMOT</p></td>
+<td class="text-align:right"><p><span class="pasted-text">62.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">31.2</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">25.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">52.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">24.6</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>S2</p></td>
-<td class="text-align:right"><p><span class="pasted-text">10</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.5</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">6</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.6</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">9.9</span></p></td>
+<tr class="row-odd"><td class="text-align:left"><p>Sort</p></td>
+<td class="text-align:right"><p><span class="pasted-text">65.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">43.8</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">26.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">53.8</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">20.2</span></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>S3</p></td>
-<td class="text-align:right"><p><span class="pasted-text">15</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.9</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.6</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">32</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">4.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.9</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">70.5</span></p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p>All</p></td>
-<td class="text-align:right"><p><span class="pasted-text">83</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.2</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">97</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.6</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">30</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.4</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.4</span></p></td>
+<tr class="row-even"><td class="text-align:left"><p>Ours</p></td>
+<td class="text-align:right"><p><span class="pasted-text">79.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">50.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">27.9</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">64.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">23.8</span></p></td>
 </tr>
 </tbody>
 </table>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{mis}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{mis}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{false}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{false}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{false}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{red}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{red}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{red}}\)</span></p></th>
 <th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{AssRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{CountRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_\mathsf{CountRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{CountPr}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_\mathsf{CountPr}\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>S1</p></td>
-<td class="text-align:right"><p><span class="pasted-text">53</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.5</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">62</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.9</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">14</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.9</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">62.9</span></p></td>
+<tr class="row-even"><td class="text-align:left"><p>FairMOT</p></td>
+<td class="text-align:right"><p><span class="pasted-text">8.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">12.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">35.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">50.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>S2</p></td>
-<td class="text-align:right"><p><span class="pasted-text">10</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.5</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.6</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">4</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.5</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">19.9</span></p></td>
+<tr class="row-odd"><td class="text-align:left"><p>Sort</p></td>
+<td class="text-align:right"><p><span class="pasted-text">20.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">12.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">35.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">33.3</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>S3</p></td>
-<td class="text-align:right"><p><span class="pasted-text">13</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.6</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.7</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">27</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.4</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.7</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.4</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">69.4</span></p></td>
-</tr>
-<tr class="row-odd"><td class="text-align:left"><p>All</p></td>
-<td class="text-align:right"><p><span class="pasted-text">76</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.8</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">90</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">19</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.7</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.0</span></p></td>
+<tr class="row-even"><td class="text-align:left"><p>Ours</p></td>
+<td class="text-align:right"><p><span class="pasted-text">72.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">50.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">100.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
 </tr>
 </tbody>
 </table>
 <table class="colwidths-auto table">
 <thead>
 <tr class="row-odd"><th class="text-align:left head"><p></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{mis}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{mis}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{false}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{false}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{false}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mathsf{N}}_{red}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\mu}_{\hat{\mathsf{N}}_{red}}\)</span></p></th>
-<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_{\hat{\mathsf{N}}_{red}}\)</span></p></th>
 <th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{AssRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{CountRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_\mathsf{CountRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{CountPr}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_\mathsf{CountPr}\)</span></p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-align:left"><p>S1</p></td>
-<td class="text-align:right"><p><span class="pasted-text">52</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3.2</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">37</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.5</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.2</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.5</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">71.2</span></p></td>
+<tr class="row-even"><td class="text-align:left"><p>FairMOT</p></td>
+<td class="text-align:right"><p><span class="pasted-text">17.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">25.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">47.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">50.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">50.0</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>S2</p></td>
-<td class="text-align:right"><p><span class="pasted-text">7</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.2</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">69.3</span></p></td>
+<tr class="row-odd"><td class="text-align:left"><p>Sort</p></td>
+<td class="text-align:right"><p><span class="pasted-text">19.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">25.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">47.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">40.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">50.9</span></p></td>
 </tr>
-<tr class="row-even"><td class="text-align:left"><p>S3</p></td>
-<td class="text-align:right"><p><span class="pasted-text">12</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.5</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">16</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">65.5</span></p></td>
+<tr class="row-even"><td class="text-align:left"><p>Ours</p></td>
+<td class="text-align:right"><p><span class="pasted-text">24.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">37.5</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">41.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">60.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">47.9</span></p></td>
 </tr>
-<tr class="row-odd"><td class="text-align:left"><p>All</p></td>
-<td class="text-align:right"><p><span class="pasted-text">71</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.6</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">53</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">2.0</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">1.8</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">3</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.1</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.4</span></p></td>
-<td class="text-align:right"><p><span class="pasted-text">0.4</span></p></td>
+</tbody>
+</table>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{AssRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{CountRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_\mathsf{CountRe}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\mathsf{CountPr}\)</span></p></th>
+<th class="text-align:right head"><p><span class="math notranslate nohighlight">\(\hat{\sigma}_\mathsf{CountPr}\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>FairMOT</p></td>
+<td class="text-align:right"><p><span class="pasted-text">56.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">27.1</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">31.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">52.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">30.2</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Sort</p></td>
+<td class="text-align:right"><p><span class="pasted-text">59.8</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">35.4</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">32.7</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">50.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">30.2</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Ours</p></td>
+<td class="text-align:right"><p><span class="pasted-text">76.0</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">47.9</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">28.8</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">67.6</span></p></td>
+<td class="text-align:right"><p><span class="pasted-text">32.0</span></p></td>
 </tr>
 </tbody>
 </table>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;FairMOT*&#39;</span><span class="p">,</span><span class="s1">&#39;SORT&#39;</span><span class="p">,</span><span class="s1">&#39;Ours&#39;</span><span class="p">]</span> <span class="p">,[</span><span class="s1">&#39;fairmot_cleaned&#39;</span><span class="p">,</span> <span class="s1">&#39;sort&#39;</span><span class="p">,</span> <span class="s1">&#39;ours_EKF_1_12fps_v2_7_tau_5&#39;</span><span class="p">]):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_split</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">pretty_method_names</span><span class="p">,</span>  <span class="n">method_names</span><span class="p">):</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eval_dir_short</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="n">tracker_name</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="s1">&#39;Redundant_IDs___50&#39;</span><span class="p">,</span><span class="s1">&#39;False_IDs___50&#39;</span><span class="p">,</span><span class="s1">&#39;Missing_IDs___50&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">results</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;missing&#39;</span><span class="p">]</span>
     <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;missing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;missing&#39;</span><span class="p">]</span>
     <span class="n">results</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;$\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{red}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;$\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{false}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;$-\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{mis}</span><span class="s1">$&#39;</span><span class="p">]</span>
-    <span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">],</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Sequence nb&#39;</span><span class="p">)</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Sequence nb&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/paper_24_0.png" src="_images/paper_24_0.png" />
+<img alt="_images/paper_22_0.png" src="_images/paper_22_0.png" />
 </div>
 </div>
 <!-- ```{glue:} fairmot_star_tracking_results
@@ -2078,49 +2100,86 @@ For all values of <span class="math notranslate nohighlight">\(\tau\)</span>, in
 As a byproduct, this choice positively affects <span class="math notranslate nohighlight">\(\Nred\)</span>.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tau_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
-<span class="n">versions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;v0&#39;</span><span class="p">,</span><span class="s1">&#39;v2_3&#39;</span><span class="p">,</span><span class="s1">&#39;v2_5&#39;</span><span class="p">,</span><span class="s1">&#39;v2_7&#39;</span><span class="p">]</span>
-<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax0</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_split</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hyperparameters</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">pretty_method_name</span><span class="p">):</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="n">kappa_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax0</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pretty_names</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;$\kappa=</span><span class="si">{</span><span class="n">kappa</span><span class="si">}</span><span class="s1">$&#39;</span> <span class="k">for</span> <span class="n">kappa</span> <span class="ow">in</span> <span class="n">kappa_values</span><span class="p">]</span>
+    <span class="n">n_count</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">pretty_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">kappa_values</span><span class="p">,</span> <span class="n">pretty_names</span><span class="p">):</span>
+        <span class="n">tracker_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">method_name</span><span class="si">}</span><span class="s1">_kappa_</span><span class="si">{</span><span class="n">kappa</span><span class="si">}</span><span class="s1">_tau_</span><span class="si">{</span><span class="n">tau</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">]</span>
+        <span class="n">all_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">tracker_name</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eval_dir_short</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="n">tracker_name</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="n">tracker_names</span><span class="p">}</span>
 
-<span class="k">for</span> <span class="n">version</span> <span class="ow">in</span> <span class="n">versions</span><span class="p">:</span>
-    <span class="n">tracker_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;ours_EKF_1_12fps_</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s1">_tau_</span><span class="si">{</span><span class="n">tau</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">]</span>
-    <span class="n">all_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">tracker_name</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eval_dir_short</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="n">tracker_name</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="n">tracker_names</span><span class="p">}</span>
+        <span class="n">n_missing</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n_false</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n_redundant</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tracker_name</span><span class="p">,</span> <span class="n">tracker_results</span> <span class="ow">in</span> <span class="n">all_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">missing</span> <span class="o">=</span> <span class="p">(</span><span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;GT_IDs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;Correct_IDs___50&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+            <span class="n">false</span> <span class="o">=</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;False_IDs___50&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">redundant</span> <span class="o">=</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;Redundant_IDs___50&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-    <span class="n">n_missing</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">n_false</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">n_redundant</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">tracker_name</span><span class="p">,</span> <span class="n">tracker_results</span> <span class="ow">in</span> <span class="n">all_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">missing</span> <span class="o">=</span> <span class="p">(</span><span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;GT_IDs&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;Correct_IDs___50&#39;</span><span class="p">])[</span><span class="mi">27</span><span class="p">]</span>
-        <span class="n">false</span> <span class="o">=</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;False_IDs___50&#39;</span><span class="p">][</span><span class="mi">27</span><span class="p">]</span>
-        <span class="n">redundant</span> <span class="o">=</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;Redundant_IDs___50&#39;</span><span class="p">][</span><span class="mi">27</span><span class="p">]</span>
-
-        <span class="n">n_missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
-        <span class="n">n_false</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
-        <span class="n">n_redundant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">redundant</span><span class="p">)</span>
-
-    <span class="n">ax0</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_missing</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
-    <span class="n">ax0</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_missing</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
-    <span class="c1"># ax0.set_xlabel(&#39;$\\tau$&#39;)</span>
-    <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{missing}</span><span class="s1">$&#39;</span><span class="p">)</span>
-
-    <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
-
-    <span class="c1"># ax1.set_xlabel(&#39;$\\tau$&#39;)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{incorrect}</span><span class="s1">$&#39;</span><span class="p">)</span>
-
-    <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">tau$&#39;</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{redundant}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">n_missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+            <span class="n">n_false</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
+            <span class="n">n_redundant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">redundant</span><span class="p">)</span>
+            <span class="n">n_count</span><span class="p">[</span><span class="n">tracker_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">missing</span> <span class="o">+</span> <span class="n">false</span> <span class="o">+</span> <span class="n">redundant</span>
+        
 
 
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+        <span class="n">ax0</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_missing</span><span class="p">)</span>
+        <span class="n">ax0</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_missing</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">pretty_name</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+        <span class="c1"># ax0.set_xlabel(&#39;$\\tau$&#39;)</span>
+        <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{mis}</span><span class="s1">$&#39;</span><span class="p">)</span>
+
+        <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">pretty_name</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+
+        <span class="c1"># ax1.set_xlabel(&#39;$\\tau$&#39;)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{false}</span><span class="s1">$&#39;</span><span class="p">)</span>
+
+        <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">pretty_name</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">tau$&#39;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{red}</span><span class="s1">$&#39;</span><span class="p">)</span>
+
+
+    <span class="n">best_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="n">best_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">n_count</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">best_value</span><span class="p">:</span> <span class="n">best_key</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="n">best_value</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="n">best_key</span> <span class="o">=</span> <span class="n">best_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;kappa&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">best_kappa</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">best_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">best_tau</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">best_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Best parameters for </span><span class="si">{</span><span class="n">pretty_method_name</span><span class="si">}</span><span class="s1">: (kappa, tau) = (</span><span class="si">{</span><span class="n">best_kappa</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">best_tau</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper center&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">pretty_method_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">method_names</span><span class="p">,</span> <span class="n">pretty_method_names</span><span class="p">):</span>
+    <span class="n">hyperparameters</span><span class="p">(</span><span class="n">method_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;kappa&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">pretty_method_name</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/paper_28_0.png" src="_images/paper_28_0.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for FairMOT: (kappa, tau) = (7, 9)
+</pre></div>
+</div>
+<img alt="_images/paper_26_1.png" src="_images/paper_26_1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for SORT: (kappa, tau) = (7, 9)
+</pre></div>
+</div>
+<img alt="_images/paper_26_3.png" src="_images/paper_26_3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for Ours: (kappa, tau) = (7, 8)
+</pre></div>
+</div>
+<img alt="_images/paper_26_5.png" src="_images/paper_26_5.png" />
 </div>
 </div>
 </section>
@@ -2139,7 +2198,7 @@ Using a set of samples <span class="math notranslate nohighlight">\(\{X_k^i\}_{1
 \SMCfiltdist_k(\rmd x_k) = \sum_{i=1}^N w_k^i \delta_{X_k^i}(\rmd x_k) \eqsp.
 \]</div>
 <p>Contrary to EKF and UKF, the distribution <span class="math notranslate nohighlight">\(\mathbb{L}_k\)</span> of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(Z_{1:k-1}\)</span> is not directly available but can be obtained via an additional Monte Carlo sampling step.
-Marginalizing over <span class="math notranslate nohighlight">\((X_{k-1}\)</span>, <span class="math notranslate nohighlight">\(X_k)\)</span> and using the conditional independence properties of HMMs, we decompose <span class="math notranslate nohighlight">\(\mathbb{L}_k\)</span> using the conditional state transition <span class="math notranslate nohighlight">\(\transdist_k(x,\rmd x')\)</span> and the likelihood of <span class="math notranslate nohighlight">\(Y_k\)</span> given <span class="math notranslate nohighlight">\(X_k\)</span>, denoted by <span class="math notranslate nohighlight">\(\likel_k(x, \rmd z)\)</span>:</p>
+Marginalizing over <span class="math notranslate nohighlight">\((X_{k-1}\)</span>, <span class="math notranslate nohighlight">\(X_k)\)</span> and using the conditional independence properties of HMMs, we decompose <span class="math notranslate nohighlight">\(\mathbb{L}_k\)</span> using the conditional state transition <span class="math notranslate nohighlight">\(\transdist_k(x,\rmd x')\)</span> and the likelihood of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(X_k\)</span>, denoted by <span class="math notranslate nohighlight">\(\likel_k(x, \rmd z)\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
 \mathbb{L}_k(\rmd z_k) = \int \int \likel_k(x_k, \rmd z_k)\transdist_k(x_{k-1}, \rmd x_k)\filtdist_{k-1}(\rmd x_{k-1}) \eqsp.
