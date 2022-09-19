@@ -1052,11 +1052,9 @@ This allows easy computation of $P(i,\ell) = \predictdist_n^\ell(V_\delta(z_n^i)
 An understanding of $\kappa$, $\tau$ and $\nu$ can be stated as follows.
 For any track, given a value for $\kappa$ and $\nu$, an observation at time $n$ is only kept if there are also $\nu \cdot \kappa$ observations in the temporal window of size $\kappa$ that surrounds $n$ (windows are centered around $n$ except at the start and end of the track).
 The track is only counted if the remaining number of observations is strictly higher than $\tau$.
-At a given $\nu > 0.5$, $\kappa$ and $\tau$ must be chosen jointly to decrease $\Nfalse$ as much as possible without increasing $\Nmis$ (true objects become uncounted if tracks are discarded too easily).
+At a given $\nu > 0.5$, $\kappa$ and $\tau$ should ideally be chosen to jointly decrease $\Nfalse$ and $\Nred$ as much as possible without increasing $\Nmis$ (true objects become uncounted if tracks are discarded too easily).
 
-In the following code cell, we plot the error decomposition of the counts for several values of $\kappa$ and $\tau$ with $\nu=0.6$.
-For all values of $\tau$, increasing $\kappa$ decreases $\Nfalse$, but a low $\Nmis$ at the highest $\kappa = 7$ is only preserved for $\tau=5$, which motivates our choice of $(\kappa, \tau) = (7,5)$.
-As a byproduct, this choice positively affects $\Nred$.
+In the following code cell, we plot the error decomposition of the counts for several values of $\kappa$ and $\tau$ with $\nu=0.6$ for the outputs of the three different trackers. We choose $\nu = 0.7$ and compute the optimal point as the one which minimizes the overall count error $\hatN (= \Nmis + \Nred + \Nfalse)$.
 
 ```{code-cell} ipython3
 :tags: [hide-input]
