@@ -484,14 +484,14 @@ Denoting $u_{1:k} = (u_1,\ldots,u_k)$ for any $k$ and sequence $(u_i)_{i \geq 0}
 In the case of linear and Gaussian state space models, this distribution is known to be Gaussian, and Kalman filtering allows to update exactly the posterior mean $\mu_k = \esp[X_k|Z_{1:k}]$ and posterior variance matrix $\Sigma_k = \var[X_k|Z_{1:k}]$.
 This algorithm and its extensions are prevalent and used extensively in time-series and sequential-data analysis.
 As the transition model proposed in [](state-transition-eq) is nonlinear, Kalman updates cannot be implemented and solving the target tracking task requires resorting to alternatives.
-Many solutions have been proposed in the literature such as extended Kalman filters (EKF), unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods, see {cite}`sarkka2013bayesian` and references therein.
-Although UKF and SMC have been widely studied, such sample-based solutions are more computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. The following EKF approximation of model [](state-transition-eq) is found to be computationnaly cheaper and as robust for our data:
+Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see {cite}`sarkka2013bayesian` and references therein). SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. UKF require fewer samples and provide an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model [](state-transition-eq) yields approximaton which is computationnaly cheap and as robust for our data:
 
 $$
 X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k
 $$ 
 
-This allows the implementation of Kalman updates. For completeness, we present [here](impact-algorithm-appendix) an SMC-based solution, discuss the empirical differences and use-cases where the latter might be a more relevant choice. 
+This allows the implementation of Kalman updates on the linearised model, a technique named extended Kalman filtering (EKF). On the currently available data, we find that the optical flow estimates are very informative and accurate, making this approximation sufficient. For completeness, we present [here](impact-algorithm-appendix) an SMC-based solution and discuss the empirical differences and use-cases where the latter might be a more relevant choice. 
+
 In any case, the state-space model naturally accounts for missing observations, as the contribution of $\Delta_k$ in every transition ensures that each filter can cope with arbitrary inter-frame motion to keep track of its target. 
 
 #### Generating potential object tracks
@@ -500,8 +500,8 @@ These separate filters provide track proposals for every object detected in the 
 
 (data-association)=
 ### Data association using confidence regions
-Throughout the video, depending on various conditions on the incoming detections, existing trackers must be updated (with or without a new observation) and others might need to be created.
-This traditional Multiple Hypothesis Tracking (MHT) setup requires a third party data association block to link the incoming detections with the correct filters.
+Throughout the video, depending on various conditions on the incoming detections, existing trackers must be updated (with or without a new observation) and others might need to be created. This setup requires a third party data association block to link the incoming detections with the correct filters.
+
 At the frame $n$, a set of $L_n$ Bayesian filters track previously seen objects and a new set of detections $\mathcal{D}_n$ is provided by the detector.
 Denote by $1 \leq \ell \leq L_n$ the index of each filter at time $n$, and by convention write $Z^\ell_{1:n-1}$  the previous observed positions associated with index $\ell$ (even if no observation is available at some past times for that object).
 Let $\rho \in (0,1)$ be a confidence level.
@@ -520,7 +520,7 @@ Though the Hungarian algorithm is a very popular algorithm in MOT, it is often u
 Using confidence regions for the distributions of $Z_n$ given $Z_{1:(n - 1)}$ instead allows to naturally include uncertainty in the decision process.
 Note that we deactivate filters whose posterior mean estimates lie outside the image subspace in $\Rset^2$.
 
-A visual depiction of the entire tracking (from detection to final association) is provided below. 
+A visual depiction of the entire pipeline (from detection to final association) is provided below. Combining a set of Bayesian filters with a data association step that resorts on the most likely hypothesis is a form of Global Nearest Neighbor (GNN) tracking. Another possibility is to perform multi-target filtering by including the data association step directly into the probabilistic model, as in {cite}`mahler2003`. A generalisation of single-target recursive Bayesian filtering, this class of methods is grounded in the point process litterature and well motivated theoretically. In case of strong false positive detection rates, close and/or reappearing objects, practical benefits could be obtained, but we find that our framework is sufficient on our data while having the advantage of not requiring a model for false alarms or object appearances.
 
 ```{figure} assets/diagram.png
 ---
@@ -654,7 +654,7 @@ We denote by $S_1$, $S_2$ and $S_3$ the three river sections of the evaluation m
 
 To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT {cite}`Bewley2016`, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions. Similar to our system, it only relies on image supervision for training, and though DeepSORT {cite}`Wojke2018` is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT {cite}`Zhanga`, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack {cite}`zhou2020`. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.
 
-Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in [](detector-training). We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance given a fixed object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden. 
+Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in [](detector-training). We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance given a fixed object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden.
 
 +++
 
@@ -733,21 +733,11 @@ display(table_det)
 ```
 
 ### Counts
-To fairly compare the three solutions, we calibrate the hyperparameters of our postprocessing block on the validation split and keep the values that minimize the overall count error $\hatN$ for each of them separately (see [this appendix](tau-kappa-appendix) for more information). We then report with the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report $\assre$, $\countre$ and $\countpr$ as tabled values (the first gives an simple overview of the quality of the predicted tacks while the latter summarises the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find $\asspr$ between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of $\asspr$ values.
+To fairly compare the three solutions, we calibrate the hyperparameters of our postprocessing block on the validation split and keep the values that minimize the overall count error $\hatN$ for each of them separately (see [this appendix](tau-kappa-appendix) for more information). All methods are found to work optimally at $\kappa = 7$, but our solution requires $\tau = 8$ instead of $\tau = 9$ for other solutions: this lower level of thresholding suggests that raw output of our tracking system is more reliable.
 
-The first row reveals the unreliability of the off-the-shelf self-supervised version of FairMOT (FMOT) as a counting system.
-Though being the most recent, the lack of video supervision prevents this method from learning usable visual features.
-This results in poor association performance (the lowest $\assre$ of all methods) and a largely impractical and unstable number of incorrect or redundant counts.
-However, we observe for FairMOT that many false tracks only last for one frame.
-To mitigate the previous remarks, we apply our own postprocessing with $\kappa=1,\tau=1$ and refer to the modified procedure as FairMOT* (FMOT*).
-Our solution brings substantial improvements by largely decreasing the amount of incorrect and redundant counts.
-For all sequences combined, we report values for $\Nfalse$ and $\Nred$ respectively 41\% and 84\% lower than those of SORT (the next best method) and our algorithm even completely removes redundant counts on the footage covering $S_2$ and $S_3$.
-Improvements in count quality can be traced back to the robustness of our tracking system with an increase of 12\% in $\assre$ over SORT.
-Notably, footage on $S_2$ (which includes strong motion) is only correctly handled by our method, while competitors show significant drops in $\assre$.
-It is worth noting that a significant number of objects remain uncounted ($\Nmis$ is high), a pitfall shared by all methods.
-Our counting method also shows a statistically more stable and predictable behaviour.
-For almost all metrics of interest, we lower the associated standard deviations by a significant margin, which highlights the improved consistency across the different videos and therefore a greater applicability in real-life situations.
-The increased stability of all error types results in more stable overall $\hatN$, as we report $\hat{\sigma}_{\hatN} = 2.4$ for our method against 3.3 and 3.5 for SORT and FairMOT*, respectively.
+We report results using the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report $\assre$, $\countre$ and $\countpr$ as tabled values (the first gives an simple overview of the quality of the predicted tacks while the latter two concisely summarise the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find $\asspr$ between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of $\asspr$ values.
+
+First, the higher values of AssRe confirm the robustness of our solution in assigning consistent tracks to individual objects. This is directly reflected into the count precision performance - with an overall value of $\countpr$ 17.6 points higher than the next best method (SORT) - or even more so in the complete disappearance of orange (redundant) counts in the graph. A key aspect is that these improvements are not counteracted by a lower $\countre$: on the contrary, our tracker, which is more stable, also captures more object (albeit still missing most of them, with a $\countre$ below 50%). Note finally, that the strongest improvements are obtained for sequence 2 which is also the part with the strongest motion. 
 
 ```{code-cell} ipython3
 :tags: [hide-input]
@@ -878,19 +868,21 @@ for sequence_name, result in zip(['S_1','S_2','S_3','All'], results):
             glue(f'{sequence_name}_{row}_{col}', result.loc[row,col], display=False)
 ```
 
+##### Sequence 1
 |     |   $\mathsf{AssRe}$ |     $\mathsf{CountRe}$ |   $\hat{\sigma}_\mathsf{CountRe}$ |   $\mathsf{CountPr}$ |   $\hat{\sigma}_\mathsf{CountPr}$ |   
 |:----|----------:|-------------:|---------:|------------:|---------------:|
 | FairMOT  |     {glue:text}`S_1_fairmot_kappa_7_tau_9_ass_re` |              {glue:text}`S_1_fairmot_kappa_7_tau_9_count_re` |       {glue:text}`S_1_fairmot_kappa_7_tau_9_count_re_std` |         {glue:text}`S_1_fairmot_kappa_7_tau_9_count_pr` |            {glue:text}`S_1_fairmot_kappa_7_tau_9_count_pr_std` |     
 | Sort  |     {glue:text}`S_1_sort_kappa_7_tau_9_ass_re` |            {glue:text}`S_1_sort_kappa_7_tau_9_count_re` |       {glue:text}`S_1_sort_kappa_7_tau_9_count_re_std` |         {glue:text}`S_1_sort_kappa_7_tau_9_count_pr` |            {glue:text}`S_1_sort_kappa_7_tau_9_count_pr_std` |     
 | Ours  |     {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_ass_re` |             {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`S_1_ours_EKF_1_kappa_7_tau_8_count_pr_std` |     
 
-
+##### Sequence 2
 |     |   $\mathsf{AssRe}$ |     $\mathsf{CountRe}$ |   $\hat{\sigma}_\mathsf{CountRe}$ |   $\mathsf{CountPr}$ |   $\hat{\sigma}_\mathsf{CountPr}$ |   
 |:----|----------:|-------------:|---------:|------------:|---------------:|
 | FairMOT  |     {glue:text}`S_2_fairmot_kappa_7_tau_9_ass_re` |            {glue:text}`S_2_fairmot_kappa_7_tau_9_count_re` |       {glue:text}`S_2_fairmot_kappa_7_tau_9_count_re_std` |         {glue:text}`S_2_fairmot_kappa_7_tau_9_count_pr` |            {glue:text}`S_2_fairmot_kappa_7_tau_9_count_pr_std` |     
 | Sort  |     {glue:text}`S_2_sort_kappa_7_tau_9_ass_re` |           {glue:text}`S_2_sort_kappa_7_tau_9_count_re` |       {glue:text}`S_2_sort_kappa_7_tau_9_count_re_std` |         {glue:text}`S_2_sort_kappa_7_tau_9_count_pr` |            {glue:text}`S_2_sort_kappa_7_tau_9_count_pr_std` |     
 | Ours  |     {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_ass_re` |           {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`S_2_ours_EKF_1_kappa_7_tau_8_count_pr_std` |     
 
+##### Sequence 3
 
 |     |   $\mathsf{AssRe}$ |     $\mathsf{CountRe}$ |   $\hat{\sigma}_\mathsf{CountRe}$ |   $\mathsf{CountPr}$ |   $\hat{\sigma}_\mathsf{CountPr}$ |   
 |:----|----------:|-------------:|---------:|------------:|---------------:|
@@ -898,11 +890,15 @@ for sequence_name, result in zip(['S_1','S_2','S_3','All'], results):
 | Sort  |     {glue:text}`S_3_sort_kappa_7_tau_9_ass_re` |          {glue:text}`S_3_sort_kappa_7_tau_9_count_re` |       {glue:text}`S_3_sort_kappa_7_tau_9_count_re_std` |         {glue:text}`S_3_sort_kappa_7_tau_9_count_pr` |            {glue:text}`S_3_sort_kappa_7_tau_9_count_pr_std` |     
 | Ours  |     {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_ass_re` |            {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`S_3_ours_EKF_1_kappa_7_tau_8_count_pr_std` |     
 
+##### Combined sequences
+
 |     |   $\mathsf{AssRe}$ |     $\mathsf{CountRe}$ |   $\hat{\sigma}_\mathsf{CountRe}$ |   $\mathsf{CountPr}$ |   $\hat{\sigma}_\mathsf{CountPr}$ |   
 |:----|----------:|-------------:|---------:|------------:|---------------:|
 | FairMOT  |     {glue:text}`All_fairmot_kappa_7_tau_9_ass_re` |          {glue:text}`All_fairmot_kappa_7_tau_9_count_re` |       {glue:text}`All_fairmot_kappa_7_tau_9_count_re_std` |         {glue:text}`All_fairmot_kappa_7_tau_9_count_pr` |            {glue:text}`All_fairmot_kappa_7_tau_9_count_pr_std` |     
 | Sort  |     {glue:text}`All_sort_kappa_7_tau_9_ass_re` |         {glue:text}`All_sort_kappa_7_tau_9_count_re` |       {glue:text}`All_sort_kappa_7_tau_9_count_re_std` |         {glue:text}`All_sort_kappa_7_tau_9_count_pr` |            {glue:text}`All_sort_kappa_7_tau_9_count_pr_std` |     
-| Ours  |     {glue:text}`All_ours_EKF_1_kappa_7_tau_8_ass_re` |          {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_pr_std` |     
+| Ours  |     {glue:text}`All_ours_EKF_1_kappa_7_tau_8_ass_re` |          {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_re` |       {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_re_std` |         {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_pr` |            {glue:text}`All_ours_EKF_1_kappa_7_tau_8_count_pr_std` |
+
+##### Detailed results on individual segments
 
 ```{code-cell} ipython3
 :tags: [hide-input]
@@ -1129,7 +1125,6 @@ def hyperparameters(method_name, pretty_method_name):
 
 for method_name, pretty_method_name in zip(method_names, pretty_method_names):
     hyperparameters(method_name.split('kappa')[0][:-1], pretty_method_name)
-
 ```
 
 (impact-algorithm-appendix)=
