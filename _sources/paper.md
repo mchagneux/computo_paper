@@ -579,9 +579,9 @@ HOTA association metrics are built to measure tracking performance irrespective 
 In our experiments, we compute the Association Recall ($\assre$) and the Association Precision ($\asspr$). Several intermediate quantities are necessary to introduce these final metrics. Following {cite}`luiten2020`, we denote with $\prID$ the ID of a predicted track and $\gtID$ the ID of a ground truth track. Given 
 $C$ all couples of $\prID-\gtID$ found among the true positive detections, and $c \in C$ one of these couples, $\tpa(c)$ is the number of frames where $\prID$ is also associated with $\gtID$, $\fpa(c)$ is the number of frames where $\prID$ is associated with another ground truth ID or with no ground truth ID, and $\fna(c)$ is the number of frames where $\gtID$ is associated with another predicted ID or with no predicted ID. Then:
 
-$$\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fpa(c)}$$
+$$\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fpa(c)},$$
 
-$$\assre = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fna(c)}$$
+$$\assre = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fna(c)}.$$
 
 See {cite}`luiten2020` (fig. 2) for a clear illustration of these quantities. 
 
@@ -620,18 +620,18 @@ We define:
 Using these metrics provides a much better understanding of $\hatN$ as 
 
 $$
-\hatN = \Ntrue + \Nred + \Nfalse
+\hatN = \Ntrue + \Nred + \Nfalse,
 $$ 
 while $\Nmis$ completely summarises the number of undetected objects.
 
 Conveniently, the quantities can be used to define the count precision ($\countpr$) and count recall ($\countre$) as follows: 
 
 $$
-\countpr = \frac{\Ntrue}{\Ntrue + \Nred + \Nfalse}
+\countpr = \frac{\Ntrue}{\Ntrue + \Nred + \Nfalse},
 $$
 
 $$
-\countre = \frac{\Ntrue}{\Ntrue + \Nmis}
+\countre = \frac{\Ntrue}{\Ntrue + \Nmis},
 $$ 
 
 which provide good summaries for the overall count quality, letting aside the tracking performance. 

@@ -1180,7 +1180,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.091 seconds for 360 frames or 3946.4 FPS
+Total Tracking took: 0.114 seconds for 360 frames or 3149.5 FPS
 --- End
 </pre></div>
 </div>
@@ -1540,9 +1540,9 @@ Again, this suggests that low <span class="math notranslate nohighlight">\(\detp
 In our experiments, we compute the Association Recall (<span class="math notranslate nohighlight">\(\assre\)</span>) and the Association Precision (<span class="math notranslate nohighlight">\(\asspr\)</span>). Several intermediate quantities are necessary to introduce these final metrics. Following <span id="id46">[<a class="reference internal" href="#id103" title="Jonathon Luiten, Aljosa Osep, Patrick Dendorfer, Philip Torr, Andreas Geiger, Laura Leal-Taixé, and Bastian Leibe. Hota: a higher order metric for evaluating multi-object tracking. International journal of computer vision, 129(2):548–578, 2021.">15</a>]</span>, we denote with <span class="math notranslate nohighlight">\(\prID\)</span> the ID of a predicted track and <span class="math notranslate nohighlight">\(\gtID\)</span> the ID of a ground truth track. Given
 <span class="math notranslate nohighlight">\(C\)</span> all couples of <span class="math notranslate nohighlight">\(\prID-\gtID\)</span> found among the true positive detections, and <span class="math notranslate nohighlight">\(c \in C\)</span> one of these couples, <span class="math notranslate nohighlight">\(\tpa(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\prID\)</span> is also associated with <span class="math notranslate nohighlight">\(\gtID\)</span>, <span class="math notranslate nohighlight">\(\fpa(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\prID\)</span> is associated with another ground truth ID or with no ground truth ID, and <span class="math notranslate nohighlight">\(\fna(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\gtID\)</span> is associated with another predicted ID or with no predicted ID. Then:</p>
 <div class="math notranslate nohighlight">
-\[\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fpa(c)}\]</div>
+\[\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fpa(c)},\]</div>
 <div class="math notranslate nohighlight">
-\[\assre = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fna(c)}\]</div>
+\[\assre = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fna(c)}.\]</div>
 <p>See <span id="id47">[<a class="reference internal" href="#id103" title="Jonathon Luiten, Aljosa Osep, Patrick Dendorfer, Philip Torr, Andreas Geiger, Laura Leal-Taixé, and Bastian Leibe. Hota: a higher order metric for evaluating multi-object tracking. International journal of computer vision, 129(2):548–578, 2021.">15</a>]</span> (fig. 2) for a clear illustration of these quantities.</p>
 <p>In brief, a low <span class="math notranslate nohighlight">\(\asspr\)</span> implies that several objects are often mingled into only one track, resulting in undercount.
 A low <span class="math notranslate nohighlight">\(\assre\)</span> implies that single objects are often associated with multiple tracks.
@@ -1578,17 +1578,17 @@ We define:</p>
 <p>Using these metrics provides a much better understanding of <span class="math notranslate nohighlight">\(\hatN\)</span> as</p>
 <div class="math notranslate nohighlight">
 \[
-\hatN = \Ntrue + \Nred + \Nfalse
+\hatN = \Ntrue + \Nred + \Nfalse,
 \]</div>
 <p>while <span class="math notranslate nohighlight">\(\Nmis\)</span> completely summarises the number of undetected objects.</p>
 <p>Conveniently, the quantities can be used to define the count precision (<span class="math notranslate nohighlight">\(\countpr\)</span>) and count recall (<span class="math notranslate nohighlight">\(\countre\)</span>) as follows:</p>
 <div class="math notranslate nohighlight">
 \[
-\countpr = \frac{\Ntrue}{\Ntrue + \Nred + \Nfalse}
+\countpr = \frac{\Ntrue}{\Ntrue + \Nred + \Nfalse},
 \]</div>
 <div class="math notranslate nohighlight">
 \[
-\countre = \frac{\Ntrue}{\Ntrue + \Nmis}
+\countre = \frac{\Ntrue}{\Ntrue + \Nmis},
 \]</div>
 <p>which provide good summaries for the overall count quality, letting aside the tracking performance.</p>
 <p>Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
@@ -1864,7 +1864,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2368/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2429/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
