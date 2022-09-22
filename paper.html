@@ -1052,9 +1052,7 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
+---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1180,7 +1178,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.083 seconds for 360 frames or 4349.6 FPS
+Total Tracking took: 0.083 seconds for 360 frames or 4327.0 FPS
 --- End
 </pre></div>
 </div>
@@ -1864,7 +1862,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2373/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2390/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2286,7 +2284,7 @@ X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \
 \]</div>
 <section id="smc-based-tracking">
 <h4>SMC-based tracking<a class="headerlink" href="#smc-based-tracking" title="Permalink to this headline">#</a></h4>
-<p>Denote <span class="math notranslate nohighlight">\(\filtdist_k\)</span> the filtering distribution (ie. that of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(X_{1:k}\)</span>) for the HMM <span class="math notranslate nohighlight">\((X_k,Z_k)_{k \geq 1}\)</span>  (omitting the dependancy on the observations for notation ease).
+<p>Denote <span class="math notranslate nohighlight">\(\filtdist_k\)</span> the filtering distribution (ie. that of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(X_{1:k}\)</span>) for the HMM <span class="math notranslate nohighlight">\((X_k,Z_k)_{k \geq 1}\)</span>  (omitting the dependency on the observations for notation ease).
 Using a set of samples <span class="math notranslate nohighlight">\(\{X_k^i\}_{1 \leq i \leq N}\)</span> and importance weights <span class="math notranslate nohighlight">\(\{w_k^i\}_{1 \leq i \leq N}\)</span>, SMC methods build an approximation of the following form:</p>
 <div class="math notranslate nohighlight">
 \[

@@ -1166,7 +1166,7 @@ $$
 
 #### SMC-based tracking
 
-Denote $\filtdist_k$ the filtering distribution (ie. that of $Z_k$ given $X_{1:k}$) for the HMM $(X_k,Z_k)_{k \geq 1}$  (omitting the dependancy on the observations for notation ease).
+Denote $\filtdist_k$ the filtering distribution (ie. that of $Z_k$ given $X_{1:k}$) for the HMM $(X_k,Z_k)_{k \geq 1}$  (omitting the dependency on the observations for notation ease).
 Using a set of samples $\{X_k^i\}_{1 \leq i \leq N}$ and importance weights $\{w_k^i\}_{1 \leq i \leq N}$, SMC methods build an approximation of the following form:
 
 $$
