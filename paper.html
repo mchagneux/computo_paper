@@ -1180,7 +1180,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.142 seconds for 360 frames or 2526.4 FPS
+Total Tracking took: 0.091 seconds for 360 frames or 3946.4 FPS
 --- End
 </pre></div>
 </div>
@@ -1538,7 +1538,7 @@ Again, this suggests that low <span class="math notranslate nohighlight">\(\detp
 <h4>Association<a class="headerlink" href="#association" title="Permalink to this headline">#</a></h4>
 <p>HOTA association metrics are built to measure tracking performance irrespective of the detection capabilities, by comparing predicted tracks against true object trajectories.
 In our experiments, we compute the Association Recall (<span class="math notranslate nohighlight">\(\assre\)</span>) and the Association Precision (<span class="math notranslate nohighlight">\(\asspr\)</span>). Several intermediate quantities are necessary to introduce these final metrics. Following <span id="id46">[<a class="reference internal" href="#id103" title="Jonathon Luiten, Aljosa Osep, Patrick Dendorfer, Philip Torr, Andreas Geiger, Laura Leal-Taixé, and Bastian Leibe. Hota: a higher order metric for evaluating multi-object tracking. International journal of computer vision, 129(2):548–578, 2021.">15</a>]</span>, we denote with <span class="math notranslate nohighlight">\(\prID\)</span> the ID of a predicted track and <span class="math notranslate nohighlight">\(\gtID\)</span> the ID of a ground truth track. Given
-<span class="math notranslate nohighlight">\(C\)</span> all couples of <span class="math notranslate nohighlight">\(\prID-\gtID\)</span> found among the true positive detections, and <span class="math notranslate nohighlight">\(c \in C\)</span> one of these couples, <span class="math notranslate nohighlight">\(\tpa(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\prID\)</span> is also associated to <span class="math notranslate nohighlight">\(\gtID\)</span>, <span class="math notranslate nohighlight">\(\fpa(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\prID\)</span> is associated to another ground truth ID or to no ground truth ID, and <span class="math notranslate nohighlight">\(\fna(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\gtID\)</span> is associated to another predicted ID or to no predicted ID. Then:</p>
+<span class="math notranslate nohighlight">\(C\)</span> all couples of <span class="math notranslate nohighlight">\(\prID-\gtID\)</span> found among the true positive detections, and <span class="math notranslate nohighlight">\(c \in C\)</span> one of these couples, <span class="math notranslate nohighlight">\(\tpa(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\prID\)</span> is also associated with <span class="math notranslate nohighlight">\(\gtID\)</span>, <span class="math notranslate nohighlight">\(\fpa(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\prID\)</span> is associated with another ground truth ID or with no ground truth ID, and <span class="math notranslate nohighlight">\(\fna(c)\)</span> is the number of frames where <span class="math notranslate nohighlight">\(\gtID\)</span> is associated with another predicted ID or with no predicted ID. Then:</p>
 <div class="math notranslate nohighlight">
 \[\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fpa(c)}\]</div>
 <div class="math notranslate nohighlight">
@@ -1864,7 +1864,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2425/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2368/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
