@@ -1130,7 +1130,7 @@ for method_name, pretty_method_name in zip(method_names, pretty_method_names):
 Considering a state space model with $(X_k, Z_k)_{k \geq 0}$ the random processes for the states and observations, respectively, the filtering recursions are given by:
 
 - The predict step: $p(x_{k+1}|z_{1:k}) = \int_{x_k} p(x_{k+1}|x_k)p(x_k|z_{1:k})\mathrm{d}x_k.$
-- The update step: $p(x_{k+1}|z_{1:k+1}) = \propto p(z_{k+1} | x_{k+1})p(x_{k+1}|z_{1:k}).$
+- The update step: $p(x_{k+1}|z_{1:k+1}) \propto p(z_{k+1} | x_{k+1})p(x_{k+1}|z_{1:k}).$
 
 
 The recursions are intractable in most cases, but when the model is linear and Gaussian, i.e. such that: 
