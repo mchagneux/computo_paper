@@ -397,7 +397,7 @@ title="Print to PDF"
      </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#state-space-model">
-       State-space model
+       State space model
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -727,7 +727,7 @@ title="Print to PDF"
      </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#state-space-model">
-       State-space model
+       State space model
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -1180,7 +1180,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.150 seconds for 360 frames or 2392.3 FPS
+Total Tracking took: 0.085 seconds for 360 frames or 4243.5 FPS
 --- End
 </pre></div>
 </div>
@@ -1432,8 +1432,8 @@ Training the detector is done by minimizing a penalty-reduced weighted focal los
 To estimate <span class="math notranslate nohighlight">\(\Delta_n\)</span>, we choose a simple unsupervised Gunner-Farneback algorithm which does not require further annotations, see <span id="id38">[<a class="reference internal" href="#id69" title="G. Farnebäck. Two-frame motion estimation based on polynomial expansion. In Scandinavian conference on Image analysis, 363–370. Springer, 2003.">38</a>]</span> for details.</p>
 </section>
 <section id="state-space-model">
-<span id="id39"></span><h4>State-space model<a class="headerlink" href="#state-space-model" title="Permalink to this headline">#</a></h4>
-<p>Using optical flow as a building block, we posit a state-space model where estimates of <span class="math notranslate nohighlight">\(\Delta_n\)</span> are used as a time and state-dependent offset for the state transition.
+<span id="id39"></span><h4>State space model<a class="headerlink" href="#state-space-model" title="Permalink to this headline">#</a></h4>
+<p>Using optical flow as a building block, we posit a state space model where estimates of <span class="math notranslate nohighlight">\(\Delta_n\)</span> are used as a time and state-dependent offset for the state transition.
 Let <span class="math notranslate nohighlight">\((X_k)_{k \geq 1}\)</span> and <span class="math notranslate nohighlight">\((Z_k)_{k \geq 1}\)</span> be the true (but hidden) and observed (detected) positions of a target object in <span class="math notranslate nohighlight">\(\Rset^2\)</span>, respectively.
 Considering the optical flow value associated with <span class="math notranslate nohighlight">\(X_{k-1}\)</span> on the discrete grid of dimensions <span class="math notranslate nohighlight">\(\lfloor w/p\rfloor \times \lfloor h/p\rfloor\)</span>, write</p>
 <div class="math notranslate nohighlight" id="equation-state-transition-eq">
@@ -1455,10 +1455,10 @@ As the transition model proposed in <a class="reference internal" href="#equatio
 Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see <span id="id40">[<a class="reference internal" href="#id66" title="S. Särkkä. Bayesian Filtering and Smoothing. Cambridge University Press, New York, NY, USA, 2013.">39</a>]</span> and references therein). SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. UKF require fewer samples and provide an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model <a class="reference internal" href="#equation-state-transition-eq">(1)</a> yields approximaton which is computationnaly cheap and as robust for our data:</p>
 <div class="math notranslate nohighlight">
 \[
-X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k
+X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
 \]</div>
 <p>This allows the implementation of Kalman updates on the linearised model, a technique named extended Kalman filtering (EKF). For a more complete presentation of Bayesian and Kalman filtering, please refer to <a class="reference internal" href="#bayesian-filtering"><span class="std std-ref">this appendix</span></a>. On the currently available data, we find that the optical flow estimates are very informative and accurate, making this approximation sufficient. For completeness, we present <a class="reference internal" href="#impact-algorithm-appendix"><span class="std std-ref">here</span></a> an SMC-based solution and discuss the empirical differences and use-cases where the latter might be a more relevant choice.</p>
-<p>In any case, the state-space model naturally accounts for missing observations, as the contribution of <span class="math notranslate nohighlight">\(\Delta_k\)</span> in every transition ensures that each filter can cope with arbitrary inter-frame motion to keep track of its target.</p>
+<p>In any case, the state space model naturally accounts for missing observations, as the contribution of <span class="math notranslate nohighlight">\(\Delta_k\)</span> in every transition ensures that each filter can cope with arbitrary inter-frame motion to keep track of its target.</p>
 </section>
 <section id="generating-potential-object-tracks">
 <h4>Generating potential object tracks<a class="headerlink" href="#generating-potential-object-tracks" title="Permalink to this headline">#</a></h4>
@@ -1864,7 +1864,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2374/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2396/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2128,7 +2128,7 @@ The following items provide further details on the exact annotation process.</p>
 <span id="tracking-module-appendix"></span><h3>Implementation details for the tracking module<a class="headerlink" href="#implementation-details-for-the-tracking-module" title="Permalink to this headline">#</a></h3>
 <section id="covariance-matrices-for-state-and-observation-noises">
 <span id="covariance-matrices"></span><h4>Covariance matrices for state and observation noises<a class="headerlink" href="#covariance-matrices-for-state-and-observation-noises" title="Permalink to this headline">#</a></h4>
-<p>In our state-space model, <span class="math notranslate nohighlight">\(Q\)</span> models the noise associated to the movement model we posit in <a class="reference internal" href="#bayesian-tracking"><span class="std std-ref">Bayesian tracking with optical flow</span></a> involving optical flow estimates, while <span class="math notranslate nohighlight">\(R\)</span> models the noise associated to the observation of the true position via our object detector.
+<p>In our state space model, <span class="math notranslate nohighlight">\(Q\)</span> models the noise associated to the movement model we posit in <a class="reference internal" href="#bayesian-tracking"><span class="std std-ref">Bayesian tracking with optical flow</span></a> involving optical flow estimates, while <span class="math notranslate nohighlight">\(R\)</span> models the noise associated to the observation of the true position via our object detector.
 An attempt to estimate the diagonal values of these matrices was the following.</p>
 <ul class="simple">
 <li><p>To estimate <span class="math notranslate nohighlight">\(R\)</span>, we computed a mean <span class="math notranslate nohighlight">\(L_2\)</span> error between the known positions of objects and the associated predictions by the object detector, for images in our training dataset.</p></li>
@@ -2249,7 +2249,7 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
 </section>
 <section id="bayesian-filtering">
 <span id="id53"></span><h3>Bayesian filtering<a class="headerlink" href="#bayesian-filtering" title="Permalink to this headline">#</a></h3>
-<p>Considering a state-space model with <span class="math notranslate nohighlight">\((X_k, Z_k)_{k \geq 0}\)</span> the random processes for the states and observations, respectively, the filtering recursions are:</p>
+<p>Considering a state space model with <span class="math notranslate nohighlight">\((X_k, Z_k)_{k \geq 0}\)</span> the random processes for the states and observations, respectively, the filtering recursions are:</p>
 <ul class="simple">
 <li><p>the predict step: <span class="math notranslate nohighlight">\(p(X_{k+1}|Z_{1:k}) = \int_{X_k} p(X_{k+1}|X_k)p(X_k|Z_{1:k})\mathrm{d}X_k = \mathbb{E}_{X_k|Z_{1:k}}\left[p(X_{k+1}|X_k)\right]\)</span></p></li>
 <li><p>the update step: <span class="math notranslate nohighlight">\(p(X_{k+1}|Z_{1:k+1}) = \frac{p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})}{\int_{X_{k+1}} p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})\mathrm{d}X_{k+1}}\propto p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})\)</span></p></li>
@@ -2265,7 +2265,7 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
 <li><p><span class="math notranslate nohighlight">\(\mu_{k} = \mu_{k|k-1} + K_k\left[Z_k - (B_k\mu_{k|k-1} + b_k)\right]\)</span> and <span class="math notranslate nohighlight">\(\Sigma_{k} = (I - K_kB_k)\Sigma_{k|k-1}\)</span> (Kalman update step)</p></li>
 </ul>
 <p>where <span class="math notranslate nohighlight">\(K_k = \Sigma_{k|k-1}B_k^T(B_k \Sigma_{k|k-1} B_k^T + R_k)^{-1}\)</span></p>
-<p>In the case of the linearized model in <a class="reference internal" href="#state-space-model"><span class="std std-ref">State-space model</span></a>, EKF consists in applying these updates with:
+<p>In the case of the linearized model in <a class="reference internal" href="#state-space-model"><span class="std std-ref">State space model</span></a>, EKF consists in applying these updates with:
 $<span class="math notranslate nohighlight">\(A_k = (I + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)\)</span><span class="math notranslate nohighlight">\(
 \)</span><span class="math notranslate nohighlight">\(a_k = \Delta_k(\lfloor \mu_{k-1} \rfloor) - \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)\mu_{k-1}\)</span><span class="math notranslate nohighlight">\(
 \)</span><span class="math notranslate nohighlight">\(Q_k = Q, R_k = R\)</span><span class="math notranslate nohighlight">\(
@@ -2311,7 +2311,7 @@ Similar to EKF and UKF, this approximated predictive distribution is used to rec
 </section>
 <section id="performance-comparison">
 <h4>Performance comparison<a class="headerlink" href="#performance-comparison" title="Permalink to this headline">#</a></h4>
-<p>In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in <a class="reference internal" href="#state-space-model"><span class="std std-ref">State-space model</span></a>.
+<p>In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state space models like the one we propose in <a class="reference internal" href="#state-space-model"><span class="std std-ref">State space model</span></a>.
 However, we observe very few differences in count results when upgrading from EKF to UKF to SMC.
 In practise, there is no difference at all between our EKF and UKF implementations, which show strictly identical values for <span class="math notranslate nohighlight">\(\Ntrue\)</span>, <span class="math notranslate nohighlight">\(\Nfalse\)</span> and <span class="math notranslate nohighlight">\(\Nred\)</span>.
 For the SMC version, values for <span class="math notranslate nohighlight">\(\Nfalse\)</span> and <span class="math notranslate nohighlight">\(\Nred\)</span> improve by a very small amount (2 and 1, respectively), but <span class="math notranslate nohighlight">\(\Nmis\)</span> is slightly worse (one more object missed), and these results depend loosely on the number of samples used to approximate the filtering distributions and the number of samples for the Monte Carlo scheme.

@@ -459,9 +459,9 @@ where, in our case, $\widetilde{I}_n$ denotes the frame $n$ downsampled to dimen
 To estimate $\Delta_n$, we choose a simple unsupervised Gunner-Farneback algorithm which does not require further annotations, see {cite}`farneback2003two` for details.
 
 (state-space-model)=
-#### State-space model
+#### State space model
 
-Using optical flow as a building block, we posit a state-space model where estimates of $\Delta_n$ are used as a time and state-dependent offset for the state transition.
+Using optical flow as a building block, we posit a state space model where estimates of $\Delta_n$ are used as a time and state-dependent offset for the state transition.
 Let $(X_k)_{k \geq 1}$ and $(Z_k)_{k \geq 1}$ be the true (but hidden) and observed (detected) positions of a target object in $\Rset^2$, respectively.
 Considering the optical flow value associated with $X_{k-1}$ on the discrete grid of dimensions $\lfloor w/p\rfloor \times \lfloor h/p\rfloor$, write
 
@@ -487,12 +487,12 @@ As the transition model proposed in [](state-transition-eq) is nonlinear, Kalman
 Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see {cite}`sarkka2013bayesian` and references therein). SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. UKF require fewer samples and provide an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model [](state-transition-eq) yields approximaton which is computationnaly cheap and as robust for our data:
 
 $$
-X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k
+X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
 $$ 
 
 This allows the implementation of Kalman updates on the linearised model, a technique named extended Kalman filtering (EKF). For a more complete presentation of Bayesian and Kalman filtering, please refer to [this appendix](bayesian-filtering). On the currently available data, we find that the optical flow estimates are very informative and accurate, making this approximation sufficient. For completeness, we present [here](impact-algorithm-appendix) an SMC-based solution and discuss the empirical differences and use-cases where the latter might be a more relevant choice. 
 
-In any case, the state-space model naturally accounts for missing observations, as the contribution of $\Delta_k$ in every transition ensures that each filter can cope with arbitrary inter-frame motion to keep track of its target. 
+In any case, the state space model naturally accounts for missing observations, as the contribution of $\Delta_k$ in every transition ensures that each filter can cope with arbitrary inter-frame motion to keep track of its target. 
 
 #### Generating potential object tracks
 The full MOT algorithm consists of a set of single-object trackers following the previous model, but each provided with distinct observations at every frame.
@@ -1012,7 +1012,7 @@ The following items provide further details on the exact annotation process.
 (covariance-matrices)=
 #### Covariance matrices for state and observation noises
 
-In our state-space model, $Q$ models the noise associated to the movement model we posit in [](bayesian-tracking) involving optical flow estimates, while $R$ models the noise associated to the observation of the true position via our object detector.
+In our state space model, $Q$ models the noise associated to the movement model we posit in [](bayesian-tracking) involving optical flow estimates, while $R$ models the noise associated to the observation of the true position via our object detector.
 An attempt to estimate the diagonal values of these matrices was the following.
 
 
@@ -1127,7 +1127,7 @@ for method_name, pretty_method_name in zip(method_names, pretty_method_names):
 (bayesian-filtering)=
 ### Bayesian filtering 
 
-Considering a state-space model with $(X_k, Z_k)_{k \geq 0}$ the random processes for the states and observations, respectively, the filtering recursions are: 
+Considering a state space model with $(X_k, Z_k)_{k \geq 0}$ the random processes for the states and observations, respectively, the filtering recursions are: 
 
 - the predict step: $p(X_{k+1}|Z_{1:k}) = \int_{X_k} p(X_{k+1}|X_k)p(X_k|Z_{1:k})\mathrm{d}X_k = \mathbb{E}_{X_k|Z_{1:k}}\left[p(X_{k+1}|X_k)\right]$
 - the update step: $p(X_{k+1}|Z_{1:k+1}) = \frac{p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})}{\int_{X_{k+1}} p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})\mathrm{d}X_{k+1}}\propto p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})$
@@ -1198,7 +1198,7 @@ Similar to EKF and UKF, this approximated predictive distribution is used to rec
 
 #### Performance comparison
 
-In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state-space models like the one we propose in [](state-space-model).
+In theory, sampling-based methods like UKF and SMC are better suited for nonlinear state space models like the one we propose in [](state-space-model).
 However, we observe very few differences in count results when upgrading from EKF to UKF to SMC.
 In practise, there is no difference at all between our EKF and UKF implementations, which show strictly identical values for $\Ntrue$, $\Nfalse$ and $\Nred$.
 For the SMC version, values for $\Nfalse$ and $\Nred$ improve by a very small amount (2 and 1, respectively), but $\Nmis$ is slightly worse (one more object missed), and these results depend loosely on the number of samples used to approximate the filtering distributions and the number of samples for the Monte Carlo scheme.
