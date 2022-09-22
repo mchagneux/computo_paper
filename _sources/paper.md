@@ -959,7 +959,7 @@ This classification, depicted in {numref}`trash-categories-image` can be underst
 
 
     - A first category is used whenever the item is clearly identifiable but its class is not proposed.
-This will ensure that our classification can be improved in the future, as images with items in this category will be checked regularly to decide whether a new class needs to be created
+This will ensure that our classification can be improved in the future, as images with items in this category will be checked regularly to decide whether a new class needs to be created.
     - Another category is used whenever the annotater does not understand the item they are seeing.
 Images containing items denoted as such will not be used for applications involving classifiction.
 
@@ -1012,7 +1012,7 @@ The following items provide further details on the exact annotation process.
 (covariance-matrices)=
 #### Covariance matrices for state and observation noises
 
-In our state space model, $Q$ models the noise associated to the movement model we posit in [](bayesian-tracking) involving optical flow estimates, while $R$ models the noise associated to the observation of the true position via our object detector.
+In our state space model, $Q$ models the noise associated with the movement model we posit in [](bayesian-tracking) involving optical flow estimates, while $R$ models the noise associated to the observation of the true position via our object detector.
 An attempt to estimate the diagonal values of these matrices was the following.
 
 

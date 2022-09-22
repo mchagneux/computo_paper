@@ -1180,7 +1180,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.094 seconds for 360 frames or 3819.6 FPS
+Total Tracking took: 0.138 seconds for 360 frames or 2603.7 FPS
 --- End
 </pre></div>
 </div>
@@ -1864,7 +1864,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2369/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2372/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2079,7 +2079,7 @@ This classification, depicted in <a class="reference internal" href="#trash-cate
 <li><p>We define two supplementary categories used whenever the annotater cannot classify the item they are observing in an image using classes given in 1.</p>
 <ul class="simple">
 <li><p>A first category is used whenever the item is clearly identifiable but its class is not proposed.
-This will ensure that our classification can be improved in the future, as images with items in this category will be checked regularly to decide whether a new class needs to be created</p></li>
+This will ensure that our classification can be improved in the future, as images with items in this category will be checked regularly to decide whether a new class needs to be created.</p></li>
 <li><p>Another category is used whenever the annotater does not understand the item they are seeing.
 Images containing items denoted as such will not be used for applications involving classifiction.</p></li>
 </ul>
@@ -2128,7 +2128,7 @@ The following items provide further details on the exact annotation process.</p>
 <span id="tracking-module-appendix"></span><h3>Implementation details for the tracking module<a class="headerlink" href="#implementation-details-for-the-tracking-module" title="Permalink to this headline">#</a></h3>
 <section id="covariance-matrices-for-state-and-observation-noises">
 <span id="covariance-matrices"></span><h4>Covariance matrices for state and observation noises<a class="headerlink" href="#covariance-matrices-for-state-and-observation-noises" title="Permalink to this headline">#</a></h4>
-<p>In our state space model, <span class="math notranslate nohighlight">\(Q\)</span> models the noise associated to the movement model we posit in <a class="reference internal" href="#bayesian-tracking"><span class="std std-ref">Bayesian tracking with optical flow</span></a> involving optical flow estimates, while <span class="math notranslate nohighlight">\(R\)</span> models the noise associated to the observation of the true position via our object detector.
+<p>In our state space model, <span class="math notranslate nohighlight">\(Q\)</span> models the noise associated with the movement model we posit in <a class="reference internal" href="#bayesian-tracking"><span class="std std-ref">Bayesian tracking with optical flow</span></a> involving optical flow estimates, while <span class="math notranslate nohighlight">\(R\)</span> models the noise associated to the observation of the true position via our object detector.
 An attempt to estimate the diagonal values of these matrices was the following.</p>
 <ul class="simple">
 <li><p>To estimate <span class="math notranslate nohighlight">\(R\)</span>, we computed a mean <span class="math notranslate nohighlight">\(L_2\)</span> error between the known positions of objects and the associated predictions by the object detector, for images in our training dataset.</p></li>
