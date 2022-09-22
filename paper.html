@@ -1180,7 +1180,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.116 seconds for 360 frames or 3095.0 FPS
+Total Tracking took: 0.142 seconds for 360 frames or 2540.1 FPS
 --- End
 </pre></div>
 </div>
@@ -1217,7 +1217,7 @@ Total Tracking took: 0.116 seconds for 360 frames or 3095.0 FPS
 <section id="ai-automated-counting">
 <h3>AI-automated counting<a class="headerlink" href="#ai-automated-counting" title="Permalink to this headline">#</a></h3>
 <p>Counting from images has been an ongoing challenge in computer vision.
-Most works can be divided into (i) detection-based methods where objects are individually located for counting (ii) density-based methods where counts are obtained by summing a predicted density map (iii) regression-based methods where counts are directly regressed from input images <span id="id14">[<a class="reference internal" href="#id91" title="Prithvijit Chattopadhyay, Ramakrishna Vedantam, Ramprasaath R Selvaraju, Dhruv Batra, and Devi Parikh. Counting everyday objects in everyday scenes. In Proceedings - 30th IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, volume 2017-Janua, 4428–4437. 2017. arXiv:1604.03505, doi:10.1109/CVPR.2017.471.">16</a>]</span>.
+Most works can be divided into (i) detection-based methods where objects are individually located for counting, (ii) density-based methods where counts are obtained by summing a predicted density map, and (iii) regression-based methods where counts are directly regressed from input images <span id="id14">[<a class="reference internal" href="#id91" title="Prithvijit Chattopadhyay, Ramakrishna Vedantam, Ramprasaath R Selvaraju, Dhruv Batra, and Devi Parikh. Counting everyday objects in everyday scenes. In Proceedings - 30th IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, volume 2017-Janua, 4428–4437. 2017. arXiv:1604.03505, doi:10.1109/CVPR.2017.471.">16</a>]</span>.
 While some of these works tackled the problem of counting in wild scenes <span id="id15">[<a class="reference internal" href="#id98" title="Carlos Arteta, Victor Lempitsky, and Andrew Zisserman. Counting in the wild. 9911:483-498, 10 2016. doi:10.1007/978-3-319-46478-7_30.">17</a>]</span>, most are focused on pedestrian and crowd counting.
 Though several works <span id="id16">[<a class="reference internal" href="#id99" title="Xingjiao Wu, Baohan Xu, Yingbin Zheng, Hao Ye, Jing Yang, and Liang He. Fast video crowd counting with a temporal aware network. Neurocomputing, 403:13-20, 2020. URL: https://www.sciencedirect.com/science/article/pii/S0925231220306561, doi:https://doi.org/10.1016/j.neucom.2020.04.071.">18</a>, <a class="reference internal" href="#id106" title="Feng Xiong, Xingjian Shi, and Dit-Yan Yeung. Spatiotemporal modeling for crowd counting in videos. In 2017 IEEE International Conference on Computer Vision (ICCV), volume, 5161-5169. 2017. doi:10.1109/ICCV.2017.551.">19</a>, <a class="reference internal" href="#id107" title="Yunqi Miao, Jungong Han, Yongsheng Gao, and Baochang Zhang. ST-CNN: Spatial-Temporal Convolutional Neural Network for crowd counting in videos. Pattern Recognition Letters, 125:113–118, jul 2019. doi:10.1016/j.patrec.2019.04.012.">20</a>]</span> showed the relevance of leveraging sequential inter-frame information to achieve better counts at every frame, none of these methods actually attempt to produce global video counts.</p>
 </section>
@@ -1864,7 +1864,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2429/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2401/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
