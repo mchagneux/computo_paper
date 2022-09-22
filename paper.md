@@ -268,7 +268,7 @@ glue('sort_demo', plt.gcf(), display=False)
 
 ### AI-automated counting
 Counting from images has been an ongoing challenge in computer vision.
-Most works can be divided into (i) detection-based methods where objects are individually located for counting (ii) density-based methods where counts are obtained by summing a predicted density map (iii) regression-based methods where counts are directly regressed from input images {cite}`Chattopadhyay`.
+Most works can be divided into (i) detection-based methods where objects are individually located for counting, (ii) density-based methods where counts are obtained by summing a predicted density map, and (iii) regression-based methods where counts are directly regressed from input images {cite}`Chattopadhyay`.
 While some of these works tackled the problem of counting in wild scenes {cite}`Arteta2016`, most are focused on pedestrian and crowd counting.
 Though several works {cite}`wu2020fast,Xiong2017,Miao2019` showed the relevance of leveraging sequential inter-frame information to achieve better counts at every frame, none of these methods actually attempt to produce global video counts.
 
