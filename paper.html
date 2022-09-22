@@ -1180,7 +1180,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.085 seconds for 360 frames or 4243.5 FPS
+Total Tracking took: 0.085 seconds for 360 frames or 4218.1 FPS
 --- End
 </pre></div>
 </div>
@@ -1452,7 +1452,7 @@ In the following, <span class="math notranslate nohighlight">\(Q\)</span> and <s
 In the case of linear and Gaussian state space models, this distribution is known to be Gaussian, and Kalman filtering allows to update exactly the posterior mean <span class="math notranslate nohighlight">\(\mu_k = \esp[X_k|Z_{1:k}]\)</span> and posterior variance matrix <span class="math notranslate nohighlight">\(\Sigma_k = \var[X_k|Z_{1:k}]\)</span>.
 This algorithm and its extensions are prevalent and used extensively in time-series and sequential-data analysis.
 As the transition model proposed in <a class="reference internal" href="#equation-state-transition-eq">(1)</a> is nonlinear, Kalman updates cannot be implemented and solving the target tracking task requires resorting to alternatives.
-Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see <span id="id40">[<a class="reference internal" href="#id66" title="S. Särkkä. Bayesian Filtering and Smoothing. Cambridge University Press, New York, NY, USA, 2013.">39</a>]</span> and references therein). SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. UKF require fewer samples and provide an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model <a class="reference internal" href="#equation-state-transition-eq">(1)</a> yields approximaton which is computationnaly cheap and as robust for our data:</p>
+Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see <span id="id40">[<a class="reference internal" href="#id66" title="S. Särkkä. Bayesian Filtering and Smoothing. Cambridge University Press, New York, NY, USA, 2013.">39</a>]</span> and references therein). Most SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. On the other hand, UKF require fewer samples and provide an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model <a class="reference internal" href="#equation-state-transition-eq">(1)</a> yields approximaton which is computationnaly cheap and as robust for our data:</p>
 <div class="math notranslate nohighlight">
 \[
 X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
@@ -1864,7 +1864,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2396/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2367/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
