@@ -439,7 +439,7 @@ $$
 (\hat{p}_{xy},\gamma_{xy}) = \left\{
     \begin{array}{ll}
         (\hat{Y}_{xy},1) & \mbox{if } Y_{xy} = 1, \\
-        (1 - \hat{Y}_{xy},1 - Y_{xy}) & \mbox{otherwise}
+        (1 - \hat{Y}_{xy},1 - Y_{xy}) & \mbox{otherwise.}
     \end{array}
 \right.
 $$
