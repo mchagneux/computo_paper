@@ -477,7 +477,7 @@ Z_k = X_k + \varepsilon_k,
 $$
 
 where $(\eta_k)_{k\geq 1}$ are i.i.d. centered Gaussian random variables with covariance matrix $Q$ independent of $(\varepsilon_k)_{k\geq 1}$ i.i.d. centered Gaussian random variables with covariance matrix $R$.
-In the following, $Q$ and $R$ are assumed to be diagonal, and are hyperparameters set to values given in [](covariance-matrices)
+In the following, $Q$ and $R$ are assumed to be diagonal, and are hyperparameters set to values given in [](covariance-matrices).
 
 #### Approximations of the filtering distributions
 Denoting $u_{1:k} = (u_1,\ldots,u_k)$ for any $k$ and sequence $(u_i)_{i \geq 0}$, Bayesian filtering aims at computing the conditional distribution of $X_k$ given $Z_{1:k}$, referred to as the filtering distribution.
