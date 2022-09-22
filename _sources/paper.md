@@ -734,7 +734,7 @@ display(table_det)
 ### Counts
 To fairly compare the three solutions, we calibrate the hyperparameters of our postprocessing block on the validation split and keep the values that minimize the overall count error $\hatN$ for each of them separately (see [this appendix](tau-kappa-appendix) for more information). All methods are found to work optimally at $\kappa = 7$, but our solution requires $\tau = 8$ instead of $\tau = 9$ for other solutions: this lower level of thresholding suggests that raw output of our tracking system is more reliable.
 
-We report results using the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report $\assre$, $\countre$ and $\countpr$ as tabled values (the first gives an simple overview of the quality of the predicted tacks while the latter two concisely summarise the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find $\asspr$ between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of $\asspr$ values.
+We report results using the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report $\assre$, $\countre$ and $\countpr$ as tabled values (the first gives a simple overview of the quality of the predicted tacks while the latter two concisely summarise the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find $\asspr$ between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of $\asspr$ values.
 
 First, the higher values of AssRe confirm the robustness of our solution in assigning consistent tracks to individual objects. This is directly reflected into the count precision performance - with an overall value of $\countpr$ 17.6 points higher than the next best method (SORT) - or even more so in the complete disappearance of orange (redundant) counts in the graph. A key aspect is that these improvements are not counteracted by a lower $\countre$: on the contrary, our tracker, which is more stable, also captures more object (albeit still missing most of them, with a $\countre$ below 50%). Note finally, that the strongest improvements are obtained for sequence 2 which is also the part with the strongest motion. 
 
@@ -960,7 +960,7 @@ This classification, depicted in {numref}`trash-categories-image` can be underst
 
     - A first category is used whenever the item is clearly identifiable but its class is not proposed.
 This will ensure that our classification can be improved in the future, as images with items in this category will be checked regularly to decide whether a new class needs to be created
-    - Another category is used whenever the annotater doesn't understand the item they are seeing.
+    - Another category is used whenever the annotater does not understand the item they are seeing.
 Images containing items denoted as such will not be used for applications involving classifiction.
 
 

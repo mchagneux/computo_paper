@@ -1180,7 +1180,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.114 seconds for 360 frames or 3149.5 FPS
+Total Tracking took: 0.094 seconds for 360 frames or 3819.6 FPS
 --- End
 </pre></div>
 </div>
@@ -1733,7 +1733,7 @@ To better focus on count performance in the next sections, we remove segments th
 <section id="counts">
 <h3>Counts<a class="headerlink" href="#counts" title="Permalink to this headline">#</a></h3>
 <p>To fairly compare the three solutions, we calibrate the hyperparameters of our postprocessing block on the validation split and keep the values that minimize the overall count error <span class="math notranslate nohighlight">\(\hatN\)</span> for each of them separately (see <a class="reference internal" href="#tau-kappa-appendix"><span class="std std-ref">this appendix</span></a> for more information). All methods are found to work optimally at <span class="math notranslate nohighlight">\(\kappa = 7\)</span>, but our solution requires <span class="math notranslate nohighlight">\(\tau = 8\)</span> instead of <span class="math notranslate nohighlight">\(\tau = 9\)</span> for other solutions: this lower level of thresholding suggests that raw output of our tracking system is more reliable.</p>
-<p>We report results using the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report <span class="math notranslate nohighlight">\(\assre\)</span>, <span class="math notranslate nohighlight">\(\countre\)</span> and <span class="math notranslate nohighlight">\(\countpr\)</span> as tabled values (the first gives an simple overview of the quality of the predicted tacks while the latter two concisely summarise the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find <span class="math notranslate nohighlight">\(\asspr\)</span> between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of <span class="math notranslate nohighlight">\(\asspr\)</span> values.</p>
+<p>We report results using the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report <span class="math notranslate nohighlight">\(\assre\)</span>, <span class="math notranslate nohighlight">\(\countre\)</span> and <span class="math notranslate nohighlight">\(\countpr\)</span> as tabled values (the first gives a simple overview of the quality of the predicted tacks while the latter two concisely summarise the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find <span class="math notranslate nohighlight">\(\asspr\)</span> between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of <span class="math notranslate nohighlight">\(\asspr\)</span> values.</p>
 <p>First, the higher values of AssRe confirm the robustness of our solution in assigning consistent tracks to individual objects. This is directly reflected into the count precision performance - with an overall value of <span class="math notranslate nohighlight">\(\countpr\)</span> 17.6 points higher than the next best method (SORT) - or even more so in the complete disappearance of orange (redundant) counts in the graph. A key aspect is that these improvements are not counteracted by a lower <span class="math notranslate nohighlight">\(\countre\)</span>: on the contrary, our tracker, which is more stable, also captures more object (albeit still missing most of them, with a <span class="math notranslate nohighlight">\(\countre\)</span> below 50%). Note finally, that the strongest improvements are obtained for sequence 2 which is also the part with the strongest motion.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
@@ -1864,7 +1864,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2429/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2369/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2080,7 +2080,7 @@ This classification, depicted in <a class="reference internal" href="#trash-cate
 <ul class="simple">
 <li><p>A first category is used whenever the item is clearly identifiable but its class is not proposed.
 This will ensure that our classification can be improved in the future, as images with items in this category will be checked regularly to decide whether a new class needs to be created</p></li>
-<li><p>Another category is used whenever the annotater doesn’t understand the item they are seeing.
+<li><p>Another category is used whenever the annotater does not understand the item they are seeing.
 Images containing items denoted as such will not be used for applications involving classifiction.</p></li>
 </ul>
 </li>
