@@ -554,9 +554,9 @@ The following components of their work are relevant to our task (we provide equa
 #### Detection
 First, when considering all frames independently, traditional detection recall ($\detre$) and precision ($\detpr$) can be computed to assess the capabilities of the object detector. Denoting with $\tp_n$, $\fp_n$, $\fn_n$ the number of true positive, false positive and false negative detections at frame $n$, respectively, we define $\tp = \sum_n \tp_n$, $\fp = \sum_n \fp_n$ and $\fn = \sum_n \fn_n$, then:
 
-$$\detre = \frac{\tp}{\tp + \fn}$$
+$$\detre = \frac{\tp}{\tp + \fn},$$
 
-$$\detpr = \frac{\tp}{\tp + \fp}$$
+$$\detpr = \frac{\tp}{\tp + \fp}.$$
 
 
 In classical object detection, those metrics are the main target.
@@ -577,7 +577,7 @@ Again, this suggests that low $\detpr$ may allow decent counting performance.
 
 HOTA association metrics are built to measure tracking performance irrespective of the detection capabilities, by comparing predicted tracks against true object trajectories.
 In our experiments, we compute the Association Recall ($\assre$) and the Association Precision ($\asspr$). Several intermediate quantities are necessary to introduce these final metrics. Following {cite}`luiten2020`, we denote with $\prID$ the ID of a predicted track and $\gtID$ the ID of a ground truth track. Given 
-$C$ all couples of $\prID-\gtID$ found among the true positive detections, and $c \in C$ one of these couples, $\tpa(c)$ is the number of frames where $\prID$ is also associated to $gtID$, $\fpa(c)$ is the number of frames where $\prID$ is associated to another ground truth ID or to no ground truth ID, and $\fna(c)$ is the number of frames where $\gtID$ is associated to another predicted ID or to no predicted ID. Then:
+$C$ all couples of $\prID-\gtID$ found among the true positive detections, and $c \in C$ one of these couples, $\tpa(c)$ is the number of frames where $\prID$ is also associated to $\gtID$, $\fpa(c)$ is the number of frames where $\prID$ is associated to another ground truth ID or to no ground truth ID, and $\fna(c)$ is the number of frames where $\gtID$ is associated to another predicted ID or to no predicted ID. Then:
 
 $$\asspr = \frac{1}{\tp} \sum_{c \in C} \frac{\tpa(c)}{\tpa(c) + \fpa(c)}$$
 
