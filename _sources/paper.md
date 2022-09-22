@@ -1012,7 +1012,7 @@ The following items provide further details on the exact annotation process.
 (covariance-matrices)=
 #### Covariance matrices for state and observation noises
 
-In our state space model, $Q$ models the noise associated with the movement model we posit in [](bayesian-tracking) involving optical flow estimates, while $R$ models the noise associated to the observation of the true position via our object detector.
+In our state space model, $Q$ models the noise associated with the movement model we posit in [](bayesian-tracking) involving optical flow estimates, while $R$ models the noise associated with the observation of the true position via our object detector.
 An attempt to estimate the diagonal values of these matrices was the following.
 
 
