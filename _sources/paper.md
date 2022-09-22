@@ -1127,10 +1127,10 @@ for method_name, pretty_method_name in zip(method_names, pretty_method_names):
 (bayesian-filtering)=
 ### Bayesian filtering 
 
-Considering a state space model with $(X_k, Z_k)_{k \geq 0}$ the random processes for the states and observations, respectively, the filtering recursions are: 
+Considering a state space model with $(X_k, Z_k)_{k \geq 0}$ the random processes for the states and observations, respectively, the filtering recursions are given by:
 
-- the predict step: $p(X_{k+1}|Z_{1:k}) = \int_{X_k} p(X_{k+1}|X_k)p(X_k|Z_{1:k})\mathrm{d}X_k = \mathbb{E}_{X_k|Z_{1:k}}\left[p(X_{k+1}|X_k)\right]$
-- the update step: $p(X_{k+1}|Z_{1:k+1}) = \frac{p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})}{\int_{X_{k+1}} p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})\mathrm{d}X_{k+1}}\propto p(Z_{k+1} | X_{k+1})p(X_{k+1}|Z_{1:k})$
+- The predict step: $p(x_{k+1}|z_{1:k}) = \int_{x_k} p(x_{k+1}|x_k)p(x_k|z_{1:k})\mathrm{d}x_k.$
+- The update step: $p(x_{k+1}|z_{1:k+1}) = \propto p(z_{k+1} | x_{k+1})p(x_{k+1}|z_{1:k}).$
 
 
 The recursions are intractable in most cases, but when the model is linear and Gaussian, i.e. such that: 
@@ -1140,16 +1140,17 @@ $$Z_{k} = B_kX_{k} + b_k + \epsilon_k$$
 
 with $\eta_k \sim \mathcal{N}(0,Q_k)$ and $\epsilon_k \sim \mathcal{N}(0,R_k)$, then the distribution of $X_k$ given $Z_{1:k}$ is a Gaussian $\mathcal{N}(\mu_k,\Sigma_k)$ following: 
 
-- $\mu_{k|k-1} = A_k\mu_{k-1} + b_k$ and $\Sigma_{k|kè1} = A_k \mu_{k-1} A_k^T + Q_k$ (Kalman predict step)
-- $\mu_{k} = \mu_{k|k-1} + K_k\left[Z_k - (B_k\mu_{k|k-1} + b_k)\right]$ and $\Sigma_{k} = (I - K_kB_k)\Sigma_{k|k-1}$ (Kalman update step)
+- $\mu_{k|k-1} = A_k\mu_{k-1} + a_k$ and $\Sigma_{k|k-1} = A_k \Sigma_{k-1} A_k^T + Q_k$ (Kalman predict step),
+- $\mu_{k} = \mu_{k|k-1} + K_k\left[Z_k - (B_k\mu_{k|k-1} + b_k)\right]$ and $\Sigma_{k} = (I - K_kB_k)\Sigma_{k|k-1}$ (Kalman update step),
 
-where $K_k = \Sigma_{k|k-1}B_k^T(B_k \Sigma_{k|k-1} B_k^T + R_k)^{-1}$
+where $K_k = \Sigma_{k|k-1}B_k^T(B_k \Sigma_{k|k-1} B_k^T + R_k)^{-1}$.
 
 In the case of the linearized model in [](state-space-model), EKF consists in applying these updates with:
-$$A_k = (I + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)$$
-$$a_k = \Delta_k(\lfloor \mu_{k-1} \rfloor) - \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)\mu_{k-1}$$
-$$Q_k = Q, R_k = R$$
-$$B_k = I, b_k = 0$$
+
+$$A_k = (I + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor),$$
+$$a_k = \Delta_k(\lfloor \mu_{k-1} \rfloor) - \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)\mu_{k-1},$$
+$$Q_k = Q, R_k = R,$$
+$$B_k = I, b_k = 0.$$
 
 (impact-algorithm-appendix)=
 ### Impact of the filtering algorithm 
