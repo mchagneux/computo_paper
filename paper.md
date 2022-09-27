@@ -484,7 +484,7 @@ Denoting $u_{1:k} = (u_1,\ldots,u_k)$ for any $k$ and sequence $(u_i)_{i \geq 0}
 In the case of linear and Gaussian state space models, this distribution is known to be Gaussian, and Kalman filtering allows to update exactly the posterior mean $\mu_k = \esp[X_k|Z_{1:k}]$ and posterior variance matrix $\Sigma_k = \var[X_k|Z_{1:k}]$.
 This algorithm and its extensions are prevalent and used extensively in time-series and sequential-data analysis.
 As the transition model proposed in [](state-transition-eq) is nonlinear, Kalman updates cannot be implemented and solving the target tracking task requires resorting to alternatives.
-Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see {cite}`sarkka2013bayesian` and references therein). Most SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. On the other hand, UKF require fewer samples and provide an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model [](state-transition-eq) yields approximaton which is computationnaly cheap and as robust for our data:
+Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see {cite}`sarkka2013bayesian` and references therein). Most SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. On the other hand, UKF requires fewer samples and provides an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model [](state-transition-eq) yields approximation which is computationally cheap and as robust on our data:
 
 $$
 X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
@@ -520,7 +520,7 @@ Though the Hungarian algorithm is a very popular algorithm in MOT, it is often u
 Using confidence regions for the distributions of $Z_n$ given $Z_{1:(n - 1)}$ instead allows to naturally include uncertainty in the decision process.
 Note that we deactivate filters whose posterior mean estimates lie outside the image subspace in $\Rset^2$.
 
-A visual depiction of the entire pipeline (from detection to final association) is provided below. Combining a set of Bayesian filters with a data association step that resorts on the most likely hypothesis is a form of Global Nearest Neighbor (GNN) tracking. Another possibility is to perform multi-target filtering by including the data association step directly into the probabilistic model, as in {cite}`mahler2003`. A generalisation of single-target recursive Bayesian filtering, this class of methods is grounded in the point process litterature and well motivated theoretically. In case of strong false positive detection rates, close and/or reappearing objects, practical benefits could be obtained, but we find that our framework is sufficient on our data while having the advantage of not requiring a model for false alarms or object appearances.
+A visual depiction of the entire pipeline (from detection to final association) is provided below. Combining a set of Bayesian filters with a data association step that resorts on the most likely hypothesis is a form of Global Nearest Neighbor (GNN) tracking. Another possibility is to perform multi-target filtering by including the data association step directly into the probabilistic model, as in {cite}`mahler2003`. A generalisation of single-target recursive Bayesian filtering, this class of methods is grounded in the point process literature and well motivated theoretically. In case of strong false positive detection rates, close and/or reappearing objects, practical benefits could be obtained, but we find that our framework is sufficient on our data while having the advantage of not requiring a model for false alarms or object appearances.
 
 ```{figure} assets/diagram.png
 ---
@@ -920,9 +920,9 @@ for ax, title, tracker_name in zip(axes, pretty_method_names,  method_names):
 
 ## Practical impact and future goals
 
-We successfully tackled video object counting on river banks, in particular issues which could be adressed independently of detection quality.
+We successfully tackled video object counting on river banks, in particular issues which could be addressed independently of detection quality.
 Moreover the methodology developed to assess count quality enables us to precisely highlight the challenges that pertain to video object counting on river banks.
-Conducted in coordination with Sufrider Foundation Europe, an NGO specialized on water preservation, our work marks an important milestone in a broader campaign for macrolitter monitoring and is already being used in a production version of a monitoring system.
+Conducted in coordination with Surfrider Foundation Europe, an NGO specialized on water preservation, our work marks an important milestone in a broader campaign for macrolitter monitoring and is already being used in a production version of a monitoring system.
 That said, large amounts of litter items are still not detected.
 Solving this problem is largely a question of augmenting the object detector training dataset through crowdsourced images.
 A [specific annotation platform](https://www.trashroulette.com) is online, thus the amount of annotated images is expected to continuously increase, while training is provided to volunteers collecting data on the field to ensure data quality.
@@ -945,12 +945,12 @@ Finally, our work naturally benefits any extension of macrolitter monitoring in 
 
 In this work, we do not seek to precisely predict the proportions of the different types of counted litter.
 However, we build our dataset to allow classification tasks.
-Though litter classifications built by experts already exist, most are based on semantic rather than visual features and do not particularily consider the problem of class imbalance, which makes statistical learning more delicate.
+Though litter classifications built by experts already exist, most are based on semantic rather than visual features and do not particularly consider the problem of class imbalance, which makes statistical learning more delicate.
 In conjunction with water pollution experts, we therefore define a custom macrolitter taxonomy which balances annotation ease and pragmatic decisions for computer vision applications.
 This classification, depicted in {numref}`trash-categories-image` can be understood as follows.
 
 
-1. We define a set of frequently observed classes that annotaters can choose from, divided into: 
+1. We define a set of frequently observed classes that annotateors can choose from, divided into: 
 
     - Classes for rigid and easily recognisable items which are often observed and have definite shapes
     - Classes for fragmented objects which are often found along river banks but whose aspects are more varied
@@ -961,7 +961,7 @@ This classification, depicted in {numref}`trash-categories-image` can be underst
     - A first category is used whenever the item is clearly identifiable but its class is not proposed.
 This will ensure that our classification can be improved in the future, as images with items in this category will be checked regularly to decide whether a new class needs to be created.
     - Another category is used whenever the annotater does not understand the item they are seeing.
-Images containing items denoted as such will not be used for applications involving classifiction.
+Images containing items denoted as such will not be used for applications involving classification.
 
 
 ```{figure} assets/trash_categories.png
