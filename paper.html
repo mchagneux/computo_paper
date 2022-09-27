@@ -1180,7 +1180,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.168 seconds for 360 frames or 2140.5 FPS
+Total Tracking took: 0.141 seconds for 360 frames or 2553.4 FPS
 --- End
 </pre></div>
 </div>
@@ -1452,7 +1452,7 @@ In the following, <span class="math notranslate nohighlight">\(Q\)</span> and <s
 In the case of linear and Gaussian state space models, this distribution is known to be Gaussian, and Kalman filtering allows to update exactly the posterior mean <span class="math notranslate nohighlight">\(\mu_k = \esp[X_k|Z_{1:k}]\)</span> and posterior variance matrix <span class="math notranslate nohighlight">\(\Sigma_k = \var[X_k|Z_{1:k}]\)</span>.
 This algorithm and its extensions are prevalent and used extensively in time-series and sequential-data analysis.
 As the transition model proposed in <a class="reference internal" href="#equation-state-transition-eq">(1)</a> is nonlinear, Kalman updates cannot be implemented and solving the target tracking task requires resorting to alternatives.
-Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see <span id="id40">[<a class="reference internal" href="#id66" title="S. Särkkä. Bayesian Filtering and Smoothing. Cambridge University Press, New York, NY, USA, 2013.">39</a>]</span> and references therein). Most SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. On the other hand, UKF require fewer samples and provide an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model <a class="reference internal" href="#equation-state-transition-eq">(1)</a> yields approximaton which is computationnaly cheap and as robust for our data:</p>
+Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see <span id="id40">[<a class="reference internal" href="#id66" title="S. Särkkä. Bayesian Filtering and Smoothing. Cambridge University Press, New York, NY, USA, 2013.">39</a>]</span> and references therein). Most SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. On the other hand, UKF requires fewer samples and provides an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model <a class="reference internal" href="#equation-state-transition-eq">(1)</a> yields approximation which is computationally cheap and as robust on our data:</p>
 <div class="math notranslate nohighlight">
 \[
 X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
@@ -1486,7 +1486,7 @@ sample the true location as a Gaussian random variable with mean <span class="ma
 Though the Hungarian algorithm is a very popular algorithm in MOT, it is often used with the Euclidean distance or an Intersection-over-Union (IoU) criterion.
 Using confidence regions for the distributions of <span class="math notranslate nohighlight">\(Z_n\)</span> given <span class="math notranslate nohighlight">\(Z_{1:(n - 1)}\)</span> instead allows to naturally include uncertainty in the decision process.
 Note that we deactivate filters whose posterior mean estimates lie outside the image subspace in <span class="math notranslate nohighlight">\(\Rset^2\)</span>.</p>
-<p>A visual depiction of the entire pipeline (from detection to final association) is provided below. Combining a set of Bayesian filters with a data association step that resorts on the most likely hypothesis is a form of Global Nearest Neighbor (GNN) tracking. Another possibility is to perform multi-target filtering by including the data association step directly into the probabilistic model, as in <span id="id42">[<a class="reference internal" href="#id57" title="R.P.S. Mahler. Multitarget bayes filtering via first-order multitarget moments. IEEE Transactions on Aerospace and Electronic Systems, 39(4):1152-1178, 2003. doi:10.1109/TAES.2003.1261119.">41</a>]</span>. A generalisation of single-target recursive Bayesian filtering, this class of methods is grounded in the point process litterature and well motivated theoretically. In case of strong false positive detection rates, close and/or reappearing objects, practical benefits could be obtained, but we find that our framework is sufficient on our data while having the advantage of not requiring a model for false alarms or object appearances.</p>
+<p>A visual depiction of the entire pipeline (from detection to final association) is provided below. Combining a set of Bayesian filters with a data association step that resorts on the most likely hypothesis is a form of Global Nearest Neighbor (GNN) tracking. Another possibility is to perform multi-target filtering by including the data association step directly into the probabilistic model, as in <span id="id42">[<a class="reference internal" href="#id57" title="R.P.S. Mahler. Multitarget bayes filtering via first-order multitarget moments. IEEE Transactions on Aerospace and Electronic Systems, 39(4):1152-1178, 2003. doi:10.1109/TAES.2003.1261119.">41</a>]</span>. A generalisation of single-target recursive Bayesian filtering, this class of methods is grounded in the point process literature and well motivated theoretically. In case of strong false positive detection rates, close and/or reappearing objects, practical benefits could be obtained, but we find that our framework is sufficient on our data while having the advantage of not requiring a model for false alarms or object appearances.</p>
 <figure class="align-default" id="diagram">
 <img alt="_images/diagram.png" src="_images/diagram.png" />
 <figcaption>
@@ -1864,7 +1864,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2404/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2424/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2044,9 +2044,9 @@ To better focus on count performance in the next sections, we remove segments th
 </section>
 <section id="practical-impact-and-future-goals">
 <h2>Practical impact and future goals<a class="headerlink" href="#practical-impact-and-future-goals" title="Permalink to this headline">#</a></h2>
-<p>We successfully tackled video object counting on river banks, in particular issues which could be adressed independently of detection quality.
+<p>We successfully tackled video object counting on river banks, in particular issues which could be addressed independently of detection quality.
 Moreover the methodology developed to assess count quality enables us to precisely highlight the challenges that pertain to video object counting on river banks.
-Conducted in coordination with Sufrider Foundation Europe, an NGO specialized on water preservation, our work marks an important milestone in a broader campaign for macrolitter monitoring and is already being used in a production version of a monitoring system.
+Conducted in coordination with Surfrider Foundation Europe, an NGO specialized on water preservation, our work marks an important milestone in a broader campaign for macrolitter monitoring and is already being used in a production version of a monitoring system.
 That said, large amounts of litter items are still not detected.
 Solving this problem is largely a question of augmenting the object detector training dataset through crowdsourced images.
 A <a class="reference external" href="https://www.trashroulette.com">specific annotation platform</a> is online, thus the amount of annotated images is expected to continuously increase, while training is provided to volunteers collecting data on the field to ensure data quality.
@@ -2066,11 +2066,11 @@ Finally, our work naturally benefits any extension of macrolitter monitoring in 
 <h4>Categories<a class="headerlink" href="#categories" title="Permalink to this headline">#</a></h4>
 <p>In this work, we do not seek to precisely predict the proportions of the different types of counted litter.
 However, we build our dataset to allow classification tasks.
-Though litter classifications built by experts already exist, most are based on semantic rather than visual features and do not particularily consider the problem of class imbalance, which makes statistical learning more delicate.
+Though litter classifications built by experts already exist, most are based on semantic rather than visual features and do not particularly consider the problem of class imbalance, which makes statistical learning more delicate.
 In conjunction with water pollution experts, we therefore define a custom macrolitter taxonomy which balances annotation ease and pragmatic decisions for computer vision applications.
 This classification, depicted in <a class="reference internal" href="#trash-categories-image"><span class="std std-numref">Fig. 4</span></a> can be understood as follows.</p>
 <ol class="simple">
-<li><p>We define a set of frequently observed classes that annotaters can choose from, divided into:</p>
+<li><p>We define a set of frequently observed classes that annotateors can choose from, divided into:</p>
 <ul class="simple">
 <li><p>Classes for rigid and easily recognisable items which are often observed and have definite shapes</p></li>
 <li><p>Classes for fragmented objects which are often found along river banks but whose aspects are more varied</p></li>
@@ -2081,7 +2081,7 @@ This classification, depicted in <a class="reference internal" href="#trash-cate
 <li><p>A first category is used whenever the item is clearly identifiable but its class is not proposed.
 This will ensure that our classification can be improved in the future, as images with items in this category will be checked regularly to decide whether a new class needs to be created.</p></li>
 <li><p>Another category is used whenever the annotater does not understand the item they are seeing.
-Images containing items denoted as such will not be used for applications involving classifiction.</p></li>
+Images containing items denoted as such will not be used for applications involving classification.</p></li>
 </ul>
 </li>
 </ol>
