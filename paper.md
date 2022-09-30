@@ -121,6 +121,14 @@ import pandas as pd
 from surfnet.prepare_data import download_data
 from surfnet.track import default_args as args
 
+
+params = {'legend.fontsize': 'x-large',
+         'axes.labelsize': 'x-large',
+         'axes.titlesize':'x-large',
+         'xtick.labelsize':'x-large',
+         'ytick.labelsize':'x-large'}
+plt.rcParams.update(params)
+
 # download frames and detections from a given deep detector model
 download_data()
 
