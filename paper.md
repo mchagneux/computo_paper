@@ -614,7 +614,8 @@ Additionally, results on the original validation footage do not measure the stat
 
 #### Count decomposition
 Define $\gtlabels$ and $\predlabels$ the labels of the annotated ground truth tracks and the predicted tracks, respectively.
-At evaluation, we assign each predicted track to either none or at most one ground truth track, writing $j \rightarrow \emptyset$ or $j \rightarrow i$ for the corresponding assignments. The association is made whenever a predicted track $i$ overlaps with a ground truth track $j$ at any frame, i.e. for a given frame a detection in $i$ is within a threshold $\alpha$ of an object in $j$, where $\alpha = 0.05 \sqrt{W^2 + H^2}$. 
+At evaluation, we assign each predicted track to either none or at most one ground truth track, writing $j \rightarrow \emptyset$ or $j \rightarrow i$ for the corresponding assignments. The association is made whenever a predicted track $i$ overlaps with a ground truth track $j$ at any frame, i.e. for a given frame a detection in $i$ is within a threshold $\alpha$ of an object in $j$. We compute metrics for 20 values of $\alpha$ in $[0.05 \alpha_{max}, 0.95 \alpha_{max}]$, with $\alpha_{max} = 0.1 \sqrt{W^2 + H^2}$, then average the results. 
+
 Denote $A_i = \{\predlabels \mid j \rightarrow i\}$ the set of predicted tracks assigned to the $i$-th ground truth track.
 We define:
 
