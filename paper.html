@@ -1060,7 +1060,9 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
----Downloading: saved_frames.pickle
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1186,7 +1188,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.083 seconds for 360 frames or 4337.2 FPS
+Total Tracking took: 0.115 seconds for 360 frames or 3138.4 FPS
 --- End
 </pre></div>
 </div>
@@ -1870,7 +1872,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2443/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2408/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2170,6 +2172,15 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_split</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;legend.fontsize&#39;</span><span class="p">:</span> <span class="s1">&#39;x-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="s1">&#39;x-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;axes.titlesize&#39;</span><span class="p">:</span><span class="s1">&#39;x-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">:</span><span class="s1">&#39;x-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">:</span><span class="s1">&#39;x-large&#39;</span><span class="p">}</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+
 <span class="k">def</span> <span class="nf">hyperparameters</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">pretty_method_name</span><span class="p">):</span>
     <span class="n">tau_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
     <span class="n">kappa_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
@@ -2202,13 +2213,13 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
         <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{mis}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
         <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">)</span>
-        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">pretty_name</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
 
         <span class="c1"># ax1.set_xlabel(&#39;$\\tau$&#39;)</span>
         <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{false}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
         <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">)</span>
-        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">pretty_name</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
         <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">tau$&#39;</span><span class="p">)</span>
         <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{red}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
@@ -2223,8 +2234,8 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
     <span class="n">best_kappa</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">best_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">best_tau</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">best_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Best parameters for </span><span class="si">{</span><span class="n">pretty_method_name</span><span class="si">}</span><span class="s1">: (kappa, tau) = (</span><span class="si">{</span><span class="n">best_kappa</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">best_tau</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
-    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax2</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper center&#39;</span><span class="p">)</span>
+    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax0</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>

@@ -1,13 +1,13 @@
 ---
 jupytext:
-  formats: ipynb,md:myst
+  formats: md:myst,ipynb
   text_representation:
     extension: .md
     format_name: myst
     format_version: 0.13
     jupytext_version: 1.14.1
 kernelspec:
-  display_name: Python 3.10.4 ('computo')
+  display_name: Python 3.10.6 ('computo')
   language: python
   name: python3
 ---
@@ -110,7 +110,7 @@ We compare the count performance of our method against other MOT-based alternati
 
 A first visual illustration of the second claim is presented via the following code chunks: on three selected frames, we present a typical scenario where our strategy can avoid overcounting the same object (we depict internal workings of our solution against the end result of the competitors).
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 from myst_nb import glue
@@ -143,7 +143,7 @@ args.ratio = 4
 args.display = 0
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 import pickle
@@ -179,7 +179,7 @@ results, frame_to_trackers = track_video(reader, detections, args, engine,
 write_tracking_results_to_file(results, ratio_x=args.ratio, ratio_y=args.ratio, output_filename=args.output_dir)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input, remove-output]
 
 from surfnet.track import build_image_trackers
@@ -197,7 +197,7 @@ glue('demo_ours', build_image_trackers(considered_frames, considered_trackers, a
 
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 ## Tracker with SORT 
@@ -248,7 +248,7 @@ def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
     return output_img
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input, remove-output]
 
 # open sort output
@@ -325,7 +325,7 @@ In this work, we focus only on litter counting without classification, however t
 
 A few samples are depicted below:
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 from PIL import Image, ExifTags
@@ -672,7 +672,7 @@ This allows realistic assessment of the detection quality of our system on true 
 We observe low $\detre$, suggesting that objects are only captured on a fraction of the frames they appear on.
 To better focus on count performance in the next sections, we remove segments that do not generate any correct detection: performance on the remaining footage is increased and given by $\detre^{*}$ and $\detpr^{*}$.
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 from IPython.display import display
@@ -744,9 +744,9 @@ To fairly compare the three solutions, we calibrate the hyperparameters of our p
 
 We report results using the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report $\assre$, $\countre$ and $\countpr$ as tabled values (the first gives a simple overview of the quality of the predicted tacks while the latter two concisely summarise the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find $\asspr$ between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of $\asspr$ values.
 
-First, the higher values of AssRe confirm the robustness of our solution in assigning consistent tracks to individual objects. This is directly reflected into the count precision performance - with an overall value of $\countpr$ 17.6 points higher than the next best method (SORT) - or even more so in the complete disappearance of orange (redundant) counts in the graph. A key aspect is that these improvements are not counteracted by a lower $\countre$: on the contrary, our tracker, which is more stable, also captures more object (albeit still missing most of them, with a $\countre$ below 50%). Note finally, that the strongest improvements are obtained for sequence 2 which is also the part with the strongest motion. 
+First, the higher values of AssRe confirm the robustness of our solution in assigning consistent tracks to individual objects. This is directly reflected into the count precision performance - with an overall value of $\countpr$ 17.6 points higher than the next best method (SORT) - or even more so in the complete disappearance of orange (redundant) counts in the graph. A key aspect is that these improvements are not counteracted by a lower $\countre$: on the contrary, our tracker, which is more stable, also captures more object (albeit still missing most of them, with a $\countre$ below 50%). Note finally, that the strongest improvements are obtained for sequence 2 which is also the part with the strongest motion.
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 
@@ -907,7 +907,7 @@ for sequence_name, result in zip(['S_1','S_2','S_3','All'], results):
 
 ##### Detailed results on individual segments
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 set_split('test')
@@ -1063,10 +1063,19 @@ At a given $\nu > 0.5$, $\kappa$ and $\tau$ should ideally be chosen to jointly 
 
 In the following code cell, we plot the error decomposition of the counts for several values of $\kappa$ and $\tau$ with $\nu=0.6$ for the outputs of the three different trackers. We choose $\nu = 0.7$ and compute the optimal point as the one which minimizes the overall count error $\hatN (= \Nmis + \Nred + \Nfalse)$.
 
-```{code-cell} ipython3
+```{code-cell}
 :tags: [hide-input]
 
 set_split('val')
+
+params = {'legend.fontsize': 'x-large',
+         'axes.labelsize': 'x-large',
+         'axes.titlesize':'x-large',
+         'xtick.labelsize':'x-large',
+         'ytick.labelsize':'x-large'}
+plt.rcParams.update(params)
+
+
 def hyperparameters(method_name, pretty_method_name):
     tau_values = [i for i in range(1,10)]
     kappa_values = [1,3,5,7]
@@ -1099,13 +1108,13 @@ def hyperparameters(method_name, pretty_method_name):
         ax0.set_ylabel('$N_{mis}$')
 
         ax1.scatter(tau_values, n_false)
-        ax1.plot(tau_values, n_false, label=pretty_name, linestyle='dashed')
+        ax1.plot(tau_values, n_false, linestyle='dashed')
 
         # ax1.set_xlabel('$\\tau$')
         ax1.set_ylabel('$N_{false}$')
 
         ax2.scatter(tau_values, n_redundant)
-        ax2.plot(tau_values, n_redundant, label=pretty_name, linestyle='dashed')
+        ax2.plot(tau_values, n_redundant, linestyle='dashed')
         ax2.set_xlabel('$\\tau$')
         ax2.set_ylabel('$N_{red}$')
 
@@ -1120,8 +1129,8 @@ def hyperparameters(method_name, pretty_method_name):
     best_kappa = int(best_key.split('_')[1])
     best_tau = int(best_key.split('_')[-1])
     print(f'Best parameters for {pretty_method_name}: (kappa, tau) = ({best_kappa}, {best_tau})')
-    handles, labels = ax2.get_legend_handles_labels()
-    fig.legend(handles, labels, loc='upper center')
+    handles, labels = ax0.get_legend_handles_labels()
+    fig.legend(handles, labels, loc='upper right')
     plt.autoscale(True)
 
     plt.tight_layout()
