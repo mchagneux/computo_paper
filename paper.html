@@ -1188,7 +1188,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.083 seconds for 360 frames or 4356.7 FPS
+Total Tracking took: 0.083 seconds for 360 frames or 4324.4 FPS
 --- End
 </pre></div>
 </div>
@@ -1574,7 +1574,7 @@ Additionally, results on the original validation footage do not measure the stat
 <section id="count-decomposition">
 <h4>Count decomposition<a class="headerlink" href="#count-decomposition" title="Permalink to this headline">#</a></h4>
 <p>Define <span class="math notranslate nohighlight">\(\gtlabels\)</span> and <span class="math notranslate nohighlight">\(\predlabels\)</span> the labels of the annotated ground truth tracks and the predicted tracks, respectively.
-At evaluation, we assign each predicted track to either none or at most one ground truth track, writing <span class="math notranslate nohighlight">\(j \rightarrow \emptyset\)</span> or <span class="math notranslate nohighlight">\(j \rightarrow i\)</span> for the corresponding assignments.
+At evaluation, we assign each predicted track to either none or at most one ground truth track, writing <span class="math notranslate nohighlight">\(j \rightarrow \emptyset\)</span> or <span class="math notranslate nohighlight">\(j \rightarrow i\)</span> for the corresponding assignments. The association is made whenever a predicted track <span class="math notranslate nohighlight">\(i\)</span> overlaps with a ground truth track <span class="math notranslate nohighlight">\(j\)</span> at any frame, i.e. for a given frame a detection in <span class="math notranslate nohighlight">\(i\)</span> is within a threshold <span class="math notranslate nohighlight">\(\alpha\)</span> of an object in <span class="math notranslate nohighlight">\(j\)</span>, where <span class="math notranslate nohighlight">\(\alpha = 0.05 \sqrt{W^2 + H^2}\)</span>.
 Denote <span class="math notranslate nohighlight">\(A_i = \{\predlabels \mid j \rightarrow i\}\)</span> the set of predicted tracks assigned to the <span class="math notranslate nohighlight">\(i\)</span>-th ground truth track.
 We define:</p>
 <ol class="simple">
@@ -1872,7 +1872,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2431/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2592/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
