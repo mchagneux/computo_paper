@@ -1060,9 +1060,7 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
+---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1188,7 +1186,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.132 seconds for 360 frames or 2721.2 FPS
+Total Tracking took: 0.083 seconds for 360 frames or 4337.2 FPS
 --- End
 </pre></div>
 </div>
@@ -1872,7 +1870,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2469/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2443/3810488203.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2288,10 +2286,6 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
 <p>An advantage of the data association method proposed in <a class="reference internal" href="#data-association"><span class="std std-ref">Data association using confidence regions</span></a> is that it is very generic and does not constrain the tracking solution to any particular choice of filtering algorithm.
 As for EKF, UKF implementations are already available to compute the distribution of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(Z_{1:k-1}\)</span> and the corresponding confidence regions (see <a class="reference internal" href="#tracking-module-appendix"><span class="std std-ref">the section</span></a> above).
 We propose a solution to compute this distribution when SMC is used, and performance comparisons between the EKF, UKF and SMC versions of our trackers are discussed.</p>
-<div class="math notranslate nohighlight">
-\[
-X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k
-\]</div>
 <section id="smc-based-tracking">
 <h4>SMC-based tracking<a class="headerlink" href="#smc-based-tracking" title="Permalink to this headline">#</a></h4>
 <p>Denote <span class="math notranslate nohighlight">\(\filtdist_k\)</span> the filtering distribution (ie. that of <span class="math notranslate nohighlight">\(Z_k\)</span> given <span class="math notranslate nohighlight">\(X_{1:k}\)</span>) for the HMM <span class="math notranslate nohighlight">\((X_k,Z_k)_{k \geq 1}\)</span>  (omitting the dependency on the observations for notation ease).
