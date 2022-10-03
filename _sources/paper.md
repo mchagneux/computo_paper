@@ -692,6 +692,8 @@ indices_test = [0,7,9,13]
 indices_val = [0,9,10,14]
 indices_det = [0,17,24,38]
 
+alpha_type = '___50'
+
 def set_split(split):
 
     if split == 'val':
@@ -711,7 +713,7 @@ indices, eval_dir_short, gt_dir_short = set_split(split)
 def get_det_values(index_start=0, index_stop=-1):
 
     results_for_det = pd.read_csv(os.path.join(f'TrackEval/data/trackers/surfrider_short_segments_{fps}','surfrider-test','ours_EKF_1_kappa_1_tau_0','pedestrian_detailed.csv'))
-    results_det = results_for_det.loc[:,['DetRe___50','DetPr___50', 'HOTA_TP___50','HOTA_FN___50','HOTA_FP___50']].iloc[index_start:index_stop]
+    results_det = results_for_det.loc[:,[f'DetRe{alpha_type}',f'DetPr{alpha_type}', f'HOTA_TP{alpha_type}',f'HOTA_FN{alpha_type}',f'HOTA_FP{alpha_type}']].iloc[index_start:index_stop]
     results_det.columns = ['hota_det_re','hota_det_pr','hota_det_tp','hota_det_fn','hota_det_fp']
     hota_det_re = results_det['hota_det_re']
     hota_det_pr = results_det['hota_det_pr']
@@ -752,7 +754,7 @@ First, the higher values of AssRe confirm the robustness of our solution in assi
 
 def get_summary(results, index_start=0, index_stop=-1):
 
-    results = results.loc[:,['Correct_IDs___50','Redundant_IDs___50','False_IDs___50','Missing_IDs___50','Fused_IDs___50', 'GT_IDs','HOTA_TP___50','AssRe___50']].iloc[index_start:index_stop]
+    results = results.loc[:,[f'Correct_IDs{alpha_type}',f'Redundant_IDs{alpha_type}',f'False_IDs{alpha_type}',f'Missing_IDs{alpha_type}',f'Fused_IDs{alpha_type}', f'GT_IDs',f'HOTA_TP{alpha_type}',f'AssRe{alpha_type}']].iloc[index_start:index_stop]
 
     results.columns = ['correct','redundant','false','missing','mingled','gt','hota_tp','ass_re']
 
@@ -914,7 +916,7 @@ set_split('test')
 fig, axes = plt.subplots(1,3, figsize=(30,10), sharey=True)
 for ax, title, tracker_name in zip(axes, pretty_method_names,  method_names):
     results = pd.read_csv(os.path.join(eval_dir_short,'surfrider-test',tracker_name,'pedestrian_detailed.csv'))
-    results = results.loc[:,['Redundant_IDs___50','False_IDs___50','Missing_IDs___50']].iloc[:-1]
+    results = results.loc[:,[f'Redundant_IDs{alpha_type}',f'False_IDs{alpha_type}',f'Missing_IDs{alpha_type}']].iloc[:-1]
     results.columns = ['redundant', 'false', 'missing']
     results.loc[:,'missing'] = - results.loc[:,'missing']
     results.columns = ['$\hat{\mathsf{N}}_{red}$', '$\hat{\mathsf{N}}_{false}$', '$-\hat{\mathsf{N}}_{mis}$']
