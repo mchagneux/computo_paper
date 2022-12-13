@@ -1060,7 +1060,9 @@ args.display = 0
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
----Downloading: saved_frames.pickle
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1186,7 +1188,7 @@ def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.083 seconds for 360 frames or 4326.5 FPS
+Total Tracking took: 0.138 seconds for 360 frames or 2601.3 FPS
 --- End
 </pre></div>
 </div>
@@ -1599,7 +1601,7 @@ We define:</p>
 <p>which provide good summaries for the overall count quality, letting aside the tracking performance.</p>
 <p>Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
 In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward.
-For more general MOT tasks, <span id="id48">[<a class="reference internal" href="#id105" title="Jonathon Luiten, Aljosa Osep, Patrick Dendorfer, Philip Torr, Andreas Geiger, Laura Leal-Taixé, and Bastian Leibe. Hota: a higher order metric for evaluating multi-object tracking. International journal of computer vision, 129(2):548–578, 2021.">15</a>]</span> (…)</p>
+Note that more involved metrics have been studied at the trajectory level (see for example <span id="id48">[<a class="reference internal" href="#id58" title="Ángel F. García-Fernández, Abu Sajana Rahmathullah, and Lennart Svensson. A metric on the space of finite sets of trajectories for evaluation of multi-target tracking algorithms. IEEE Transactions on Signal Processing, 68:3917–3928, 2020. doi:10.1109/TSP.2020.3005309.">44</a>]</span> and the references therein), though not specifically tailored to the restricted task of counting. For more complicated data, an adaptation of such contributions into proper counting metrics could be valuable.</p>
 </section>
 <section id="statistics">
 <h4>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">#</a></h4>
@@ -1612,7 +1614,7 @@ For any quantity <span class="math notranslate nohighlight">\(\hatN_\bullet\)</s
 <section id="experiments">
 <h2>Experiments<a class="headerlink" href="#experiments" title="Permalink to this headline">#</a></h2>
 <p>We denote by <span class="math notranslate nohighlight">\(S_1\)</span>, <span class="math notranslate nohighlight">\(S_2\)</span> and <span class="math notranslate nohighlight">\(S_3\)</span> the three river sections of the evaluation material and split the associated footage into independent segments of 30 seconds. We further divide this material into two distinct validation (6min30) and test (7min) splits.</p>
-<p>To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT <span id="id49">[<a class="reference internal" href="#id111" title="Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft. Simple online and realtime tracking. In Proceedings - International Conference on Image Processing, ICIP, volume 2016-Augus, 3464–3468. 2016. URL: https://github.com/abewley/sort, arXiv:1602.00763, doi:10.1109/ICIP.2016.7533003.">26</a>]</span>, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions. Similar to our system, it only relies on image supervision for training, and though DeepSORT <span id="id50">[<a class="reference internal" href="#id114" title="Nicolai Wojke, Alex Bewley, and Dietrich Paulus. Simple online and realtime tracking with a deep association metric. In Proceedings - International Conference on Image Processing, ICIP, volume 2017-Septe, 3645–3649. 2018. arXiv:1703.07402, doi:10.1109/ICIP.2017.8296962.">29</a>]</span> is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT <span id="id51">[<a class="reference internal" href="#id82" title="Yifu Zhang, Chunyu Wang, Xinggang Wang, Wenjun Zeng, and Wenyu Liu. Fairmot: on the fairness of detection and re-identification in multiple object tracking. International Journal of Computer Vision, pages 1–19, 2021.">30</a>]</span>, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack <span id="id52">[<a class="reference internal" href="#id83" title="Xingyi Zhou, Vladlen Koltun, and Philipp Krähenbühl. Tracking objects as points. pages 474-490, 10 2020. doi:10.1007/978-3-030-58548-8_28.">44</a>]</span>. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.</p>
+<p>To demonstrate the benefits of our work, we select two multi-object trackers and build competing counting systems from them. Our first choice is SORT <span id="id49">[<a class="reference internal" href="#id111" title="Alex Bewley, Zongyuan Ge, Lionel Ott, Fabio Ramos, and Ben Upcroft. Simple online and realtime tracking. In Proceedings - International Conference on Image Processing, ICIP, volume 2016-Augus, 3464–3468. 2016. URL: https://github.com/abewley/sort, arXiv:1602.00763, doi:10.1109/ICIP.2016.7533003.">26</a>]</span>, which relies on Kalman filtering with velocity updated using the latest past estimates of object positions. Similar to our system, it only relies on image supervision for training, and though DeepSORT <span id="id50">[<a class="reference internal" href="#id114" title="Nicolai Wojke, Alex Bewley, and Dietrich Paulus. Simple online and realtime tracking with a deep association metric. In Proceedings - International Conference on Image Processing, ICIP, volume 2017-Septe, 3645–3649. 2018. arXiv:1703.07402, doi:10.1109/ICIP.2017.8296962.">29</a>]</span> is a more recent alternative with better performance, the associated deep appearance network cannot be used without additional video annotations. FairMOT <span id="id51">[<a class="reference internal" href="#id82" title="Yifu Zhang, Chunyu Wang, Xinggang Wang, Wenjun Zeng, and Wenyu Liu. Fairmot: on the fairness of detection and re-identification in multiple object tracking. International Journal of Computer Vision, pages 1–19, 2021.">30</a>]</span>, a more recent alternative, is similarly intended for use with video supervision but allows self-supervised training using only an image dataset. Built as a new baseline for MOT, it combines linear constant-velocity Kalman filtering with visual features computed by an additional network branch and extracted at the position of the estimated object centers, as introduced in CenterTrack <span id="id52">[<a class="reference internal" href="#id83" title="Xingyi Zhou, Vladlen Koltun, and Philipp Krähenbühl. Tracking objects as points. pages 474-490, 10 2020. doi:10.1007/978-3-030-58548-8_28.">45</a>]</span>. We choose FairMOT to compare our method to a solution based on deep visual feature extraction.</p>
 <p>Similar to our work, FairMOT uses CenterNet for the detection part and the latter is therefore trained as in <a class="reference internal" href="#detector-training"><span class="std std-ref">Training</span></a>. We train it using hyperparameters from the original paper. The detection outputs are then shared between all counting methods, allowing fair comparison of counting performance given a fixed object detector. We run all experiments at 12fps, an intermediate framerate to capture all objects while reducing the computational burden.</p>
 <section id="id53">
 <h3>Detection<a class="headerlink" href="#id53" title="Permalink to this headline">#</a></h3>
@@ -1874,7 +1876,7 @@ for sequence_name, result in zip([&#39;S_1&#39;,&#39;S_2&#39;,&#39;S_3&#39;,&#39
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2543/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2577/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2382,7 +2384,7 @@ This allows easier extension of our work to more challenging data.</p>
 <dt class="label" id="id104"><span class="brackets"><a class="fn-backref" href="#id12">14</a></span></dt>
 <dd><p>P. Bergmann, T. Meinhardt, and L. Leal-Taixe. Tracking without bells and whistles. In <em>2019 IEEE/CVF International Conference on Computer Vision (ICCV)</em>, volume, 941–951. Los Alamitos, CA, USA, nov 2019. IEEE Computer Society. URL: <a class="reference external" href="https://doi.ieeecomputersociety.org/10.1109/ICCV.2019.00103">https://doi.ieeecomputersociety.org/10.1109/ICCV.2019.00103</a>, <a class="reference external" href="https://doi.org/10.1109/ICCV.2019.00103">doi:10.1109/ICCV.2019.00103</a>.</p>
 </dd>
-<dt class="label" id="id105"><span class="brackets">15</span><span class="fn-backref">(<a href="#id13">1</a>,<a href="#id45">2</a>,<a href="#id46">3</a>,<a href="#id47">4</a>,<a href="#id48">5</a>)</span></dt>
+<dt class="label" id="id105"><span class="brackets">15</span><span class="fn-backref">(<a href="#id13">1</a>,<a href="#id45">2</a>,<a href="#id46">3</a>,<a href="#id47">4</a>)</span></dt>
 <dd><p>Jonathon Luiten, Aljosa Osep, Patrick Dendorfer, Philip Torr, Andreas Geiger, Laura Leal-Taixé, and Bastian Leibe. Hota: a higher order metric for evaluating multi-object tracking. <em>International journal of computer vision</em>, 129(2):548–578, 2021.</p>
 </dd>
 <dt class="label" id="id93"><span class="brackets"><a class="fn-backref" href="#id14">16</a></span></dt>
@@ -2469,7 +2471,10 @@ This allows easier extension of our work to more challenging data.</p>
 <dt class="label" id="id118"><span class="brackets"><a class="fn-backref" href="#id44">43</a></span></dt>
 <dd><p>Ergys Ristani, Francesco Solera, Roger Zou, Rita Cucchiara, and Carlo Tomasi. Performance measures and a data set for multi-target, multi-camera tracking. In <em>European conference on computer vision</em>, 17–35. Springer, 2016.</p>
 </dd>
-<dt class="label" id="id83"><span class="brackets"><a class="fn-backref" href="#id52">44</a></span></dt>
+<dt class="label" id="id58"><span class="brackets"><a class="fn-backref" href="#id48">44</a></span></dt>
+<dd><p>Ángel F. García-Fernández, Abu Sajana Rahmathullah, and Lennart Svensson. A metric on the space of finite sets of trajectories for evaluation of multi-target tracking algorithms. <em>IEEE Transactions on Signal Processing</em>, 68:3917–3928, 2020. <a class="reference external" href="https://doi.org/10.1109/TSP.2020.3005309">doi:10.1109/TSP.2020.3005309</a>.</p>
+</dd>
+<dt class="label" id="id83"><span class="brackets"><a class="fn-backref" href="#id52">45</a></span></dt>
 <dd><p>Xingyi Zhou, Vladlen Koltun, and Philipp Krähenbühl. Tracking objects as points. pages 474–490, 10 2020. <a class="reference external" href="https://doi.org/10.1007/978-3-030-58548-8_28">doi:10.1007/978-3-030-58548-8_28</a>.</p>
 </dd>
 </dl>
