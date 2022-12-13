@@ -647,6 +647,7 @@ which provide good summaries for the overall count quality, letting aside the tr
 
 Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
 In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward. 
+For more general MOT tasks, {cite}`luiten2020` (...)
 
 
 #### Statistics
