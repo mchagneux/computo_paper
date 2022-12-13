@@ -652,7 +652,7 @@ In our case, predicted tracks never overlap with several ground truth tracks (be
 #### Statistics
 Since the original validation set comprises only a few unequally long videos, only absolute results are available.
 Splitting the original sequences into shorter independent sequences of equal length allows to compute basic statistics.
-For any quantity $\hatN_\bullet$ defined above, we provide $\hat{\sigma}_{\hatN_\bullet})$ the associated empirical standard deviations computed on the set of short sequences.
+For any quantity $\hatN_\bullet$ defined above, we provide $\hat{\sigma}_{\hatN_\bullet}$ the associated empirical standard deviations computed on the set of short sequences.
 
 +++
 
