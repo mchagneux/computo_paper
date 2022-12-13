@@ -495,7 +495,7 @@ As the transition model proposed in [](state-transition-eq) is nonlinear, Kalman
 Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see {cite}`sarkka2013bayesian` and references therein). Most SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. On the other hand, UKF requires fewer samples and provides an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model [](state-transition-eq) yields approximation which is computationally cheap and as robust on our data:
 
 $$
-X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
+X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \partial_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
 $$ 
 
 This allows the implementation of Kalman updates on the linearised model, a technique named extended Kalman filtering (EKF). For a more complete presentation of Bayesian and Kalman filtering, please refer to [this appendix](bayesian-filtering). On the currently available data, we find that the optical flow estimates are very informative and accurate, making this approximation sufficient. For completeness, we present [here](impact-algorithm-appendix) an SMC-based solution and discuss the empirical differences and use-cases where the latter might be a more relevant choice. 
@@ -528,7 +528,7 @@ Though the Hungarian algorithm is a very popular algorithm in MOT, it is often u
 Using confidence regions for the distributions of $Z_n$ given $Z_{1:(n - 1)}$ instead allows to naturally include uncertainty in the decision process.
 Note that we deactivate filters whose posterior mean estimates lie outside the image subspace in $\Rset^2$.
 
-A visual depiction of the entire pipeline (from detection to final association) is provided below. Combining a set of Bayesian filters with a data association step that resorts on the most likely hypothesis is a form of Global Nearest Neighbor (GNN) tracking. Another possibility is to perform multi-target filtering by including the data association step directly into the probabilistic model, as in {cite}`mahler2003`. A generalisation of single-target recursive Bayesian filtering, this class of methods is grounded in the point process literature and well motivated theoretically. In case of strong false positive detection rates, close and/or reappearing objects, practical benefits could be obtained, but we find that our framework is sufficient on our data while having the advantage of not requiring a model for false alarms or object appearances.
+A visual depiction of the entire pipeline (from detection to final association) is provided below. This way of combining a set of Bayesian filters with a data association step that resorts on the most likely hypothesis is a form of Global Nearest Neighbor (GNN) tracking. Another possibility is to perform multi-target filtering by including the data association step directly into the probabilistic model, as in {cite}`mahler2003`. A generalisation of single-target recursive Bayesian filtering, this class of methods is grounded in the point process literature and well motivated theoretically. In case of strong false positive detection rates, close and/or reappearing objects, practical benefits may be obtained from these solutions. Finally, note that another well-motivated choice for $P(i,\ell)$ could be to use the marginal likelihood $\prob(Z_n^\ell \in V_\delta(z_n^i))$, which is standard in modern MOT. 
 
 ```{figure} assets/diagram.png
 ---
@@ -1167,8 +1167,8 @@ where $K_k = \Sigma_{k|k-1}B_k^T(B_k \Sigma_{k|k-1} B_k^T + R_k)^{-1}$.
 
 In the case of the linearized model in [](state-space-model), EKF consists in applying these updates with:
 
-$$A_k = (I + \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor),$$
-$$a_k = \Delta_k(\lfloor \mu_{k-1} \rfloor) - \nabla_x\Delta_k(\lfloor \mu_{k-1} \rfloor)\mu_{k-1},$$
+$$A_k = (I + \partial_x\Delta_k(\lfloor \mu_{k-1} \rfloor),$$
+$$a_k = \Delta_k(\lfloor \mu_{k-1} \rfloor) - \partial_x\Delta_k(\lfloor \mu_{k-1} \rfloor)\mu_{k-1},$$
 $$Q_k = Q, R_k = R,$$
 $$B_k = I, b_k = 0.$$
 
