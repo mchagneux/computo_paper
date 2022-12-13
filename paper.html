@@ -1188,7 +1188,9 @@ def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.110 seconds for 360 frames or 3280.2 FPS
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tracking took: 0.094 seconds for 360 frames or 3848.3 FPS
 --- End
 </pre></div>
 </div>
@@ -1876,7 +1878,7 @@ for sequence_name, result in zip([&#39;S_1&#39;,&#39;S_2&#39;,&#39;S_3&#39;,&#39
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2463/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2461/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2156,7 +2158,7 @@ As long as values are meaningful relative to the image dimensions and the size o
 <span id="confidence-regions-appendix"></span><h4>Computing the confidence regions<a class="headerlink" href="#computing-the-confidence-regions" title="Permalink to this headline">#</a></h4>
 <p>In words, <span class="math notranslate nohighlight">\(P(i,\ell)\)</span> is the mass in <span class="math notranslate nohighlight">\(V_\delta(z_n^i) \subset \Rset^2\)</span> of the probability distribution of <span class="math notranslate nohighlight">\(Z_n^\ell\)</span> given <span class="math notranslate nohighlight">\(Z_{1:n-1}^\ell\)</span>.
 Denote with <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> this distribution.
-When EKF is used, <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> is a multivariate Gaussian with mean <span class="math notranslate nohighlight">\(\mathbb{E}[Z_n^\ell|Z_{1:n-1}^\ell]\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\mathbb{V}[Z_n^\ell|Z_{1:n-1}^\ell]\)</span>.
+When EKF is used, <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> is a multivariate Gaussian with mean <span class="math notranslate nohighlight">\(\mu_{n|n-1}^\ell = \mathbb{E}[Z_n^\ell|Z_{1:n-1}^\ell]\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\Sigma_{n|n-1}^\ell = \mathbb{V}[Z_n^\ell|Z_{1:n-1}^\ell]\)</span>. Denoting with <span class="math notranslate nohighlight">\(\mu_{n-1}^\ell\)</span>, <span class="math notranslate nohighlight">\(\Sigma_{n-1}^\ell\)</span> the filtering distibutions for the <span class="math notranslate nohighlight">\(\ell\)</span>-th filter at time <span class="math notranslate nohighlight">\(n-1\)</span>.
 In <span class="math notranslate nohighlight">\(\Rset^2\)</span>, values of the cumulative distribution function (cdf) of a multivariate Gaussian distribution are easy to compute.
 Denote with <span class="math notranslate nohighlight">\(F_n^\ell\)</span> the cdf of <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span>.
 If <span class="math notranslate nohighlight">\(V_\delta(z)\)</span> is a squared neighborhood of size <span class="math notranslate nohighlight">\(\delta\)</span> and centered on <span class="math notranslate nohighlight">\(z=(x,y) \in \Rset^2\)</span>, then</p>
