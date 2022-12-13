@@ -1188,7 +1188,7 @@ def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.082 seconds for 360 frames or 4369.4 FPS
+Total Tracking took: 0.110 seconds for 360 frames or 3280.2 FPS
 --- End
 </pre></div>
 </div>
@@ -1601,8 +1601,7 @@ We define:</p>
 \]</div>
 <p>which provide good summaries for the overall count quality, letting aside the tracking performance.</p>
 <p>Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
-In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward.
-Note that more involved metrics have been studied at the trajectory level (see for example <span id="id48">[<a class="reference internal" href="#id58" title="Ángel F. García-Fernández, Abu Sajana Rahmathullah, and Lennart Svensson. A metric on the space of finite sets of trajectories for evaluation of multi-target tracking algorithms. IEEE Transactions on Signal Processing, 68:3917–3928, 2020. doi:10.1109/TSP.2020.3005309.">44</a>]</span> and the references therein), though not specifically tailored to the restricted task of counting. For more complicated data, an adaptation of such contributions into proper counting metrics could be valuable.</p>
+In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward. More involved metrics have been studied at the trajectory level (see for example <span id="id48">[<a class="reference internal" href="#id58" title="Ángel F. García-Fernández, Abu Sajana Rahmathullah, and Lennart Svensson. A metric on the space of finite sets of trajectories for evaluation of multi-target tracking algorithms. IEEE Transactions on Signal Processing, 68:3917–3928, 2020. doi:10.1109/TSP.2020.3005309.">44</a>]</span> and the references therein), though not specifically tailored to the restricted task of counting. For more complicated data, an adaptation of such contributions into proper counting metrics could be valuable.</p>
 </section>
 <section id="statistics">
 <h4>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">#</a></h4>
@@ -1877,7 +1876,7 @@ for sequence_name, result in zip([&#39;S_1&#39;,&#39;S_2&#39;,&#39;S_3&#39;,&#39
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2560/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2463/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>

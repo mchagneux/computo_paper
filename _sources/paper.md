@@ -647,8 +647,7 @@ $$
 which provide good summaries for the overall count quality, letting aside the tracking performance. 
 
 Note that these metrics and the associated decomposition are only defined if the previous assignment between predicted and ground truth tracks can be obtained.
-In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward. 
-Note that more involved metrics have been studied at the trajectory level (see for example {cite}`garcia2020` and the references therein), though not specifically tailored to the restricted task of counting. For more complicated data, an adaptation of such contributions into proper counting metrics could be valuable. 
+In our case, predicted tracks never overlap with several ground truth tracks (because true objects are well separated), and therefore this assignment is straightforward. More involved metrics have been studied at the trajectory level (see for example {cite}`garcia2020` and the references therein), though not specifically tailored to the restricted task of counting. For more complicated data, an adaptation of such contributions into proper counting metrics could be valuable. 
 
 
 #### Statistics
