@@ -1047,7 +1047,7 @@ As long as values are meaningful relative to the image dimensions and the size o
 
 In words, $P(i,\ell)$ is the mass in $V_\delta(z_n^i) \subset \Rset^2$ of the probability distribution of $Z_n^\ell$ given $Z_{1:n-1}^\ell$.
 Denote with $\predictdist_n^\ell$ this distribution.
-When EKF is used, $\predictdist_n^\ell$ is a multivariate Gaussian with mean $\mathbb{E}[Z_k^\ell|Z_{1:k-1}^\ell]$ and covariance matrix $\mathbb{V}[Z_k^\ell|Z_{1:k-1}^\ell]$.
+When EKF is used, $\predictdist_n^\ell$ is a multivariate Gaussian with mean $\mathbb{E}[Z_n^\ell|Z_{1:n-1}^\ell]$ and covariance matrix $\mathbb{V}[Z_n^\ell|Z_{1:n-1}^\ell]$.
 In $\Rset^2$, values of the cumulative distribution function (cdf) of a multivariate Gaussian distribution are easy to compute.
 Denote with $F_n^\ell$ the cdf of $\predictdist_n^\ell$.
 If $V_\delta(z)$ is a squared neighborhood of size $\delta$ and centered on $z=(x,y) \in \Rset^2$, then
