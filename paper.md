@@ -495,8 +495,9 @@ As the transition model proposed in [](state-transition-eq) is nonlinear, Kalman
 Many solutions have been proposed to deal with strong nonlinearities in the literature, such as unscented Kalman filters (UKF) or Sequential Monte Carlo (SMC) methods (see {cite}`sarkka2013bayesian` and references therein). Most SMC methods have been widely studied and shown to be very effective even in presence of strongly nonlinear dynamics and/or non-Gaussian noise, however such sample-based solutions are computationally intensive, especially in settings where many objects have to be tracked and false positive detections involve unnecessary sampling steps. On the other hand, UKF requires fewer samples and provides an intermediary solution in presence of mild nonlinearities. In our setting, we find that a linearisation of the model [](state-transition-eq) yields approximation which is computationally cheap and as robust on our data:
 
 $$
-X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \partial_x\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
+X_k = X_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor) + \partial_X\Delta_k(\lfloor \mu_{k-1} \rfloor)(X_{k-1}-\mu_{k-1}) + \eta_k .
 $$ 
+where $\partial_X$ is the derivative operator with respect to the 2-dimensional spatial input $X$. 
 
 This allows the implementation of Kalman updates on the linearised model, a technique named extended Kalman filtering (EKF). For a more complete presentation of Bayesian and Kalman filtering, please refer to [this appendix](bayesian-filtering). On the currently available data, we find that the optical flow estimates are very informative and accurate, making this approximation sufficient. For completeness, we present [here](impact-algorithm-appendix) an SMC-based solution and discuss the empirical differences and use-cases where the latter might be a more relevant choice. 
 
@@ -1168,8 +1169,8 @@ where $K_k = \Sigma_{k|k-1}B_k^T(B_k \Sigma_{k|k-1} B_k^T + R_k)^{-1}$.
 
 In the case of the linearized model in [](state-space-model), EKF consists in applying these updates with:
 
-$$A_k = (I + \partial_x\Delta_k(\lfloor \mu_{k-1} \rfloor),$$
-$$a_k = \Delta_k(\lfloor \mu_{k-1} \rfloor) - \partial_x\Delta_k(\lfloor \mu_{k-1} \rfloor)\mu_{k-1},$$
+$$A_k = (I + \partial_X\Delta_k(\lfloor \mu_{k-1} \rfloor),$$
+$$a_k = \Delta_k(\lfloor \mu_{k-1} \rfloor) - \partial_X\Delta_k(\lfloor \mu_{k-1} \rfloor)\mu_{k-1},$$
 $$Q_k = Q, R_k = R,$$
 $$B_k = I, b_k = 0.$$
 
