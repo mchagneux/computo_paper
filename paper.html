@@ -1060,7 +1060,9 @@ args.display = 0
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
----Downloading: saved_frames.pickle
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1186,7 +1188,7 @@ def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.090 seconds for 360 frames or 4002.6 FPS
+Total Tracking took: 0.099 seconds for 360 frames or 3652.2 FPS
 --- End
 </pre></div>
 </div>
@@ -1874,7 +1876,7 @@ for sequence_name, result in zip([&#39;S_1&#39;,&#39;S_2&#39;,&#39;S_3&#39;,&#39
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2518/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2489/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2282,8 +2284,7 @@ for method_name, pretty_method_name in zip(method_names, pretty_method_names):
 </section>
 <section id="computing-the-confidence-regions">
 <span id="confidence-regions-appendix"></span><h3>Computing the confidence regions<a class="headerlink" href="#computing-the-confidence-regions" title="Permalink to this headline">#</a></h3>
-<p>In words, <span class="math notranslate nohighlight">\(P(i,\ell)\)</span> is the mass in <span class="math notranslate nohighlight">\(V_\delta(z_n^i) \subset \Rset^2\)</span> of the probability distribution of <span class="math notranslate nohighlight">\(Z_n^\ell\)</span> given <span class="math notranslate nohighlight">\(Z_{1:n-1}^\ell\)</span>.
-Denote with <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> this distribution. It is related to the filtering distribution at the previous timestep via</p>
+<p>In words, <span class="math notranslate nohighlight">\(P(i,\ell)\)</span> is the mass in <span class="math notranslate nohighlight">\(V_\delta(z_n^i) \subset \Rset^2\)</span> of the probability distribution of <span class="math notranslate nohighlight">\(Z_n^\ell\)</span> given <span class="math notranslate nohighlight">\(Z_{1:n-1}^\ell\)</span>. It is related to the filtering distribution at the previous timestep via</p>
 <div class="math notranslate nohighlight">
 \[
 p(z_n | z_{1:n-1}) = \int \int p(z_n | x_n) p(x_n | x_{n-1}) p(x_{n-1} | z_{1:n-1}) \rmd x_{n} \rmd x_{n-1}
@@ -2293,14 +2294,15 @@ p(z_n | z_{1:n-1}) = \int \int p(z_n | x_n) p(x_n | x_{n-1}) p(x_{n-1} | z_{1:n-
 \[
 \mathbb{E} \left[Z_n^\ell | Z_{1:n-1}^\ell \right] = B_k (A_k \mu_{k-1} + a_k) + b_k 
 \]</div>
-<p>and
-$<span class="math notranslate nohighlight">\(
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
 \mathbb{V} \left[Z_n^\ell | Z_{1:n-1}^\ell \right] = B_k (A_k \Sigma_k A_k^T + Q_k) B_k^T + R_k  
-\)</span>$</p>
+\]</div>
 <p>following the previously introduced notation. Note that given the values of <span class="math notranslate nohighlight">\(A_k, B_k, a_k, b_k\)</span> in our model these equations are simplified in practice, e.g. <span class="math notranslate nohighlight">\(B_k = I, b_k = 0\)</span> and <span class="math notranslate nohighlight">\(A_k \mu_{k-1} + a_k = \mu_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor)\)</span>.</p>
 <p>In <span class="math notranslate nohighlight">\(\Rset^2\)</span>, values of the cumulative distribution function (cdf) of a multivariate Gaussian distribution are easy to compute.
 Denote with <span class="math notranslate nohighlight">\(F_n^\ell\)</span> the cdf of <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span>.
-If <span class="math notranslate nohighlight">\(V_\delta(z)\)</span> is a squared neighborhood of size <span class="math notranslate nohighlight">\(\delta\)</span> and centered on <span class="math notranslate nohighlight">\(z=(x,y) \in \Rset^2\)</span>, then</p>
+If <span class="math notranslate nohighlight">\(V_\delta(z)\)</span> is a squared neighborhood of size <span class="math notranslate nohighlight">\(\delta\)</span> and centered on <span class="math notranslate nohighlight">\(z=(x,y) \in \Rset^2\)</span>, then, denoting with <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> the distribution of <span class="math notranslate nohighlight">\(Z_n^\ell\)</span> given <span class="math notranslate nohighlight">\(Z_{1:n-1}^\ell\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[
 \predictdist_n^{\ell}(V_\delta(z)) = F_n^\ell(x+\delta,y+\delta) + F_n^\ell(x-\delta,y-\delta) - \left[F_n^\ell(x+\delta,y-\delta) + F_n^\ell(x-\delta,y+\delta)\right]
