@@ -1163,8 +1163,7 @@ $$B_k = I, b_k = 0.$$
 ### Computing the confidence regions
 
 
-In words, $P(i,\ell)$ is the mass in $V_\delta(z_n^i) \subset \Rset^2$ of the probability distribution of $Z_n^\ell$ given $Z_{1:n-1}^\ell$.
-Denote with $\predictdist_n^\ell$ this distribution. It is related to the filtering distribution at the previous timestep via 
+In words, $P(i,\ell)$ is the mass in $V_\delta(z_n^i) \subset \Rset^2$ of the probability distribution of $Z_n^\ell$ given $Z_{1:n-1}^\ell$. It is related to the filtering distribution at the previous timestep via 
 
 $$
 p(z_n | z_{1:n-1}) = \int \int p(z_n | x_n) p(x_n | x_{n-1}) p(x_{n-1} | z_{1:n-1}) \rmd x_{n} \rmd x_{n-1}
@@ -1177,6 +1176,7 @@ $$
 $$
 
 and 
+
 $$
 \mathbb{V} \left[Z_n^\ell | Z_{1:n-1}^\ell \right] = B_k (A_k \Sigma_k A_k^T + Q_k) B_k^T + R_k  
 $$
@@ -1185,7 +1185,7 @@ following the previously introduced notation. Note that given the values of $A_k
 
 In $\Rset^2$, values of the cumulative distribution function (cdf) of a multivariate Gaussian distribution are easy to compute.
 Denote with $F_n^\ell$ the cdf of $\predictdist_n^\ell$.
-If $V_\delta(z)$ is a squared neighborhood of size $\delta$ and centered on $z=(x,y) \in \Rset^2$, then
+If $V_\delta(z)$ is a squared neighborhood of size $\delta$ and centered on $z=(x,y) \in \Rset^2$, then, denoting with $\predictdist_n^\ell$ the distribution of $Z_n^\ell$ given $Z_{1:n-1}^\ell$:
 
 $$
 \predictdist_n^{\ell}(V_\delta(z)) = F_n^\ell(x+\delta,y+\delta) + F_n^\ell(x-\delta,y-\delta) - \left[F_n^\ell(x+\delta,y-\delta) + F_n^\ell(x-\delta,y+\delta)\right]
