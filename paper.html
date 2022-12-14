@@ -559,11 +559,6 @@ title="Print to PDF"
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#computing-the-confidence-regions">
-       Computing the confidence regions
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#influence-of-tau-and-kappa">
        Influence of
        <span class="math notranslate nohighlight">
@@ -580,6 +575,11 @@ title="Print to PDF"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#bayesian-filtering">
      Bayesian filtering
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computing-the-confidence-regions">
+     Computing the confidence regions
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -889,11 +889,6 @@ title="Print to PDF"
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#computing-the-confidence-regions">
-       Computing the confidence regions
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#influence-of-tau-and-kappa">
        Influence of
        <span class="math notranslate nohighlight">
@@ -910,6 +905,11 @@ title="Print to PDF"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#bayesian-filtering">
      Bayesian filtering
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computing-the-confidence-regions">
+     Computing the confidence regions
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -1060,9 +1060,7 @@ args.display = 0
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
+---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -1188,9 +1186,7 @@ def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tracking took: 0.094 seconds for 360 frames or 3848.3 FPS
+Total Tracking took: 0.090 seconds for 360 frames or 4002.6 FPS
 --- End
 </pre></div>
 </div>
@@ -1878,7 +1874,7 @@ for sequence_name, result in zip([&#39;S_1&#39;,&#39;S_2&#39;,&#39;S_3&#39;,&#39
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2461/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2518/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2154,20 +2150,6 @@ All other coefficients were not estimated and supposed to be 0.</p>
 <p>An important remark is that though we use these values in practice, we found that tracking results are largely unaffected by small variations of <span class="math notranslate nohighlight">\(R\)</span> and <span class="math notranslate nohighlight">\(Q\)</span>.
 As long as values are meaningful relative to the image dimensions and the size of the objects, most noise levels show relatively similar performance.</p>
 </section>
-<section id="computing-the-confidence-regions">
-<span id="confidence-regions-appendix"></span><h4>Computing the confidence regions<a class="headerlink" href="#computing-the-confidence-regions" title="Permalink to this headline">#</a></h4>
-<p>In words, <span class="math notranslate nohighlight">\(P(i,\ell)\)</span> is the mass in <span class="math notranslate nohighlight">\(V_\delta(z_n^i) \subset \Rset^2\)</span> of the probability distribution of <span class="math notranslate nohighlight">\(Z_n^\ell\)</span> given <span class="math notranslate nohighlight">\(Z_{1:n-1}^\ell\)</span>.
-Denote with <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> this distribution.
-When EKF is used, <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> is a multivariate Gaussian with mean <span class="math notranslate nohighlight">\(\mu_{n|n-1}^\ell = \mathbb{E}[Z_n^\ell|Z_{1:n-1}^\ell]\)</span> and covariance matrix <span class="math notranslate nohighlight">\(\Sigma_{n|n-1}^\ell = \mathbb{V}[Z_n^\ell|Z_{1:n-1}^\ell]\)</span>. Denoting with <span class="math notranslate nohighlight">\(\mu_{n-1}^\ell\)</span>, <span class="math notranslate nohighlight">\(\Sigma_{n-1}^\ell\)</span> the filtering distibutions for the <span class="math notranslate nohighlight">\(\ell\)</span>-th filter at time <span class="math notranslate nohighlight">\(n-1\)</span>.
-In <span class="math notranslate nohighlight">\(\Rset^2\)</span>, values of the cumulative distribution function (cdf) of a multivariate Gaussian distribution are easy to compute.
-Denote with <span class="math notranslate nohighlight">\(F_n^\ell\)</span> the cdf of <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span>.
-If <span class="math notranslate nohighlight">\(V_\delta(z)\)</span> is a squared neighborhood of size <span class="math notranslate nohighlight">\(\delta\)</span> and centered on <span class="math notranslate nohighlight">\(z=(x,y) \in \Rset^2\)</span>, then</p>
-<div class="math notranslate nohighlight">
-\[
-\predictdist_n^{\ell}(V_\delta(z)) = F_n^\ell(x+\delta,y+\delta) + F_n^\ell(x-\delta,y-\delta) - \left[F_n^\ell(x+\delta,y-\delta) + F_n^\ell(x-\delta,y+\delta)\right]
-\]</div>
-<p>This allows easy computation of <span class="math notranslate nohighlight">\(P(i,\ell) = \predictdist_n^\ell(V_\delta(z_n^i))\)</span>.</p>
-</section>
 <section id="influence-of-tau-and-kappa">
 <span id="tau-kappa-appendix"></span><h4>Influence of <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(\kappa\)</span><a class="headerlink" href="#influence-of-tau-and-kappa" title="Permalink to this headline">#</a></h4>
 <p>An understanding of <span class="math notranslate nohighlight">\(\kappa\)</span>, <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(\nu\)</span> can be stated as follows.
@@ -2274,7 +2256,7 @@ for method_name, pretty_method_name in zip(method_names, pretty_method_names):
 <span id="id54"></span><h3>Bayesian filtering<a class="headerlink" href="#bayesian-filtering" title="Permalink to this headline">#</a></h3>
 <p>Considering a state space model with <span class="math notranslate nohighlight">\((X_k, Z_k)_{k \geq 0}\)</span> the random processes for the states and observations, respectively, the filtering recursions are given by:</p>
 <ul class="simple">
-<li><p>The predict step: <span class="math notranslate nohighlight">\(p(x_{k+1}|z_{1:k}) = \int_{x_k} p(x_{k+1}|x_k)p(x_k|z_{1:k})\mathrm{d}x_k.\)</span></p></li>
+<li><p>The predict step: <span class="math notranslate nohighlight">\(p(x_{k+1}|z_{1:k}) = \int p(x_{k+1}|x_k)p(x_k|z_{1:k})\mathrm{d}x_k.\)</span></p></li>
 <li><p>The update step: <span class="math notranslate nohighlight">\(p(x_{k+1}|z_{1:k+1}) \propto p(z_{k+1} | x_{k+1})p(x_{k+1}|z_{1:k}).\)</span></p></li>
 </ul>
 <p>The recursions are intractable in most cases, but when the model is linear and Gaussian, i.e. such that:</p>
@@ -2297,6 +2279,33 @@ for method_name, pretty_method_name in zip(method_names, pretty_method_names):
 \[Q_k = Q, R_k = R,\]</div>
 <div class="math notranslate nohighlight">
 \[B_k = I, b_k = 0.\]</div>
+</section>
+<section id="computing-the-confidence-regions">
+<span id="confidence-regions-appendix"></span><h3>Computing the confidence regions<a class="headerlink" href="#computing-the-confidence-regions" title="Permalink to this headline">#</a></h3>
+<p>In words, <span class="math notranslate nohighlight">\(P(i,\ell)\)</span> is the mass in <span class="math notranslate nohighlight">\(V_\delta(z_n^i) \subset \Rset^2\)</span> of the probability distribution of <span class="math notranslate nohighlight">\(Z_n^\ell\)</span> given <span class="math notranslate nohighlight">\(Z_{1:n-1}^\ell\)</span>.
+Denote with <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span> this distribution. It is related to the filtering distribution at the previous timestep via</p>
+<div class="math notranslate nohighlight">
+\[
+p(z_n | z_{1:n-1}) = \int \int p(z_n | x_n) p(x_n | x_{n-1}) p(x_{n-1} | z_{1:n-1}) \rmd x_{n} \rmd x_{n-1}
+\]</div>
+<p>When using EKF, this distribution is a multivariate Gaussian whose moments can be analytically obtained from the filtering mean and variance and the parameters of the linear model, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbb{E} \left[Z_n^\ell | Z_{1:n-1}^\ell \right] = B_k (A_k \mu_{k-1} + a_k) + b_k 
+\]</div>
+<p>and
+$<span class="math notranslate nohighlight">\(
+\mathbb{V} \left[Z_n^\ell | Z_{1:n-1}^\ell \right] = B_k (A_k \Sigma_k A_k^T + Q_k) B_k^T + R_k  
+\)</span>$</p>
+<p>following the previously introduced notation. Note that given the values of <span class="math notranslate nohighlight">\(A_k, B_k, a_k, b_k\)</span> in our model these equations are simplified in practice, e.g. <span class="math notranslate nohighlight">\(B_k = I, b_k = 0\)</span> and <span class="math notranslate nohighlight">\(A_k \mu_{k-1} + a_k = \mu_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor)\)</span>.</p>
+<p>In <span class="math notranslate nohighlight">\(\Rset^2\)</span>, values of the cumulative distribution function (cdf) of a multivariate Gaussian distribution are easy to compute.
+Denote with <span class="math notranslate nohighlight">\(F_n^\ell\)</span> the cdf of <span class="math notranslate nohighlight">\(\predictdist_n^\ell\)</span>.
+If <span class="math notranslate nohighlight">\(V_\delta(z)\)</span> is a squared neighborhood of size <span class="math notranslate nohighlight">\(\delta\)</span> and centered on <span class="math notranslate nohighlight">\(z=(x,y) \in \Rset^2\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[
+\predictdist_n^{\ell}(V_\delta(z)) = F_n^\ell(x+\delta,y+\delta) + F_n^\ell(x-\delta,y-\delta) - \left[F_n^\ell(x+\delta,y-\delta) + F_n^\ell(x-\delta,y+\delta)\right]
+\]</div>
+<p>This allows easy computation of <span class="math notranslate nohighlight">\(P(i,\ell) = \predictdist_n^\ell(V_\delta(z_n^i))\)</span>.</p>
 </section>
 <section id="impact-of-the-filtering-algorithm">
 <span id="impact-algorithm-appendix"></span><h3>Impact of the filtering algorithm<a class="headerlink" href="#impact-of-the-filtering-algorithm" title="Permalink to this headline">#</a></h3>

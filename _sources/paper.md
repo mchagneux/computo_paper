@@ -1040,22 +1040,7 @@ All other coefficients were not estimated and supposed to be 0.
 An important remark is that though we use these values in practice, we found that tracking results are largely unaffected by small variations of $R$ and $Q$.
 As long as values are meaningful relative to the image dimensions and the size of the objects, most noise levels show relatively similar performance.
 
-(confidence-regions-appendix)=
-#### Computing the confidence regions
 
-
-In words, $P(i,\ell)$ is the mass in $V_\delta(z_n^i) \subset \Rset^2$ of the probability distribution of $Z_n^\ell$ given $Z_{1:n-1}^\ell$.
-Denote with $\predictdist_n^\ell$ this distribution.
-When EKF is used, $\predictdist_n^\ell$ is a multivariate Gaussian with mean $\mu_{n|n-1}^\ell = \mathbb{E}[Z_n^\ell|Z_{1:n-1}^\ell]$ and covariance matrix $\Sigma_{n|n-1}^\ell = \mathbb{V}[Z_n^\ell|Z_{1:n-1}^\ell]$. Denoting with $\mu_{n-1}^\ell$, $\Sigma_{n-1}^\ell$ the filtering distibutions for the $\ell$-th filter at time $n-1$. 
-In $\Rset^2$, values of the cumulative distribution function (cdf) of a multivariate Gaussian distribution are easy to compute.
-Denote with $F_n^\ell$ the cdf of $\predictdist_n^\ell$.
-If $V_\delta(z)$ is a squared neighborhood of size $\delta$ and centered on $z=(x,y) \in \Rset^2$, then
-
-$$
-\predictdist_n^{\ell}(V_\delta(z)) = F_n^\ell(x+\delta,y+\delta) + F_n^\ell(x-\delta,y-\delta) - \left[F_n^\ell(x+\delta,y-\delta) + F_n^\ell(x-\delta,y+\delta)\right]
-$$
-
-This allows easy computation of $P(i,\ell) = \predictdist_n^\ell(V_\delta(z_n^i))$.
 
 (tau-kappa-appendix)=
 #### Influence of $\tau$ and $\kappa$
@@ -1150,7 +1135,7 @@ for method_name, pretty_method_name in zip(method_names, pretty_method_names):
 
 Considering a state space model with $(X_k, Z_k)_{k \geq 0}$ the random processes for the states and observations, respectively, the filtering recursions are given by:
 
-- The predict step: $p(x_{k+1}|z_{1:k}) = \int_{x_k} p(x_{k+1}|x_k)p(x_k|z_{1:k})\mathrm{d}x_k.$
+- The predict step: $p(x_{k+1}|z_{1:k}) = \int p(x_{k+1}|x_k)p(x_k|z_{1:k})\mathrm{d}x_k.$
 - The update step: $p(x_{k+1}|z_{1:k+1}) \propto p(z_{k+1} | x_{k+1})p(x_{k+1}|z_{1:k}).$
 
 
@@ -1172,6 +1157,41 @@ $$A_k = (I + \partial_X\Delta_k(\lfloor \mu_{k-1} \rfloor),$$
 $$a_k = \Delta_k(\lfloor \mu_{k-1} \rfloor) - \partial_X\Delta_k(\lfloor \mu_{k-1} \rfloor)\mu_{k-1},$$
 $$Q_k = Q, R_k = R,$$
 $$B_k = I, b_k = 0.$$
+
+
+(confidence-regions-appendix)=
+### Computing the confidence regions
+
+
+In words, $P(i,\ell)$ is the mass in $V_\delta(z_n^i) \subset \Rset^2$ of the probability distribution of $Z_n^\ell$ given $Z_{1:n-1}^\ell$.
+Denote with $\predictdist_n^\ell$ this distribution. It is related to the filtering distribution at the previous timestep via 
+
+$$
+p(z_n | z_{1:n-1}) = \int \int p(z_n | x_n) p(x_n | x_{n-1}) p(x_{n-1} | z_{1:n-1}) \rmd x_{n} \rmd x_{n-1}
+$$
+
+When using EKF, this distribution is a multivariate Gaussian whose moments can be analytically obtained from the filtering mean and variance and the parameters of the linear model, i.e. 
+
+$$
+\mathbb{E} \left[Z_n^\ell | Z_{1:n-1}^\ell \right] = B_k (A_k \mu_{k-1} + a_k) + b_k 
+$$
+
+and 
+$$
+\mathbb{V} \left[Z_n^\ell | Z_{1:n-1}^\ell \right] = B_k (A_k \Sigma_k A_k^T + Q_k) B_k^T + R_k  
+$$
+
+following the previously introduced notation. Note that given the values of $A_k, B_k, a_k, b_k$ in our model these equations are simplified in practice, e.g. $B_k = I, b_k = 0$ and $A_k \mu_{k-1} + a_k = \mu_{k-1} + \Delta_k(\lfloor \mu_{k-1} \rfloor)$.
+
+In $\Rset^2$, values of the cumulative distribution function (cdf) of a multivariate Gaussian distribution are easy to compute.
+Denote with $F_n^\ell$ the cdf of $\predictdist_n^\ell$.
+If $V_\delta(z)$ is a squared neighborhood of size $\delta$ and centered on $z=(x,y) \in \Rset^2$, then
+
+$$
+\predictdist_n^{\ell}(V_\delta(z)) = F_n^\ell(x+\delta,y+\delta) + F_n^\ell(x-\delta,y-\delta) - \left[F_n^\ell(x+\delta,y-\delta) + F_n^\ell(x-\delta,y+\delta)\right]
+$$
+
+This allows easy computation of $P(i,\ell) = \predictdist_n^\ell(V_\delta(z_n^i))$.
 
 (impact-algorithm-appendix)=
 ### Impact of the filtering algorithm 
