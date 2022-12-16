@@ -1188,9 +1188,7 @@ def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tracking took: 0.102 seconds for 360 frames or 3524.4 FPS
+Total Tracking took: 0.085 seconds for 360 frames or 4245.0 FPS
 --- End
 </pre></div>
 </div>
@@ -1577,7 +1575,7 @@ Additionally, results on the original validation footage do not measure the stat
 <section id="count-decomposition">
 <h4>Count decomposition<a class="headerlink" href="#count-decomposition" title="Permalink to this headline">#</a></h4>
 <p>Define <span class="math notranslate nohighlight">\(\gtlabels\)</span> and <span class="math notranslate nohighlight">\(\predlabels\)</span> the labels of the annotated ground truth tracks and the predicted tracks, respectively.
-At evaluation, we assign each predicted track to either none or at most one ground truth track, writing <span class="math notranslate nohighlight">\(j \rightarrow \emptyset\)</span> or <span class="math notranslate nohighlight">\(j \rightarrow i\)</span> for the corresponding assignments. The association is made whenever a predicted track <span class="math notranslate nohighlight">\(i\)</span> overlaps with a ground truth track <span class="math notranslate nohighlight">\(j\)</span> at any frame, i.e. for a given frame a detection in <span class="math notranslate nohighlight">\(i\)</span> is within a threshold <span class="math notranslate nohighlight">\(\alpha\)</span> of an object in <span class="math notranslate nohighlight">\(j\)</span>. We compute metrics for 20 values of <span class="math notranslate nohighlight">\(\alpha \in [0.05 \alpha_{max}, 0.95 \alpha_{max}]\)</span>, with <span class="math notranslate nohighlight">\(\alpha_{max} = 0.1 \sqrt{w^2 + h^2}\)</span>, then average the results, which is the default method in HOTA to combine results at different thresholds. We keep this default solution, in particular because our results are very consistent accross different thresholds in that range (i.e. we only observe a slight decrease in detection precision for <span class="math notranslate nohighlight">\(\alpha = \alpha_{max}\)</span>, where occasional false detections probably start to lie below the threshold).</p>
+At evaluation, we assign each predicted track to either none or at most one ground truth track, writing <span class="math notranslate nohighlight">\(j \rightarrow \emptyset\)</span> or <span class="math notranslate nohighlight">\(j \rightarrow i\)</span> for the corresponding assignments. The association is made whenever a predicted track <span class="math notranslate nohighlight">\(i\)</span> overlaps with a ground truth track <span class="math notranslate nohighlight">\(j\)</span> at any frame, i.e. for a given frame a detection in <span class="math notranslate nohighlight">\(i\)</span> is within a threshold <span class="math notranslate nohighlight">\(\alpha\)</span> of an object in <span class="math notranslate nohighlight">\(j\)</span>. We compute metrics for 20 values of <span class="math notranslate nohighlight">\(\alpha \in [0.05 \alpha_{max}, 0.95 \alpha_{max}]\)</span>, with <span class="math notranslate nohighlight">\(\alpha_{max} = 0.1 \sqrt{w^2 + h^2}\)</span>, then average the results, which is the default method in HOTA to combine results at different thresholds. We keep this default solution, in particular because our results are very consistent accross different thresholds in that range (i.e. we only observe a slight decrease in performance for <span class="math notranslate nohighlight">\(\alpha = \alpha_{max}\)</span>, where occasional false detections probably start to lie below the threshold, otherwise results are identical).</p>
 <p>Denote <span class="math notranslate nohighlight">\(A_i = \{\predlabels \mid j \rightarrow i\}\)</span> the set of predicted tracks assigned to the <span class="math notranslate nohighlight">\(i\)</span>-th ground truth track.
 We define:</p>
 <ol class="simple">
@@ -1878,7 +1876,7 @@ for sequence_name, result in zip([&#39;S_1&#39;,&#39;S_2&#39;,&#39;S_3&#39;,&#39
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2479/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2571/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
