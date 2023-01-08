@@ -1027,79 +1027,77 @@ We compare the count performance of our method against other MOT-based alternati
 <p>A first visual illustration of the second claim is presented via the following code chunks: on three selected frames, we present a typical scenario where our strategy can avoid overcounting the same object (we depict internal workings of our solution against the end result of the competitors).</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from myst_nb import glue
-import matplotlib
-import matplotlib.pyplot as plt
-import os
-import pandas as pd
-from surfnet.prepare_data import download_data
-from surfnet.track import default_args as args
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">myst_nb</span> <span class="kn">import</span> <span class="n">glue</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">surfnet.prepare_data</span> <span class="kn">import</span> <span class="n">download_data</span>
+<span class="kn">from</span> <span class="nn">surfnet.track</span> <span class="kn">import</span> <span class="n">default_args</span> <span class="k">as</span> <span class="n">args</span>
 
 
-params = {&#39;legend.fontsize&#39;: &#39;xx-large&#39;,
-         &#39;axes.labelsize&#39;: &#39;xx-large&#39;,
-         &#39;axes.titlesize&#39;:&#39;xx-large&#39;,
-         &#39;xtick.labelsize&#39;:&#39;xx-large&#39;,
-         &#39;ytick.labelsize&#39;:&#39;xx-large&#39;}
-plt.rcParams.update(params)
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;legend.fontsize&#39;</span><span class="p">:</span> <span class="s1">&#39;xx-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="s1">&#39;xx-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;axes.titlesize&#39;</span><span class="p">:</span><span class="s1">&#39;xx-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">:</span><span class="s1">&#39;xx-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">:</span><span class="s1">&#39;xx-large&#39;</span><span class="p">}</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
-# download frames and detections from a given deep detector model
-download_data()
+<span class="c1"># download frames and detections from a given deep detector model</span>
+<span class="n">download_data</span><span class="p">()</span>
 
-# prepare arguments
-args.external_detections = True
-args.data_dir = &#39;data/external_detections/part_1_segment_0&#39;
-args.output_dir = &#39;surfnet/results&#39;
-args.noise_covariances_path = &#39;surfnet/data/tracking_parameters&#39;
-args.confidence_threshold = 0.5
-args.algorithm = &#39;EKF&#39;
-args.ratio = 4
-args.display = 0
+<span class="c1"># prepare arguments</span>
+<span class="n">args</span><span class="o">.</span><span class="n">external_detections</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">args</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="s1">&#39;data/external_detections/part_1_segment_0&#39;</span>
+<span class="n">args</span><span class="o">.</span><span class="n">output_dir</span> <span class="o">=</span> <span class="s1">&#39;surfnet/results&#39;</span>
+<span class="n">args</span><span class="o">.</span><span class="n">noise_covariances_path</span> <span class="o">=</span> <span class="s1">&#39;surfnet/data/tracking_parameters&#39;</span>
+<span class="n">args</span><span class="o">.</span><span class="n">confidence_threshold</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">args</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="s1">&#39;EKF&#39;</span>
+<span class="n">args</span><span class="o">.</span><span class="n">ratio</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">args</span><span class="o">.</span><span class="n">display</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
+---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import pickle
-import numpy as np
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-from surfnet.tracking.utils import resize_external_detections, write_tracking_results_to_file
-from surfnet.tools.video_readers import FramesWithInfo
-from surfnet.tracking.trackers import get_tracker
-from surfnet.track import track_video
+<span class="kn">from</span> <span class="nn">surfnet.tracking.utils</span> <span class="kn">import</span> <span class="n">resize_external_detections</span><span class="p">,</span> <span class="n">write_tracking_results_to_file</span>
+<span class="kn">from</span> <span class="nn">surfnet.tools.video_readers</span> <span class="kn">import</span> <span class="n">FramesWithInfo</span>
+<span class="kn">from</span> <span class="nn">surfnet.tracking.trackers</span> <span class="kn">import</span> <span class="n">get_tracker</span>
+<span class="kn">from</span> <span class="nn">surfnet.track</span> <span class="kn">import</span> <span class="n">track_video</span>
 
-# Initialize variances
-transition_variance = np.load(os.path.join(args.noise_covariances_path, &#39;transition_variance.npy&#39;))
-observation_variance = np.load(os.path.join(args.noise_covariances_path, &#39;observation_variance.npy&#39;))
+<span class="c1"># Initialize variances</span>
+<span class="n">transition_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">noise_covariances_path</span><span class="p">,</span> <span class="s1">&#39;transition_variance.npy&#39;</span><span class="p">))</span>
+<span class="n">observation_variance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">noise_covariances_path</span><span class="p">,</span> <span class="s1">&#39;observation_variance.npy&#39;</span><span class="p">))</span>
 
-# Get tracker algorithm
-engine = get_tracker(args.algorithm)
+<span class="c1"># Get tracker algorithm</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">get_tracker</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">algorithm</span><span class="p">)</span>
 
-# Open data: detections and frames
-with open(os.path.join(args.data_dir, &#39;saved_detections.pickle&#39;),&#39;rb&#39;) as f:
-    detections = pickle.load(f)
-with open(os.path.join(args.data_dir, &#39;saved_frames.pickle&#39;),&#39;rb&#39;) as f:
-    frames = pickle.load(f)
+<span class="c1"># Open data: detections and frames</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;saved_detections.pickle&#39;</span><span class="p">),</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">detections</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;saved_frames.pickle&#39;</span><span class="p">),</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-# Create frame reader and resize detections
-reader = FramesWithInfo(frames)
-detections = resize_external_detections(detections, args.ratio)
+<span class="c1"># Create frame reader and resize detections</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">FramesWithInfo</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
+<span class="n">detections</span> <span class="o">=</span> <span class="n">resize_external_detections</span><span class="p">(</span><span class="n">detections</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">ratio</span><span class="p">)</span>
 
-# Start tracking, storing intermediate tracklets
-results, frame_to_trackers = track_video(reader, detections, args, engine, 
-                                         transition_variance, observation_variance, return_trackers=True)
+<span class="c1"># Start tracking, storing intermediate tracklets</span>
+<span class="n">results</span><span class="p">,</span> <span class="n">frame_to_trackers</span> <span class="o">=</span> <span class="n">track_video</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">detections</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> 
+                                         <span class="n">transition_variance</span><span class="p">,</span> <span class="n">observation_variance</span><span class="p">,</span> <span class="n">return_trackers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-# Write final results
-write_tracking_results_to_file(results, ratio_x=args.ratio, ratio_y=args.ratio, output_filename=args.output_dir)
+<span class="c1"># Write final results</span>
+<span class="n">write_tracking_results_to_file</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">ratio_x</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">ratio</span><span class="p">,</span> <span class="n">ratio_y</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">ratio</span><span class="p">,</span> <span class="n">output_filename</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1115,13 +1113,13 @@ Tracking...
 </div>
 <div class="cell tag_hide-input tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from surfnet.track import build_image_trackers
-# Choose a few indices to display (same for our algorithm and SORT)
-idxs = [108, 112, 117]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">surfnet.track</span> <span class="kn">import</span> <span class="n">build_image_trackers</span>
+<span class="c1"># Choose a few indices to display (same for our algorithm and SORT)</span>
+<span class="n">idxs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">108</span><span class="p">,</span> <span class="mi">112</span><span class="p">,</span> <span class="mi">117</span><span class="p">]</span>
     
-considered_frames = [frames[i] for i in idxs]
-considered_trackers = [frame_to_trackers[i] for i in idxs]
-glue(&#39;demo_ours&#39;, build_image_trackers(considered_frames, considered_trackers, args, reader), display=False)
+<span class="n">considered_frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">frames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxs</span><span class="p">]</span>
+<span class="n">considered_trackers</span> <span class="o">=</span> <span class="p">[</span><span class="n">frame_to_trackers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxs</span><span class="p">]</span>
+<span class="n">glue</span><span class="p">(</span><span class="s1">&#39;demo_ours&#39;</span><span class="p">,</span> <span class="n">build_image_trackers</span><span class="p">(</span><span class="n">considered_frames</span><span class="p">,</span> <span class="n">considered_trackers</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">reader</span><span class="p">),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1136,61 +1134,59 @@ glue(&#39;demo_ours&#39;, build_image_trackers(considered_frames, considered_tra
 </figure>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>## Tracker with SORT 
-from collections import defaultdict
-import cv2
-from sort.sort import track as sort_tracker
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Tracker with SORT </span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">from</span> <span class="nn">sort.sort</span> <span class="kn">import</span> <span class="n">track</span> <span class="k">as</span> <span class="n">sort_tracker</span>
 
-print(&#39;Tracking with SORT...&#39;)
-print(&#39;--- Begin SORT internal logs&#39;)
-sort_tracker(detections_dir=&#39;data/external_detections&#39;, output_dir=&#39;sort/results&#39;)
-print(&#39;--- End&#39;)
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Tracking with SORT...&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- Begin SORT internal logs&#39;</span><span class="p">)</span>
+<span class="n">sort_tracker</span><span class="p">(</span><span class="n">detections_dir</span><span class="o">=</span><span class="s1">&#39;data/external_detections&#39;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;sort/results&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--- End&#39;</span><span class="p">)</span>
 
-def read_sort_output(filename):
-    &quot;&quot;&quot; Reads the output .txt of Sort (or other tracking algorithm)
-    &quot;&quot;&quot;
-    dict_frames = defaultdict(list)
-    with open(filename) as f:
-        for line in f:
-            items = line[:-1].split(&quot;,&quot;)
-            frame = int(items[0])
-            objnum = int(items[1])
-            x = float(items[2])
-            y = float(items[3])
-            dict_frames[int(items[0])].append((objnum, x, y))
-    return  dict_frames
+<span class="k">def</span> <span class="nf">read_sort_output</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Reads the output .txt of Sort (or other tracking algorithm)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dict_frames</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">line</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">objnum</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">dict_frames</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">objnum</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="k">return</span>  <span class="n">dict_frames</span>
 
 
-def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
-    &quot;&quot;&quot; Builds a full image with consecutive frames and their displayed trackers
-    frames: a list of K np.array
-    trackers: a list of K trackers. Each tracker is a per frame list of tracked objects
-    &quot;&quot;&quot;
-    K = len(frames)
-    assert len(trackers) == K
-    font = cv2.FONT_HERSHEY_COMPLEX
-    output_img=np.zeros((image_shape[0], image_shape[1]*K, 3), dtype=np.uint8)
-    object_ids = []
-    for tracker in trackers:
-        for detection in tracker:
-            object_ids.append(detection[0])
-    min_object_id = min(object_ids)
-    for i in range(K):
-        frame = cv2.cvtColor(cv2.resize(frames[i], image_shape[::-1]), cv2.COLOR_BGR2RGB)
-        for detection in trackers[i]:
-            cv2.putText(frame, f&#39;{detection[0]-min_object_id +1}&#39;, (int(detection[1]/downsampling)+10, int(detection[2]/downsampling)+10), font, 0.5, (255, 0, 0), 1, cv2.LINE_AA)
+<span class="k">def</span> <span class="nf">build_image</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">trackers</span><span class="p">,</span> <span class="n">image_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">135</span><span class="p">,</span><span class="mi">240</span><span class="p">),</span> <span class="n">downsampling</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="mi">4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Builds a full image with consecutive frames and their displayed trackers</span>
+<span class="sd">    frames: a list of K np.array</span>
+<span class="sd">    trackers: a list of K trackers. Each tracker is a per frame list of tracked objects</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">K</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">trackers</span><span class="p">)</span> <span class="o">==</span> <span class="n">K</span>
+    <span class="n">font</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">FONT_HERSHEY_COMPLEX</span>
+    <span class="n">output_img</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">image_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">image_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">K</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">object_ids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">tracker</span> <span class="ow">in</span> <span class="n">trackers</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">detection</span> <span class="ow">in</span> <span class="n">tracker</span><span class="p">:</span>
+            <span class="n">object_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detection</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">min_object_id</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">object_ids</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">K</span><span class="p">):</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">frames</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">image_shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">detection</span> <span class="ow">in</span> <span class="n">trackers</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">putText</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">detection</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">min_object_id</span><span class="w"> </span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">detection</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">downsampling</span><span class="p">)</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">detection</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">downsampling</span><span class="p">)</span><span class="o">+</span><span class="mi">10</span><span class="p">),</span> <span class="n">font</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">LINE_AA</span><span class="p">)</span>
 
-        output_img[:,i*image_shape[1]:(i+1)*image_shape[1],:] = frame
-    return output_img
+        <span class="n">output_img</span><span class="p">[:,</span><span class="n">i</span><span class="o">*</span><span class="n">image_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">image_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],:]</span> <span class="o">=</span> <span class="n">frame</span>
+    <span class="k">return</span> <span class="n">output_img</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total Tracking took: 0.130 seconds for 360 frames or 2761.1 FPS
+Total Tracking took: 0.088 seconds for 360 frames or 4080.4 FPS
 --- End
 </pre></div>
 </div>
@@ -1198,17 +1194,17 @@ def build_image(frames, trackers, image_shape=(135,240), downsampling=2*4):
 </div>
 <div class="cell tag_hide-input tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># open sort output
-tracker_file = &quot;sort/results/part_1_segment_0.txt&quot;
-frame_to_track = read_sort_output(tracker_file)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># open sort output</span>
+<span class="n">tracker_file</span> <span class="o">=</span> <span class="s2">&quot;sort/results/part_1_segment_0.txt&quot;</span>
+<span class="n">frame_to_track</span> <span class="o">=</span> <span class="n">read_sort_output</span><span class="p">(</span><span class="n">tracker_file</span><span class="p">)</span>
 
-condisered_frames = [frames[idx] for idx in idxs]
-considered_tracks = [frame_to_track[i] for i in idxs]
-out_img = build_image(condisered_frames, considered_tracks)
-plt.figure(figsize=(15,6))
-plt.imshow(out_img)
-plt.axis(&quot;off&quot;);
-glue(&#39;sort_demo&#39;, plt.gcf(), display=False)
+<span class="n">condisered_frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">frames</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">idxs</span><span class="p">]</span>
+<span class="n">considered_tracks</span> <span class="o">=</span> <span class="p">[</span><span class="n">frame_to_track</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idxs</span><span class="p">]</span>
+<span class="n">out_img</span> <span class="o">=</span> <span class="n">build_image</span><span class="p">(</span><span class="n">condisered_frames</span><span class="p">,</span> <span class="n">considered_tracks</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">out_img</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">);</span>
+<span class="n">glue</span><span class="p">(</span><span class="s1">&#39;sort_demo&#39;</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">(),</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1276,64 +1272,64 @@ In this work, we focus only on litter counting without classification, however t
 <p>A few samples are depicted below:</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from PIL import Image, ExifTags
-from pycocotools.coco import COCO
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ExifTags</span>
+<span class="kn">from</span> <span class="nn">pycocotools.coco</span> <span class="kn">import</span> <span class="n">COCO</span>
 
 
-def draw_bbox(image, anns, ratio):
-    &quot;&quot;&quot;
-    Display the specified annotations.
-    &quot;&quot;&quot;
-    for ann in anns:
-        [bbox_x, bbox_y, bbox_w, bbox_h] = (ratio*np.array(ann[&#39;bbox&#39;])).astype(int)
-        cv2.rectangle(image, (bbox_x,bbox_y),(bbox_x+bbox_w,bbox_y+bbox_h), color=(0,0,255),thickness=3)
+<span class="k">def</span> <span class="nf">draw_bbox</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">anns</span><span class="p">,</span> <span class="n">ratio</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Display the specified annotations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">ann</span> <span class="ow">in</span> <span class="n">anns</span><span class="p">:</span>
+        <span class="p">[</span><span class="n">bbox_x</span><span class="p">,</span> <span class="n">bbox_y</span><span class="p">,</span> <span class="n">bbox_w</span><span class="p">,</span> <span class="n">bbox_h</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ratio</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ann</span><span class="p">[</span><span class="s1">&#39;bbox&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">bbox_x</span><span class="p">,</span><span class="n">bbox_y</span><span class="p">),(</span><span class="n">bbox_x</span><span class="o">+</span><span class="n">bbox_w</span><span class="p">,</span><span class="n">bbox_y</span><span class="o">+</span><span class="n">bbox_h</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">255</span><span class="p">),</span><span class="n">thickness</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
-    return image
+    <span class="k">return</span> <span class="n">image</span>
 
-dir = &#39;surfnet/data/images&#39;
+<span class="nb">dir</span> <span class="o">=</span> <span class="s1">&#39;surfnet/data/images&#39;</span>
 
-ann_dir = os.path.join(dir,&#39;annotations&#39;)
-data_dir = os.path.join(dir,&#39;images&#39;)
-ann_file = os.path.join(ann_dir, &#39;subset_of_annotations.json&#39;)
-coco = COCO(ann_file)
+<span class="n">ann_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="s1">&#39;annotations&#39;</span><span class="p">)</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="s1">&#39;images&#39;</span><span class="p">)</span>
+<span class="n">ann_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ann_dir</span><span class="p">,</span> <span class="s1">&#39;subset_of_annotations.json&#39;</span><span class="p">)</span>
+<span class="n">coco</span> <span class="o">=</span> <span class="n">COCO</span><span class="p">(</span><span class="n">ann_file</span><span class="p">)</span>
 
-imgIds = np.array(coco.getImgIds())
-print(&#39;{} images loaded&#39;.format(len(imgIds)))
+<span class="n">imgIds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coco</span><span class="o">.</span><span class="n">getImgIds</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> images loaded&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">imgIds</span><span class="p">)))</span>
 
-for imgId in imgIds:
-    plt.figure()
-    image = coco.loadImgs(ids=[imgId])[0]
-    try:
-        image = Image.open(os.path.join(data_dir,image[&#39;file_name&#39;]))
-        # Rotation of the picture in the Exif tags
-        for orientation in ExifTags.TAGS.keys():
-            if ExifTags.TAGS[orientation]==&#39;Orientation&#39;:
-                break
+<span class="k">for</span> <span class="n">imgId</span> <span class="ow">in</span> <span class="n">imgIds</span><span class="p">:</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">loadImgs</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="n">imgId</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span><span class="n">image</span><span class="p">[</span><span class="s1">&#39;file_name&#39;</span><span class="p">]))</span>
+        <span class="c1"># Rotation of the picture in the Exif tags</span>
+        <span class="k">for</span> <span class="n">orientation</span> <span class="ow">in</span> <span class="n">ExifTags</span><span class="o">.</span><span class="n">TAGS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">ExifTags</span><span class="o">.</span><span class="n">TAGS</span><span class="p">[</span><span class="n">orientation</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Orientation&#39;</span><span class="p">:</span>
+                <span class="k">break</span>
         
-        exif = image._getexif()
-        if exif is not None:
-            if exif[orientation] == 3:
-                image=image.rotate(180, expand=True)
-            elif exif[orientation] == 6:
-                image=image.rotate(270, expand=True)
-            elif exif[orientation] == 8:
-                image=image.rotate(90, expand=True)
+        <span class="n">exif</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">_getexif</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">exif</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">exif</span><span class="p">[</span><span class="n">orientation</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">exif</span><span class="p">[</span><span class="n">orientation</span><span class="p">]</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+                <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">270</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">exif</span><span class="p">[</span><span class="n">orientation</span><span class="p">]</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+                <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    except (AttributeError, KeyError, IndexError):
-        # cases: image don&#39;t have getexif
-        pass
-    image = cv2.cvtColor(np.array(image.convert(&#39;RGB&#39;)),  cv2.COLOR_RGB2BGR)
-    annIds = coco.getAnnIds(imgIds=[imgId])
-    anns = coco.loadAnns(ids=annIds)
-    h,w = image.shape[:-1]
-    target_h = 1080
-    ratio = target_h/h
-    target_w = int(ratio*w) 
-    image = cv2.resize(image,(target_w,target_h))
-    image = draw_bbox(image,anns,ratio)
-    image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-    plt.imshow(image)
-    plt.axis(&#39;off&#39;)
+    <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+        <span class="c1"># cases: image don&#39;t have getexif</span>
+        <span class="k">pass</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;RGB&#39;</span><span class="p">)),</span>  <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_RGB2BGR</span><span class="p">)</span>
+    <span class="n">annIds</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">getAnnIds</span><span class="p">(</span><span class="n">imgIds</span><span class="o">=</span><span class="p">[</span><span class="n">imgId</span><span class="p">])</span>
+    <span class="n">anns</span> <span class="o">=</span> <span class="n">coco</span><span class="o">.</span><span class="n">loadAnns</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">annIds</span><span class="p">)</span>
+    <span class="n">h</span><span class="p">,</span><span class="n">w</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">target_h</span> <span class="o">=</span> <span class="mi">1080</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="n">target_h</span><span class="o">/</span><span class="n">h</span>
+    <span class="n">target_w</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ratio</span><span class="o">*</span><span class="n">w</span><span class="p">)</span> 
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,(</span><span class="n">target_w</span><span class="p">,</span><span class="n">target_h</span><span class="p">))</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">draw_bbox</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">anns</span><span class="p">,</span><span class="n">ratio</span><span class="p">)</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGR2RGB</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1627,70 +1623,70 @@ We observe low <span class="math notranslate nohighlight">\(\detre\)</span>, sug
 To better focus on count performance in the next sections, we remove segments that do not generate any correct detection: performance on the remaining footage is increased and given by <span class="math notranslate nohighlight">\(\detre^{*}\)</span> and <span class="math notranslate nohighlight">\(\detpr^{*}\)</span>.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from IPython.display import display
-import pandas as pd
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-fps = 12
-fps = f&#39;{fps}fps&#39;
+<span class="n">fps</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">fps</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">fps&#39;</span>
 
-split = &#39;test&#39;
+<span class="n">split</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
 
-long_segments_names = [&#39;part_1_1&#39;,
-                    &#39;part_1_2&#39;,
-                    &#39;part_2&#39;,
-                    &#39;part_3&#39;]
+<span class="n">long_segments_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;part_1_1&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;part_1_2&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;part_2&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;part_3&#39;</span><span class="p">]</span>
 
-indices_test = [0,7,9,13]
-indices_val = [0,9,10,14]
-indices_det = [0,17,24,38]
+<span class="n">indices_test</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">13</span><span class="p">]</span>
+<span class="n">indices_val</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">14</span><span class="p">]</span>
+<span class="n">indices_det</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">38</span><span class="p">]</span>
 
-alpha_type = &#39;___50&#39;
+<span class="n">alpha_type</span> <span class="o">=</span> <span class="s1">&#39;___50&#39;</span>
 
-def set_split(split):
+<span class="k">def</span> <span class="nf">set_split</span><span class="p">(</span><span class="n">split</span><span class="p">):</span>
 
-    if split == &#39;val&#39;:
-        indices = indices_val
-    elif split == &#39;test&#39;:
-        indices = indices_test
-    gt_dir_short = f&#39;TrackEval/data/gt/surfrider_short_segments_{fps}&#39;
-    eval_dir_short = f&#39;TrackEval/data/trackers/surfrider_short_segments_{fps}&#39;
-    if split is not None: 
-        gt_dir_short += f&#39;_{split}&#39;
-        eval_dir_short += f&#39;_{split}&#39;
-    gt_dir_short += &#39;/surfrider-test&#39;
-    return indices, eval_dir_short, gt_dir_short
+    <span class="k">if</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;val&#39;</span><span class="p">:</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">indices_val</span>
+    <span class="k">elif</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span><span class="p">:</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">indices_test</span>
+    <span class="n">gt_dir_short</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;TrackEval/data/gt/surfrider_short_segments_</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">eval_dir_short</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;TrackEval/data/trackers/surfrider_short_segments_</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">if</span> <span class="n">split</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span> 
+        <span class="n">gt_dir_short</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">eval_dir_short</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">gt_dir_short</span> <span class="o">+=</span> <span class="s1">&#39;/surfrider-test&#39;</span>
+    <span class="k">return</span> <span class="n">indices</span><span class="p">,</span> <span class="n">eval_dir_short</span><span class="p">,</span> <span class="n">gt_dir_short</span>
 
-indices, eval_dir_short, gt_dir_short = set_split(split)
+<span class="n">indices</span><span class="p">,</span> <span class="n">eval_dir_short</span><span class="p">,</span> <span class="n">gt_dir_short</span> <span class="o">=</span> <span class="n">set_split</span><span class="p">(</span><span class="n">split</span><span class="p">)</span>
 
-def get_det_values(index_start=0, index_stop=-1):
+<span class="k">def</span> <span class="nf">get_det_values</span><span class="p">(</span><span class="n">index_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_stop</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
 
-    results_for_det = pd.read_csv(os.path.join(f&#39;TrackEval/data/trackers/surfrider_short_segments_{fps}&#39;,&#39;surfrider-test&#39;,&#39;ours_EKF_1_kappa_1_tau_0&#39;,&#39;pedestrian_detailed.csv&#39;))
-    results_det = results_for_det.loc[:,[f&#39;DetRe{alpha_type}&#39;,f&#39;DetPr{alpha_type}&#39;, f&#39;HOTA_TP{alpha_type}&#39;,f&#39;HOTA_FN{alpha_type}&#39;,f&#39;HOTA_FP{alpha_type}&#39;]].iloc[index_start:index_stop]
-    results_det.columns = [&#39;hota_det_re&#39;,&#39;hota_det_pr&#39;,&#39;hota_det_tp&#39;,&#39;hota_det_fn&#39;,&#39;hota_det_fp&#39;]
-    hota_det_re = results_det[&#39;hota_det_re&#39;]
-    hota_det_pr = results_det[&#39;hota_det_pr&#39;]
-    hota_det_tp = results_det[&#39;hota_det_tp&#39;]
-    hota_det_fn = results_det[&#39;hota_det_fn&#39;]
-    hota_det_fp = results_det[&#39;hota_det_fp&#39;]
+    <span class="n">results_for_det</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;TrackEval/data/trackers/surfrider_short_segments_</span><span class="si">{</span><span class="n">fps</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="s1">&#39;ours_EKF_1_kappa_1_tau_0&#39;</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span>
+    <span class="n">results_det</span> <span class="o">=</span> <span class="n">results_for_det</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="sa">f</span><span class="s1">&#39;DetRe</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;DetPr</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;HOTA_TP</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;HOTA_FN</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;HOTA_FP</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index_start</span><span class="p">:</span><span class="n">index_stop</span><span class="p">]</span>
+    <span class="n">results_det</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hota_det_re&#39;</span><span class="p">,</span><span class="s1">&#39;hota_det_pr&#39;</span><span class="p">,</span><span class="s1">&#39;hota_det_tp&#39;</span><span class="p">,</span><span class="s1">&#39;hota_det_fn&#39;</span><span class="p">,</span><span class="s1">&#39;hota_det_fp&#39;</span><span class="p">]</span>
+    <span class="n">hota_det_re</span> <span class="o">=</span> <span class="n">results_det</span><span class="p">[</span><span class="s1">&#39;hota_det_re&#39;</span><span class="p">]</span>
+    <span class="n">hota_det_pr</span> <span class="o">=</span> <span class="n">results_det</span><span class="p">[</span><span class="s1">&#39;hota_det_pr&#39;</span><span class="p">]</span>
+    <span class="n">hota_det_tp</span> <span class="o">=</span> <span class="n">results_det</span><span class="p">[</span><span class="s1">&#39;hota_det_tp&#39;</span><span class="p">]</span>
+    <span class="n">hota_det_fn</span> <span class="o">=</span> <span class="n">results_det</span><span class="p">[</span><span class="s1">&#39;hota_det_fn&#39;</span><span class="p">]</span>
+    <span class="n">hota_det_fp</span> <span class="o">=</span> <span class="n">results_det</span><span class="p">[</span><span class="s1">&#39;hota_det_fp&#39;</span><span class="p">]</span>
 
-    denom_hota_det_re = hota_det_tp + hota_det_fn 
-    denom_hota_det_pr = hota_det_tp + hota_det_fp 
+    <span class="n">denom_hota_det_re</span> <span class="o">=</span> <span class="n">hota_det_tp</span> <span class="o">+</span> <span class="n">hota_det_fn</span> 
+    <span class="n">denom_hota_det_pr</span> <span class="o">=</span> <span class="n">hota_det_tp</span> <span class="o">+</span> <span class="n">hota_det_fp</span> 
 
-    hota_det_re_cb = (hota_det_re * denom_hota_det_re).sum() / denom_hota_det_re.sum()
-    hota_det_pr_cb = (hota_det_pr * denom_hota_det_pr).sum() / denom_hota_det_pr.sum()
+    <span class="n">hota_det_re_cb</span> <span class="o">=</span> <span class="p">(</span><span class="n">hota_det_re</span> <span class="o">*</span> <span class="n">denom_hota_det_re</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">denom_hota_det_re</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">hota_det_pr_cb</span> <span class="o">=</span> <span class="p">(</span><span class="n">hota_det_pr</span> <span class="o">*</span> <span class="n">denom_hota_det_pr</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">denom_hota_det_pr</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-    return [f&#39;{100*hota_det_re_cb:.1f}&#39;, f&#39;{100*hota_det_pr_cb:.1f}&#39;]
+    <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">hota_det_re_cb</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">hota_det_pr_cb</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
     
-def get_table_det():
+<span class="k">def</span> <span class="nf">get_table_det</span><span class="p">():</span>
 
-    table_values = [get_det_values(index_start, index_stop) for (index_start, index_stop) in zip(indices_det[:-1],indices_det[1:])]
-    table_values.append(get_det_values())
-    return pd.DataFrame(table_values)
+    <span class="n">table_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_det_values</span><span class="p">(</span><span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">indices_det</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">indices_det</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+    <span class="n">table_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_det_values</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">table_values</span><span class="p">)</span>
 
-table_det = get_table_det()
-table_det.columns = [&#39;DetRe*&#39;,&#39;DetPr*&#39;]
-table_det.index = [&#39;S1&#39;,&#39;S2&#39;,&#39;S3&#39;,&#39;All&#39;]
-display(table_det)
+<span class="n">table_det</span> <span class="o">=</span> <span class="n">get_table_det</span><span class="p">()</span>
+<span class="n">table_det</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DetRe*&#39;</span><span class="p">,</span><span class="s1">&#39;DetPr*&#39;</span><span class="p">]</span>
+<span class="n">table_det</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span><span class="s1">&#39;S2&#39;</span><span class="p">,</span><span class="s1">&#39;S3&#39;</span><span class="p">,</span><span class="s1">&#39;All&#39;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">table_det</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1750,135 +1746,134 @@ display(table_det)
 <p>First, the higher values of AssRe confirm the robustness of our solution in assigning consistent tracks to individual objects. This is directly reflected into the count precision performance - with an overall value of <span class="math notranslate nohighlight">\(\countpr\)</span> 17.6 points higher than the next best method (SORT) - or even more so in the complete disappearance of orange (redundant) counts in the graph. A key aspect is that these improvements are not counteracted by a lower <span class="math notranslate nohighlight">\(\countre\)</span>: on the contrary, our tracker, which is more stable, also captures more object (albeit still missing most of them, with a <span class="math notranslate nohighlight">\(\countre\)</span> below 50%). Note finally, that the strongest improvements are obtained for sequence 2 which is also the part with the strongest motion.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-def get_summary(results, index_start=0, index_stop=-1):
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_summary</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">index_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_stop</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
 
-    results = results.loc[:,[f&#39;Correct_IDs{alpha_type}&#39;,f&#39;Redundant_IDs{alpha_type}&#39;,f&#39;False_IDs{alpha_type}&#39;,f&#39;Missing_IDs{alpha_type}&#39;,f&#39;Fused_IDs{alpha_type}&#39;, f&#39;GT_IDs&#39;,f&#39;HOTA_TP{alpha_type}&#39;,f&#39;AssRe{alpha_type}&#39;]].iloc[index_start:index_stop]
+    <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="sa">f</span><span class="s1">&#39;Correct_IDs</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;Redundant_IDs</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;False_IDs</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;Missing_IDs</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;Fused_IDs</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;GT_IDs&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;HOTA_TP</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;AssRe</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">index_start</span><span class="p">:</span><span class="n">index_stop</span><span class="p">]</span>
 
-    results.columns = [&#39;correct&#39;,&#39;redundant&#39;,&#39;false&#39;,&#39;missing&#39;,&#39;mingled&#39;,&#39;gt&#39;,&#39;hota_tp&#39;,&#39;ass_re&#39;]
+    <span class="n">results</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;correct&#39;</span><span class="p">,</span><span class="s1">&#39;redundant&#39;</span><span class="p">,</span><span class="s1">&#39;false&#39;</span><span class="p">,</span><span class="s1">&#39;missing&#39;</span><span class="p">,</span><span class="s1">&#39;mingled&#39;</span><span class="p">,</span><span class="s1">&#39;gt&#39;</span><span class="p">,</span><span class="s1">&#39;hota_tp&#39;</span><span class="p">,</span><span class="s1">&#39;ass_re&#39;</span><span class="p">]</span>
 
-    ass_re = results[&#39;ass_re&#39;]
-    hota_tp = results[&#39;hota_tp&#39;]
+    <span class="n">ass_re</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;ass_re&#39;</span><span class="p">]</span>
+    <span class="n">hota_tp</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;hota_tp&#39;</span><span class="p">]</span>
 
 
-    ass_re_cb = (ass_re * hota_tp).sum() / hota_tp.sum()
+    <span class="n">ass_re_cb</span> <span class="o">=</span> <span class="p">(</span><span class="n">ass_re</span> <span class="o">*</span> <span class="n">hota_tp</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">hota_tp</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-    correct = results[&#39;correct&#39;]
-    redundant = results[&#39;redundant&#39;]
-    false = results[&#39;false&#39;]
-    missing = results[&#39;missing&#39;]
-    # mingled = results[&#39;mingled&#39;] 
-    # gt = results[&#39;gt&#39;]
-    # count_error = false + redundant - missing
+    <span class="n">correct</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;correct&#39;</span><span class="p">]</span>
+    <span class="n">redundant</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">]</span>
+    <span class="n">false</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;false&#39;</span><span class="p">]</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;missing&#39;</span><span class="p">]</span>
+    <span class="c1"># mingled = results[&#39;mingled&#39;] </span>
+    <span class="c1"># gt = results[&#39;gt&#39;]</span>
+    <span class="c1"># count_error = false + redundant - missing</span>
 
 
     
-    summary = dict()
-    # summary[&#39;missing&#39;], summary[&#39;missing_mean&#39;], summary[&#39;missing_std&#39;] = f&#39;{missing.sum()}&#39;,f&#39;{missing.mean():.1f}&#39;,f&#39;{np.nan_to_num(missing.std()):.1f}&#39;
-    # summary[&#39;false&#39;], summary[&#39;false_mean&#39;], summary[&#39;false_std&#39;] = f&#39;{false.sum()}&#39;, f&#39;{false.mean():.1f}&#39;, f&#39;{np.nan_to_num(false.std()):.1f}&#39;
-    # summary[&#39;redundant&#39;], summary[&#39;redundant_mean&#39;], summary[&#39;redundant_std&#39;] = f&#39;{redundant.sum()}&#39;, f&#39;{redundant.mean():.1f}&#39;, f&#39;{np.nan_to_num(redundant.std()):.1f}&#39;
-    # summary[&#39;gt&#39;] = f&#39;{gt.sum()}&#39;
-    summary[&#39;ass_re_cb&#39;] = f&#39;{100*ass_re_cb:.1f}&#39;
+    <span class="n">summary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="c1"># summary[&#39;missing&#39;], summary[&#39;missing_mean&#39;], summary[&#39;missing_std&#39;] = f&#39;{missing.sum()}&#39;,f&#39;{missing.mean():.1f}&#39;,f&#39;{np.nan_to_num(missing.std()):.1f}&#39;</span>
+    <span class="c1"># summary[&#39;false&#39;], summary[&#39;false_mean&#39;], summary[&#39;false_std&#39;] = f&#39;{false.sum()}&#39;, f&#39;{false.mean():.1f}&#39;, f&#39;{np.nan_to_num(false.std()):.1f}&#39;</span>
+    <span class="c1"># summary[&#39;redundant&#39;], summary[&#39;redundant_mean&#39;], summary[&#39;redundant_std&#39;] = f&#39;{redundant.sum()}&#39;, f&#39;{redundant.mean():.1f}&#39;, f&#39;{np.nan_to_num(redundant.std()):.1f}&#39;</span>
+    <span class="c1"># summary[&#39;gt&#39;] = f&#39;{gt.sum()}&#39;</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;ass_re_cb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">ass_re_cb</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
 
-    # summary[&#39;count_error&#39;], summary[&#39;count_error_mean&#39;], summary[&#39;count_error_std&#39;] = f&#39;{count_error.sum()}&#39;,f&#39;{count_error.mean():.1f}&#39;,f&#39;{np.nan_to_num(count_error.std()):.1f}&#39;
+    <span class="c1"># summary[&#39;count_error&#39;], summary[&#39;count_error_mean&#39;], summary[&#39;count_error_std&#39;] = f&#39;{count_error.sum()}&#39;,f&#39;{count_error.mean():.1f}&#39;,f&#39;{np.nan_to_num(count_error.std()):.1f}&#39;</span>
     
-    count_re = correct.sum() / (correct + missing).sum()
-    summary[&#39;count_re_cb&#39;] = f&#39;{100*count_re:.1f}&#39;
+    <span class="n">count_re</span> <span class="o">=</span> <span class="n">correct</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">correct</span> <span class="o">+</span> <span class="n">missing</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_re_cb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">count_re</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
     
-    # count_re_mean = (correct / (correct + missing)).mean()
-    # summary[&#39;count_re_mean&#39;] = f&#39;{100*count_re_mean:.1f}&#39;
+    <span class="c1"># count_re_mean = (correct / (correct + missing)).mean()</span>
+    <span class="c1"># summary[&#39;count_re_mean&#39;] = f&#39;{100*count_re_mean:.1f}&#39;</span>
     
-    count_re_std = (correct / (correct + missing)).std()
-    summary[&#39;count_re_std&#39;] = f&#39;{100*np.nan_to_num(count_re_std):.1f}&#39;
+    <span class="n">count_re_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">correct</span> <span class="o">/</span> <span class="p">(</span><span class="n">correct</span> <span class="o">+</span> <span class="n">missing</span><span class="p">))</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_re_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">count_re_std</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
 
-    count_pr = correct.sum() / (correct + false + redundant).sum()
-    summary[&#39;count_pr_cb&#39;] = f&#39;{100*count_pr:.1f}&#39;
+    <span class="n">count_pr</span> <span class="o">=</span> <span class="n">correct</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">correct</span> <span class="o">+</span> <span class="n">false</span> <span class="o">+</span> <span class="n">redundant</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_pr_cb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">count_pr</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
     
-    # count_pr_mean = (correct / (correct + false + redundant)).mean()
-    # summary[&#39;count_pr_mean&#39;] = f&#39;{100*count_pr_mean:.1f}&#39;
+    <span class="c1"># count_pr_mean = (correct / (correct + false + redundant)).mean()</span>
+    <span class="c1"># summary[&#39;count_pr_mean&#39;] = f&#39;{100*count_pr_mean:.1f}&#39;</span>
     
-    count_pr_std = (correct / (correct + false + redundant)).std()
-    summary[&#39;count_pr_std&#39;] = f&#39;{100*np.nan_to_num(count_pr_std):.1f}&#39;
+    <span class="n">count_pr_std</span> <span class="o">=</span> <span class="p">(</span><span class="n">correct</span> <span class="o">/</span> <span class="p">(</span><span class="n">correct</span> <span class="o">+</span> <span class="n">false</span> <span class="o">+</span> <span class="n">redundant</span><span class="p">))</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;count_pr_std&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">count_pr_std</span><span class="p">)</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span>
 
-    return summary 
-
-
+    <span class="k">return</span> <span class="n">summary</span> 
 
 
 
-def get_summaries(results, sequence_names):
 
-    summaries = dict()
 
-    for (sequence_name, index_start, index_stop) in zip(sequence_names, indices[:-1], indices[1:]):
+<span class="k">def</span> <span class="nf">get_summaries</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">sequence_names</span><span class="p">):</span>
 
-        summaries[sequence_name] = get_summary(results, index_start, index_stop)
+    <span class="n">summaries</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="n">sequence_name</span><span class="p">,</span> <span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sequence_names</span><span class="p">,</span> <span class="n">indices</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+
+        <span class="n">summaries</span><span class="p">[</span><span class="n">sequence_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_summary</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">index_start</span><span class="p">,</span> <span class="n">index_stop</span><span class="p">)</span>
     
-    summaries[&#39;All&#39;] = get_summary(results)
+    <span class="n">summaries</span><span class="p">[</span><span class="s1">&#39;All&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_summary</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 
-    return summaries
-
-
+    <span class="k">return</span> <span class="n">summaries</span>
 
 
-summaries = []
-method_names = [&#39;fairmot_kappa_7_tau_9&#39;, &#39;sort_kappa_7_tau_9&#39;,&#39;ours_EKF_1_kappa_7_tau_8&#39;]
-pretty_method_names = [&#39;FairMOT&#39;,&#39;SORT&#39;,&#39;Ours&#39;]
-for tracker_name in method_names:
-    results = pd.read_csv(os.path.join(eval_dir_short,&#39;surfrider-test&#39;,tracker_name,&#39;pedestrian_detailed.csv&#39;))
-    sequence_names = [&#39;S1&#39;,&#39;S2&#39;,&#39;S3&#39;]
-    summaries.append(pd.DataFrame(get_summaries(results, sequence_names)).T)
 
 
-fairmot_star, sort, ours = summaries
+<span class="n">summaries</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">method_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fairmot_kappa_7_tau_9&#39;</span><span class="p">,</span> <span class="s1">&#39;sort_kappa_7_tau_9&#39;</span><span class="p">,</span><span class="s1">&#39;ours_EKF_1_kappa_7_tau_8&#39;</span><span class="p">]</span>
+<span class="n">pretty_method_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FairMOT&#39;</span><span class="p">,</span><span class="s1">&#39;SORT&#39;</span><span class="p">,</span><span class="s1">&#39;Ours&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="n">method_names</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eval_dir_short</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="n">tracker_name</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span>
+    <span class="n">sequence_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;S1&#39;</span><span class="p">,</span><span class="s1">&#39;S2&#39;</span><span class="p">,</span><span class="s1">&#39;S3&#39;</span><span class="p">]</span>
+    <span class="n">summaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">get_summaries</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">sequence_names</span><span class="p">))</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 
-# nmis = &#39;$\hat{\mathsf{N}}_{mis}$&#39;
-# mu_nmis =&#39;$\hat{\mu}_{\hat{\mathsf{N}}_{mis}}$&#39;
-# sigma_nmis = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}$&#39;
 
-# nfalse = &#39;$\hat{\mathsf{N}}_{false}$&#39;
-# mu_nfalse = &#39;$\hat{\mu}_{\hat{\mathsf{N}}_{false}}$&#39;
-# sigma_nfalse = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{false}}$&#39;
+<span class="n">fairmot_star</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="n">ours</span> <span class="o">=</span> <span class="n">summaries</span>
 
-# nred =  &#39;$\hat{\mathsf{N}}_{red}$&#39;
-# mu_nred = &#39;$\hat{\mu}_{\hat{\mathsf{N}}_{red}}$&#39;
-# sigma_nred = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{red}}$&#39;
+<span class="c1"># nmis = &#39;$\hat{\mathsf{N}}_{mis}$&#39;</span>
+<span class="c1"># mu_nmis =&#39;$\hat{\mu}_{\hat{\mathsf{N}}_{mis}}$&#39;</span>
+<span class="c1"># sigma_nmis = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{mis}}$&#39;</span>
 
-ass_re = &#39;$\mathsf{AssRe}$&#39;
-count_re = &#39;$\mathsf{CountRe}$&#39;
-count_pr = &#39;$\mathsf{CountPr}$&#39;
+<span class="c1"># nfalse = &#39;$\hat{\mathsf{N}}_{false}$&#39;</span>
+<span class="c1"># mu_nfalse = &#39;$\hat{\mu}_{\hat{\mathsf{N}}_{false}}$&#39;</span>
+<span class="c1"># sigma_nfalse = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{false}}$&#39;</span>
 
-rows = [&#39;fairmot_kappa_7_tau_9&#39;,&#39;sort_kappa_7_tau_9&#39;,&#39;ours_EKF_1_kappa_7_tau_8&#39;]
-columns = [&#39;ass_re&#39;,&#39;count_re&#39;, &#39;count_re_std&#39;, &#39;count_pr&#39;, &#39;count_pr_std&#39;]
+<span class="c1"># nred =  &#39;$\hat{\mathsf{N}}_{red}$&#39;</span>
+<span class="c1"># mu_nred = &#39;$\hat{\mu}_{\hat{\mathsf{N}}_{red}}$&#39;</span>
+<span class="c1"># sigma_nred = &#39;$\hat{\sigma}_{\hat{\mathsf{N}}_{red}}$&#39;</span>
 
-for summary in summaries:    
-    summary.columns = columns
+<span class="n">ass_re</span> <span class="o">=</span> <span class="s1">&#39;$\mathsf</span><span class="si">{AssRe}</span><span class="s1">$&#39;</span>
+<span class="n">count_re</span> <span class="o">=</span> <span class="s1">&#39;$\mathsf</span><span class="si">{CountRe}</span><span class="s1">$&#39;</span>
+<span class="n">count_pr</span> <span class="o">=</span> <span class="s1">&#39;$\mathsf</span><span class="si">{CountPr}</span><span class="s1">$&#39;</span>
 
-results_S1 = pd.DataFrame([summary.iloc[0] for summary in summaries])
-results_S1.index = method_names
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;fairmot_kappa_7_tau_9&#39;</span><span class="p">,</span><span class="s1">&#39;sort_kappa_7_tau_9&#39;</span><span class="p">,</span><span class="s1">&#39;ours_EKF_1_kappa_7_tau_8&#39;</span><span class="p">]</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ass_re&#39;</span><span class="p">,</span><span class="s1">&#39;count_re&#39;</span><span class="p">,</span> <span class="s1">&#39;count_re_std&#39;</span><span class="p">,</span> <span class="s1">&#39;count_pr&#39;</span><span class="p">,</span> <span class="s1">&#39;count_pr_std&#39;</span><span class="p">]</span>
 
-results_S2 = pd.DataFrame([summary.iloc[1] for summary in summaries])
-results_S2.index = method_names
+<span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">:</span>    
+    <span class="n">summary</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
 
-results_S3 = pd.DataFrame([summary.iloc[2] for summary in summaries])
-results_S3.index = method_names
+<span class="n">results_S1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">])</span>
+<span class="n">results_S1</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">method_names</span>
 
-results_All = pd.DataFrame([summary.iloc[3] for summary in summaries])
-results_All.index = method_names
+<span class="n">results_S2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">])</span>
+<span class="n">results_S2</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">method_names</span>
 
-results = [results_S1, results_S2, results_S3, results_All]
+<span class="n">results_S3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">])</span>
+<span class="n">results_S3</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">method_names</span>
 
-results_S1.to_latex()
+<span class="n">results_All</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">summary</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">summary</span> <span class="ow">in</span> <span class="n">summaries</span><span class="p">])</span>
+<span class="n">results_All</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">method_names</span>
 
-for sequence_name, result in zip([&#39;S_1&#39;,&#39;S_2&#39;,&#39;S_3&#39;,&#39;All&#39;], results):
-    for row in rows:
-        for col in columns: 
-            glue(f&#39;{sequence_name}_{row}_{col}&#39;, result.loc[row,col], display=False)
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">results_S1</span><span class="p">,</span> <span class="n">results_S2</span><span class="p">,</span> <span class="n">results_S3</span><span class="p">,</span> <span class="n">results_All</span><span class="p">]</span>
+
+<span class="n">results_S1</span><span class="o">.</span><span class="n">to_latex</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">sequence_name</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;S_1&#39;</span><span class="p">,</span><span class="s1">&#39;S_2&#39;</span><span class="p">,</span><span class="s1">&#39;S_3&#39;</span><span class="p">,</span><span class="s1">&#39;All&#39;</span><span class="p">],</span> <span class="n">results</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span> 
+            <span class="n">glue</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sequence_name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">row</span><span class="p">,</span><span class="n">col</span><span class="p">],</span> <span class="n">display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2615/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2553/388917481.py:118: FutureWarning: In future versions `DataFrame.to_latex` is expected to utilise the base implementation of `Styler.to_latex` for formatting and rendering. The arguments signature may therefore change. It is recommended instead to use `DataFrame.style.to_latex` which also contains additional functionality.
   results_S1.to_latex()
 </pre></div>
 </div>
@@ -2036,15 +2031,15 @@ for sequence_name, result in zip([&#39;S_1&#39;,&#39;S_2&#39;,&#39;S_3&#39;,&#39
 <h4>Detailed results on individual segments<a class="headerlink" href="#detailed-results-on-individual-segments" title="Permalink to this headline">#</a></h4>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>set_split(&#39;test&#39;)
-fig, axes = plt.subplots(1,3, figsize=(30,10), sharey=True)
-for ax, title, tracker_name in zip(axes, pretty_method_names,  method_names):
-    results = pd.read_csv(os.path.join(eval_dir_short,&#39;surfrider-test&#39;,tracker_name,&#39;pedestrian_detailed.csv&#39;))
-    results = results.loc[:,[f&#39;Redundant_IDs{alpha_type}&#39;,f&#39;False_IDs{alpha_type}&#39;,f&#39;Missing_IDs{alpha_type}&#39;]].iloc[:-1]
-    results.columns = [&#39;redundant&#39;, &#39;false&#39;, &#39;missing&#39;]
-    results.loc[:,&#39;missing&#39;] = - results.loc[:,&#39;missing&#39;]
-    results.columns = [&#39;$\hat{\mathsf{N}}_{red}$&#39;, &#39;$\hat{\mathsf{N}}_{false}$&#39;, &#39;$-\hat{\mathsf{N}}_{mis}$&#39;]
-    results.plot(ax = ax, kind=&#39;bar&#39;, stacked=True, color=[&#39;orange&#39;, &#39;red&#39;, &#39;black&#39;], title=title, xlabel=&#39;Sequence nb&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_split</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">pretty_method_names</span><span class="p">,</span>  <span class="n">method_names</span><span class="p">):</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eval_dir_short</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="n">tracker_name</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,[</span><span class="sa">f</span><span class="s1">&#39;Redundant_IDs</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;False_IDs</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span><span class="sa">f</span><span class="s1">&#39;Missing_IDs</span><span class="si">{</span><span class="n">alpha_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;redundant&#39;</span><span class="p">,</span> <span class="s1">&#39;false&#39;</span><span class="p">,</span> <span class="s1">&#39;missing&#39;</span><span class="p">]</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;missing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">results</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="s1">&#39;missing&#39;</span><span class="p">]</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;$\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{red}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;$\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{false}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="s1">&#39;$-\hat{\mathsf</span><span class="si">{N}</span><span class="s1">}_</span><span class="si">{mis}</span><span class="s1">$&#39;</span><span class="p">]</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Sequence nb&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2163,79 +2158,79 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
 <p>In the following code cell, we plot the error decomposition of the counts for several values of <span class="math notranslate nohighlight">\(\kappa\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> with <span class="math notranslate nohighlight">\(\nu=0.6\)</span> for the outputs of the three different trackers. We choose <span class="math notranslate nohighlight">\(\nu = 0.7\)</span> and compute the optimal point as the one which minimizes the overall count error <span class="math notranslate nohighlight">\(\hatN (= \Nmis + \Nred + \Nfalse)\)</span>.</p>
 <div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>set_split(&#39;val&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_split</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
 
-params = {&#39;legend.fontsize&#39;: &#39;x-large&#39;,
-         &#39;axes.labelsize&#39;: &#39;x-large&#39;,
-         &#39;axes.titlesize&#39;:&#39;x-large&#39;,
-         &#39;xtick.labelsize&#39;:&#39;x-large&#39;,
-         &#39;ytick.labelsize&#39;:&#39;x-large&#39;}
-plt.rcParams.update(params)
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;legend.fontsize&#39;</span><span class="p">:</span> <span class="s1">&#39;x-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="s1">&#39;x-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;axes.titlesize&#39;</span><span class="p">:</span><span class="s1">&#39;x-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">:</span><span class="s1">&#39;x-large&#39;</span><span class="p">,</span>
+         <span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">:</span><span class="s1">&#39;x-large&#39;</span><span class="p">}</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
 
-def hyperparameters(method_name, pretty_method_name):
-    tau_values = [i for i in range(1,10)]
-    kappa_values = [1,3,5,7]
-    fig, (ax0, ax1, ax2) = plt.subplots(3,1)
-    pretty_names=[f&#39;$\kappa={kappa}$&#39; for kappa in kappa_values]
-    n_count = {}
-    for kappa, pretty_name in zip(kappa_values, pretty_names):
-        tracker_names = [f&#39;{method_name}_kappa_{kappa}_tau_{tau}&#39; for tau in tau_values]
-        all_results = {tracker_name: pd.read_csv(os.path.join(eval_dir_short,&#39;surfrider-test&#39;,tracker_name,&#39;pedestrian_detailed.csv&#39;)).iloc[:-1] for tracker_name in tracker_names}
+<span class="k">def</span> <span class="nf">hyperparameters</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">pretty_method_name</span><span class="p">):</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="n">kappa_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax0</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pretty_names</span><span class="o">=</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;$\kappa=</span><span class="si">{</span><span class="n">kappa</span><span class="si">}</span><span class="s1">$&#39;</span> <span class="k">for</span> <span class="n">kappa</span> <span class="ow">in</span> <span class="n">kappa_values</span><span class="p">]</span>
+    <span class="n">n_count</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">pretty_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">kappa_values</span><span class="p">,</span> <span class="n">pretty_names</span><span class="p">):</span>
+        <span class="n">tracker_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">method_name</span><span class="si">}</span><span class="s1">_kappa_</span><span class="si">{</span><span class="n">kappa</span><span class="si">}</span><span class="s1">_tau_</span><span class="si">{</span><span class="n">tau</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">]</span>
+        <span class="n">all_results</span> <span class="o">=</span> <span class="p">{</span><span class="n">tracker_name</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">eval_dir_short</span><span class="p">,</span><span class="s1">&#39;surfrider-test&#39;</span><span class="p">,</span><span class="n">tracker_name</span><span class="p">,</span><span class="s1">&#39;pedestrian_detailed.csv&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">tracker_name</span> <span class="ow">in</span> <span class="n">tracker_names</span><span class="p">}</span>
 
-        n_missing = []
-        n_false = []
-        n_redundant = []
-        for tracker_name, tracker_results in all_results.items():
-            missing = (tracker_results[&#39;GT_IDs&#39;].sum() - tracker_results[&#39;Correct_IDs___50&#39;].sum())
-            false = tracker_results[&#39;False_IDs___50&#39;].sum()
-            redundant = tracker_results[&#39;Redundant_IDs___50&#39;].sum()
+        <span class="n">n_missing</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n_false</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n_redundant</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tracker_name</span><span class="p">,</span> <span class="n">tracker_results</span> <span class="ow">in</span> <span class="n">all_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">missing</span> <span class="o">=</span> <span class="p">(</span><span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;GT_IDs&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;Correct_IDs___50&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+            <span class="n">false</span> <span class="o">=</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;False_IDs___50&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">redundant</span> <span class="o">=</span> <span class="n">tracker_results</span><span class="p">[</span><span class="s1">&#39;Redundant_IDs___50&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-            n_missing.append(missing)
-            n_false.append(false)
-            n_redundant.append(redundant)
-            n_count[tracker_name] = missing + false + redundant
+            <span class="n">n_missing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+            <span class="n">n_false</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">false</span><span class="p">)</span>
+            <span class="n">n_redundant</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">redundant</span><span class="p">)</span>
+            <span class="n">n_count</span><span class="p">[</span><span class="n">tracker_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">missing</span> <span class="o">+</span> <span class="n">false</span> <span class="o">+</span> <span class="n">redundant</span>
         
 
 
 
-        ax0.scatter(tau_values, n_missing)
-        ax0.plot(tau_values, n_missing, label=pretty_name, linestyle=&#39;dashed&#39;)
-        # ax0.set_xlabel(&#39;$\\tau$&#39;)
-        ax0.set_ylabel(&#39;$N_{mis}$&#39;)
+        <span class="n">ax0</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_missing</span><span class="p">)</span>
+        <span class="n">ax0</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_missing</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">pretty_name</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+        <span class="c1"># ax0.set_xlabel(&#39;$\\tau$&#39;)</span>
+        <span class="n">ax0</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{mis}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
-        ax1.scatter(tau_values, n_false)
-        ax1.plot(tau_values, n_false, linestyle=&#39;dashed&#39;)
+        <span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_false</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
 
-        # ax1.set_xlabel(&#39;$\\tau$&#39;)
-        ax1.set_ylabel(&#39;$N_{false}$&#39;)
+        <span class="c1"># ax1.set_xlabel(&#39;$\\tau$&#39;)</span>
+        <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{false}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
-        ax2.scatter(tau_values, n_redundant)
-        ax2.plot(tau_values, n_redundant, linestyle=&#39;dashed&#39;)
-        ax2.set_xlabel(&#39;$\\tau$&#39;)
-        ax2.set_ylabel(&#39;$N_{red}$&#39;)
+        <span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">n_redundant</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">tau$&#39;</span><span class="p">)</span>
+        <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$N_</span><span class="si">{red}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
 
-    best_value = np.inf
-    best_key = &#39;&#39;
+    <span class="n">best_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="n">best_key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-    for k, v in n_count.items():
-        if v &lt; best_value: best_key = k
-        best_value = v
-    best_key = best_key.split(&#39;kappa&#39;)[1]
-    best_kappa = int(best_key.split(&#39;_&#39;)[1])
-    best_tau = int(best_key.split(&#39;_&#39;)[-1])
-    print(f&#39;Best parameters for {pretty_method_name}: (kappa, tau) = ({best_kappa}, {best_tau})&#39;)
-    handles, labels = ax0.get_legend_handles_labels()
-    fig.legend(handles, labels, loc=&#39;upper right&#39;)
-    plt.autoscale(True)
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">n_count</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="n">best_value</span><span class="p">:</span> <span class="n">best_key</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="n">best_value</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="n">best_key</span> <span class="o">=</span> <span class="n">best_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;kappa&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">best_kappa</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">best_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">best_tau</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">best_key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Best parameters for </span><span class="si">{</span><span class="n">pretty_method_name</span><span class="si">}</span><span class="s1">: (kappa, tau) = (</span><span class="si">{</span><span class="n">best_kappa</span><span class="si">}</span><span class="s1">, </span><span class="si">{</span><span class="n">best_tau</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax0</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">autoscale</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-    plt.tight_layout()
-    plt.show()
-    plt.close()
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-for method_name, pretty_method_name in zip(method_names, pretty_method_names):
-    hyperparameters(method_name.split(&#39;kappa&#39;)[0][:-1], pretty_method_name)
+<span class="k">for</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">pretty_method_name</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">method_names</span><span class="p">,</span> <span class="n">pretty_method_names</span><span class="p">):</span>
+    <span class="n">hyperparameters</span><span class="p">(</span><span class="n">method_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;kappa&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">pretty_method_name</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
