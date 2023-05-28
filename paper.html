@@ -530,6 +530,81 @@ We compare the count performance of our method against other MOT-based alternati
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
 </pre></div>
 </div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">18</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="c1"># download frames and detections from a given deep detector model</span>
+<span class="ne">---&gt; </span><span class="mi">18</span> <span class="n">download_data</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="c1"># prepare arguments</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="n">args</span><span class="o">.</span><span class="n">external_detections</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File ~/work/computo_paper/computo_paper/surfnet/prepare_data.py:19,</span> in <span class="ni">download_data</span><span class="nt">(folder)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="n">frames_path</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/mchagneux/computo_paper/releases/download/data.v.1/saved_frames.pickle&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="n">download_from_url</span><span class="p">(</span><span class="n">detection_path</span><span class="p">,</span> <span class="s2">&quot;saved_detections.pickle&quot;</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">19</span> <span class="n">download_from_url</span><span class="p">(</span><span class="n">frames_path</span><span class="p">,</span> <span class="s2">&quot;saved_frames.pickle&quot;</span><span class="p">,</span> <span class="n">folder</span><span class="p">)</span>
+
+<span class="nn">File ~/work/computo_paper/computo_paper/surfnet/prepare_data.py:10,</span> in <span class="ni">download_from_url</span><span class="nt">(url, filename, folder)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">model_filename</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---Downloading: &#39;</span><span class="o">+</span><span class="n">filename</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">10</span>     <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">model_filename</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---Already downloaded: &#39;</span><span class="o">+</span><span class="n">filename</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/urllib/request.py:268,</span> in <span class="ni">urlretrieve</span><span class="nt">(url, filename, reporthook, data)</span>
+<span class="g g-Whitespace">    </span><span class="mi">265</span>     <span class="n">reporthook</span><span class="p">(</span><span class="n">blocknum</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">267</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">268</span>     <span class="n">block</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">bs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">269</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">block</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">270</span>         <span class="k">break</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/http/client.py:463,</span> in <span class="ni">HTTPResponse.read</span><span class="nt">(self, amt)</span>
+<span class="g g-Whitespace">    </span><span class="mi">460</span> <span class="k">if</span> <span class="n">amt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">461</span>     <span class="c1"># Amount is given, implement using readinto</span>
+<span class="g g-Whitespace">    </span><span class="mi">462</span>     <span class="n">b</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">amt</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">463</span>     <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">readinto</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">464</span>     <span class="k">return</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">b</span><span class="p">)[:</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">465</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">466</span>     <span class="c1"># Amount is not given (unbounded read) so we must check self.length</span>
+<span class="g g-Whitespace">    </span><span class="mi">467</span>     <span class="c1"># and self.chunked</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/http/client.py:507,</span> in <span class="ni">HTTPResponse.readinto</span><span class="nt">(self, b)</span>
+<span class="g g-Whitespace">    </span><span class="mi">502</span>         <span class="n">b</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">b</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">504</span> <span class="c1"># we do not use _safe_read() here because this may be a .will_close</span>
+<span class="g g-Whitespace">    </span><span class="mi">505</span> <span class="c1"># connection, and the user is reading more bytes than will be provided</span>
+<span class="g g-Whitespace">    </span><span class="mi">506</span> <span class="c1"># (for example, reading in 1k chunks)</span>
+<span class="ne">--&gt; </span><span class="mi">507</span> <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fp</span><span class="o">.</span><span class="n">readinto</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">508</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span> <span class="ow">and</span> <span class="n">b</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">509</span>     <span class="c1"># Ideally, we would raise IncompleteRead if the content-length</span>
+<span class="g g-Whitespace">    </span><span class="mi">510</span>     <span class="c1"># wasn&#39;t satisfied, but it might break compatibility.</span>
+<span class="g g-Whitespace">    </span><span class="mi">511</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_close_conn</span><span class="p">()</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/socket.py:704,</span> in <span class="ni">SocketIO.readinto</span><span class="nt">(self, b)</span>
+<span class="g g-Whitespace">    </span><span class="mi">702</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">704</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sock</span><span class="o">.</span><span class="n">recv_into</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">705</span>     <span class="k">except</span> <span class="n">timeout</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">706</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_occurred</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/ssl.py:1242,</span> in <span class="ni">SSLSocket.recv_into</span><span class="nt">(self, buffer, nbytes, flags)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1238</span>     <span class="k">if</span> <span class="n">flags</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1239</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1240</span>           <span class="s2">&quot;non-zero flags not allowed in calls to recv_into() on </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+<span class="g g-Whitespace">   </span><span class="mi">1241</span>           <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1242</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nbytes</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1243</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1244</span>     <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">recv_into</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">nbytes</span><span class="p">,</span> <span class="n">flags</span><span class="p">)</span>
+
+<span class="nn">File /usr/share/miniconda3/envs/computo/lib/python3.9/ssl.py:1100,</span> in <span class="ni">SSLSocket.read</span><span class="nt">(self, len, buffer)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1098</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1099</span>     <span class="k">if</span> <span class="n">buffer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1100</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sslobj</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1101</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1102</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sslobj</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
@@ -574,15 +649,6 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EKF will be used for tracking.
-Tracking...
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking done.
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell tag_hide-input tag_remove-output docutils container">
 <details class="hide above-input">
@@ -603,12 +669,6 @@ Tracking...
 </div>
 </details>
 </div>
-<figure class="align-default" id="demo-ours">
-<img alt="_images/203738e017fd69af2bb9f333df24bd924d98deeacf46c1eeb3f96af438aed091.png" src="_images/203738e017fd69af2bb9f333df24bd924d98deeacf46c1eeb3f96af438aed091.png" />
-<figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text"><em>Our method</em>: one object (red dot) is correctly detected at every frame and given a consistent identity throughout the sequence with low location uncertainty (red ellipse). Next to it, a false positive detection is generated at the first frame (brown dot) but immediatly lost in the following frames: the associated uncertainty grows fast (brown ellipse). In our solution, this type of track will not be counted. A third correctly detected object (pink) appears in the third frame and begins a new track.</span><a class="headerlink" href="#demo-ours" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
 <div class="cell tag_hide-input docutils container">
 <details class="hide above-input">
 <summary aria-label="Toggle hidden content">
@@ -666,14 +726,6 @@ Tracking...
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
---- Begin SORT internal logs
-Total Tracking took: 0.100 seconds for 360 frames or 3601.9 FPS
---- End
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell tag_hide-input tag_remove-output docutils container">
 <details class="hide above-input">
@@ -698,12 +750,6 @@ Total Tracking took: 0.100 seconds for 360 frames or 3601.9 FPS
 </div>
 </details>
 </div>
-<figure class="align-default" id="demo-sort">
-<img alt="_images/464dc42911fc2b1d53f3acabef67c696393bd8c767e531758fb5e23c43a832c4.png" src="_images/464dc42911fc2b1d53f3acabef67c696393bd8c767e531758fb5e23c43a832c4.png" />
-<figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text"><em>SORT</em>: the resulting count is also 2, but both counts arise from tracks generated by the same object, the latter not re-associated at all in the second frame. Additionally, the third object is discarded (in post-processing) by their strategy.</span><a class="headerlink" href="#demo-sort" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
 </section>
 <section id="related-works">
 <h2>Related works<a class="headerlink" href="#related-works" title="Permalink to this heading">#</a></h2>
@@ -826,30 +872,6 @@ In this work, we focus only on litter counting without classification, however t
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>loading annotations into memory...
-Done (t=0.00s)
-creating index...
-index created!
-15 images loaded
-</pre></div>
-</div>
-<img alt="_images/24c890c30e09827c0ee46098acfd6f9f64cd9d4cbe01749471dc8a70b30b58a0.png" src="_images/24c890c30e09827c0ee46098acfd6f9f64cd9d4cbe01749471dc8a70b30b58a0.png" />
-<img alt="_images/64daf2c3df56e59e421ecdca10c610279a064c3a29e5caa2e869995ab7dfc2f9.png" src="_images/64daf2c3df56e59e421ecdca10c610279a064c3a29e5caa2e869995ab7dfc2f9.png" />
-<img alt="_images/493e6056ffe825fd5544d9dafde641a80118b308849fc33002d24524e3d19251.png" src="_images/493e6056ffe825fd5544d9dafde641a80118b308849fc33002d24524e3d19251.png" />
-<img alt="_images/6b8121b740730fa6b2dba5fdd80f907bf4b8032bc08177dae1db00b48b351cd1.png" src="_images/6b8121b740730fa6b2dba5fdd80f907bf4b8032bc08177dae1db00b48b351cd1.png" />
-<img alt="_images/b93371790eaf02c838cb59845a71b62a27139da2e3163b66ee5b62d3d678025f.png" src="_images/b93371790eaf02c838cb59845a71b62a27139da2e3163b66ee5b62d3d678025f.png" />
-<img alt="_images/f5933397e1eb52758b05ba11459931f81dd0f5a7d8a9a8c6c5984633d2b9ac7f.png" src="_images/f5933397e1eb52758b05ba11459931f81dd0f5a7d8a9a8c6c5984633d2b9ac7f.png" />
-<img alt="_images/37bbcbd791dcca8a6ce193ae48c6b2fb489376317b8be973e359226411d6e50f.png" src="_images/37bbcbd791dcca8a6ce193ae48c6b2fb489376317b8be973e359226411d6e50f.png" />
-<img alt="_images/7aee64263055ad6cd299e02363beea4bd831282fa29341b76eabd7c66e045972.png" src="_images/7aee64263055ad6cd299e02363beea4bd831282fa29341b76eabd7c66e045972.png" />
-<img alt="_images/880c07acb94fb35399581551b197d3440c9e7ba4d0fcf5166ebcee2e8d5c0462.png" src="_images/880c07acb94fb35399581551b197d3440c9e7ba4d0fcf5166ebcee2e8d5c0462.png" />
-<img alt="_images/0c4d0a01c7432ce0ccb67458f9a86f29b4b8cd28d25c4123c05599c432ac3fc2.png" src="_images/0c4d0a01c7432ce0ccb67458f9a86f29b4b8cd28d25c4123c05599c432ac3fc2.png" />
-<img alt="_images/b6b4d6fbf2c41980b5c61b8eb35230a673949afbbdeee9d47e8567f059e4de14.png" src="_images/b6b4d6fbf2c41980b5c61b8eb35230a673949afbbdeee9d47e8567f059e4de14.png" />
-<img alt="_images/410bb8781f5e189a4dfd5acbd762e8066122d7773617c67fb8423fb40d535bca.png" src="_images/410bb8781f5e189a4dfd5acbd762e8066122d7773617c67fb8423fb40d535bca.png" />
-<img alt="_images/26093f2cff6e637a983fd70fddf1fc34341d1d5f96cb5c1a3d6d9b7f07c51e11.png" src="_images/26093f2cff6e637a983fd70fddf1fc34341d1d5f96cb5c1a3d6d9b7f07c51e11.png" />
-<img alt="_images/7d8a032bd27f24c478ed55093b7657c8fe20e019ec9ade7219b1972d1e5b4093.png" src="_images/7d8a032bd27f24c478ed55093b7657c8fe20e019ec9ade7219b1972d1e5b4093.png" />
-<img alt="_images/9ecf07569101924ceebcd2a83338ff471a070955888f1fa268a99f929f0a58ae.png" src="_images/9ecf07569101924ceebcd2a83338ff471a070955888f1fa268a99f929f0a58ae.png" />
-</div>
 </div>
 </section>
 </section>
@@ -990,7 +1012,7 @@ Note that we deactivate filters whose posterior mean estimates lie outside the i
 <figure class="align-default" id="diagram">
 <img alt="_images/diagram.png" src="_images/diagram.png" />
 <figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Visual representation of the tracking pipeline.</span><a class="headerlink" href="#diagram" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Visual representation of the tracking pipeline.</span><a class="headerlink" href="#diagram" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -1189,53 +1211,6 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>DetRe*</th>
-      <th>DetPr*</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>S1</th>
-      <td>37.2</td>
-      <td>60.7</td>
-    </tr>
-    <tr>
-      <th>S2</th>
-      <td>29.4</td>
-      <td>38.2</td>
-    </tr>
-    <tr>
-      <th>S3</th>
-      <td>35.1</td>
-      <td>53.6</td>
-    </tr>
-    <tr>
-      <th>All</th>
-      <td>35.5</td>
-      <td>55.1</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 </section>
 <section id="counts">
@@ -1392,25 +1367,25 @@ To better focus on count performance in the next sections, we remove segments th
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p>FairMOT</p></td>
-<td class="text-right"><p><span class="pasted-text">62.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">31.2</span></p></td>
-<td class="text-right"><p><span class="pasted-text">25.6</span></p></td>
-<td class="text-right"><p><span class="pasted-text">52.6</span></p></td>
-<td class="text-right"><p><span class="pasted-text">24.6</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Sort</p></td>
-<td class="text-right"><p><span class="pasted-text">65.6</span></p></td>
-<td class="text-right"><p><span class="pasted-text">43.8</span></p></td>
-<td class="text-right"><p><span class="pasted-text">26.4</span></p></td>
-<td class="text-right"><p><span class="pasted-text">53.8</span></p></td>
-<td class="text-right"><p><span class="pasted-text">20.2</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Ours</p></td>
-<td class="text-right"><p><span class="pasted-text">79.5</span></p></td>
-<td class="text-right"><p><span class="pasted-text">50.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">27.9</span></p></td>
-<td class="text-right"><p><span class="pasted-text">64.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">23.8</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -1429,25 +1404,25 @@ To better focus on count performance in the next sections, we remove segments th
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p>FairMOT</p></td>
-<td class="text-right"><p><span class="pasted-text">8.7</span></p></td>
-<td class="text-right"><p><span class="pasted-text">12.5</span></p></td>
-<td class="text-right"><p><span class="pasted-text">35.4</span></p></td>
-<td class="text-right"><p><span class="pasted-text">50.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Sort</p></td>
-<td class="text-right"><p><span class="pasted-text">20.7</span></p></td>
-<td class="text-right"><p><span class="pasted-text">12.5</span></p></td>
-<td class="text-right"><p><span class="pasted-text">35.4</span></p></td>
-<td class="text-right"><p><span class="pasted-text">33.3</span></p></td>
-<td class="text-right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Ours</p></td>
-<td class="text-right"><p><span class="pasted-text">72.7</span></p></td>
-<td class="text-right"><p><span class="pasted-text">50.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">0.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">100.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">0.0</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -1466,25 +1441,25 @@ To better focus on count performance in the next sections, we remove segments th
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p>FairMOT</p></td>
-<td class="text-right"><p><span class="pasted-text">17.4</span></p></td>
-<td class="text-right"><p><span class="pasted-text">25.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">47.1</span></p></td>
-<td class="text-right"><p><span class="pasted-text">50.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">50.0</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Sort</p></td>
-<td class="text-right"><p><span class="pasted-text">19.6</span></p></td>
-<td class="text-right"><p><span class="pasted-text">25.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">47.1</span></p></td>
-<td class="text-right"><p><span class="pasted-text">40.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">50.9</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Ours</p></td>
-<td class="text-right"><p><span class="pasted-text">24.6</span></p></td>
-<td class="text-right"><p><span class="pasted-text">37.5</span></p></td>
-<td class="text-right"><p><span class="pasted-text">41.7</span></p></td>
-<td class="text-right"><p><span class="pasted-text">60.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">47.9</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -1503,25 +1478,25 @@ To better focus on count performance in the next sections, we remove segments th
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-left"><p>FairMOT</p></td>
-<td class="text-right"><p><span class="pasted-text">56.7</span></p></td>
-<td class="text-right"><p><span class="pasted-text">27.1</span></p></td>
-<td class="text-right"><p><span class="pasted-text">31.6</span></p></td>
-<td class="text-right"><p><span class="pasted-text">52.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">30.2</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 <tr class="row-odd"><td class="text-left"><p>Sort</p></td>
-<td class="text-right"><p><span class="pasted-text">59.8</span></p></td>
-<td class="text-right"><p><span class="pasted-text">35.4</span></p></td>
-<td class="text-right"><p><span class="pasted-text">32.7</span></p></td>
-<td class="text-right"><p><span class="pasted-text">50.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">30.2</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 <tr class="row-even"><td class="text-left"><p>Ours</p></td>
-<td class="text-right"><p><span class="pasted-text">76.0</span></p></td>
-<td class="text-right"><p><span class="pasted-text">47.9</span></p></td>
-<td class="text-right"><p><span class="pasted-text">28.8</span></p></td>
-<td class="text-right"><p><span class="pasted-text">67.6</span></p></td>
-<td class="text-right"><p><span class="pasted-text">32.0</span></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -1548,9 +1523,6 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<img alt="_images/a1387aec92b839ea65dd7e277f928f51282cd2ce53bcf2ca30cdc7d08463200d.png" src="_images/a1387aec92b839ea65dd7e277f928f51282cd2ce53bcf2ca30cdc7d08463200d.png" />
-</div>
 </div>
 <!-- ```{glue:} fairmot_star_tracking_results
 ``` --></section>
@@ -1582,7 +1554,7 @@ Finally, our work naturally benefits any extension of macrolitter monitoring in 
 However, we build our dataset to allow classification tasks.
 Though litter classifications built by experts already exist, most are based on semantic rather than visual features and do not particularly consider the problem of class imbalance, which makes statistical learning more delicate.
 In conjunction with water pollution experts, we therefore define a custom macrolitter taxonomy which balances annotation ease and pragmatic decisions for computer vision applications.
-This classification, depicted in <a class="reference internal" href="#trash-categories-image"><span class="std std-numref">Fig. 4</span></a> can be understood as follows.</p>
+This classification, depicted in <a class="reference internal" href="#trash-categories-image"><span class="std std-numref">Fig. 2</span></a> can be understood as follows.</p>
 <ol class="arabic simple">
 <li><p>We define a set of frequently observed classes that annotateors can choose from, divided into:</p>
 <ul class="simple">
@@ -1602,7 +1574,7 @@ Images containing items denoted as such will not be used for applications involv
 <figure class="align-default" id="trash-categories-image">
 <a class="reference internal image-reference" href="_images/trash_categories.png"><img alt="_images/trash_categories.png" src="_images/trash_categories.png" style="height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Trash categories defined to facilitate porting to a counting system that allows trash identification</span><a class="headerlink" href="#trash-categories-image" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Trash categories defined to facilitate porting to a counting system that allows trash identification</span><a class="headerlink" href="#trash-categories-image" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -1612,7 +1584,7 @@ Images containing items denoted as such will not be used for applications involv
 <section id="river-segments">
 <h4>River segments<a class="headerlink" href="#river-segments" title="Permalink to this heading">#</a></h4>
 <p>In this section, we provide further details on the evaluation material.
-<a class="reference internal" href="#river-sections"><span class="std std-numref">Fig. 5</span></a> shows the setup and positioning of the three river segments <span class="math notranslate nohighlight">\(S_1\)</span>, <span class="math notranslate nohighlight">\(S_2\)</span> and <span class="math notranslate nohighlight">\(S_3\)</span> used to evaluate the methods.
+<a class="reference internal" href="#river-sections"><span class="std std-numref">Fig. 3</span></a> shows the setup and positioning of the three river segments <span class="math notranslate nohighlight">\(S_1\)</span>, <span class="math notranslate nohighlight">\(S_2\)</span> and <span class="math notranslate nohighlight">\(S_3\)</span> used to evaluate the methods.
 The segments differ in the following aspects.</p>
 <ul class="simple">
 <li><p>Segment 1: Medium current, high and dense vegetation not obstructing vision of the right riverbank from watercrafts, extra objects installed before the field experiment.</p></li>
@@ -1622,7 +1594,7 @@ The segments differ in the following aspects.</p>
 <figure class="align-default" id="river-sections">
 <a class="reference internal image-reference" href="_images/river_sections.png"><img alt="_images/river_sections.png" src="_images/river_sections.png" style="height: 400px;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 5 </span><span class="caption-text">Aerial view of the three river segments of the evaluation material</span><a class="headerlink" href="#river-sections" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Aerial view of the three river segments of the evaluation material</span><a class="headerlink" href="#river-sections" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -1745,20 +1717,6 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
 </div>
 </div>
 </details>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for FairMOT: (kappa, tau) = (7, 9)
-</pre></div>
-</div>
-<img alt="_images/b049a6245081cbd89172ccd41f9ef4b133b5e4bf22ee0e691330171f1f0148af.png" src="_images/b049a6245081cbd89172ccd41f9ef4b133b5e4bf22ee0e691330171f1f0148af.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for SORT: (kappa, tau) = (7, 9)
-</pre></div>
-</div>
-<img alt="_images/53cb7d0ae6b71fdb9837837029c47195e0746bc86d42818476826d51782cc94c.png" src="_images/53cb7d0ae6b71fdb9837837029c47195e0746bc86d42818476826d51782cc94c.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for Ours: (kappa, tau) = (7, 8)
-</pre></div>
-</div>
-<img alt="_images/7ffb9459f215e268d36c435af2439577034cdb9a8813ce8f0401c8620bcfe47b.png" src="_images/7ffb9459f215e268d36c435af2439577034cdb9a8813ce8f0401c8620bcfe47b.png" />
-</div>
 </div>
 </section>
 </section>
