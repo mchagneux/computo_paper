@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=927b94d3fcb96560df09" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=927b94d3fcb96560df09" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=927b94d3fcb96560df09" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=927b94d3fcb96560df09" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=927b94d3fcb96560df09" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=927b94d3fcb96560df09" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=927b94d3fcb96560df09"></script>
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -76,6 +77,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -263,10 +273,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
@@ -274,7 +284,7 @@ document.write(`
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -525,7 +535,9 @@ We compare the count performance of our method against other MOT-based alternati
 </details>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_detections.pickle
----Downloading: saved_frames.pickle
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>---Downloading: saved_frames.pickle
 </pre></div>
 </div>
 </div>
@@ -602,7 +614,7 @@ Tracking...
 </details>
 </div>
 <figure class="align-default" id="demo-ours">
-<img alt="_images/9addeb397939f4f58180681106bbaf09985e7a0e61f078ef4f57e3ca3fb680c5.png" src="_images/9addeb397939f4f58180681106bbaf09985e7a0e61f078ef4f57e3ca3fb680c5.png" />
+<img alt="_images/4bbfdc4012ff216ffc9be51ed308ce97ef6ed0e9503b64cbd2757971bfe614d3.png" src="_images/4bbfdc4012ff216ffc9be51ed308ce97ef6ed0e9503b64cbd2757971bfe614d3.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 1 </span><span class="caption-text"><em>Our method</em>: one object (red dot) is correctly detected at every frame and given a consistent identity throughout the sequence with low location uncertainty (red ellipse). Next to it, a false positive detection is generated at the first frame (brown dot) but immediatly lost in the following frames: the associated uncertainty grows fast (brown ellipse). In our solution, this type of track will not be counted. A third correctly detected object (pink) appears in the third frame and begins a new track.</span><a class="headerlink" href="#demo-ours" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -667,7 +679,7 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.109 seconds for 360 frames or 3295.9 FPS
+Total Tracking took: 0.088 seconds for 360 frames or 4110.2 FPS
 --- End
 </pre></div>
 </div>
@@ -697,7 +709,7 @@ Total Tracking took: 0.109 seconds for 360 frames or 3295.9 FPS
 </details>
 </div>
 <figure class="align-default" id="demo-sort">
-<img alt="_images/1777a80e33634942e157bbfb35b99ff42063f715d08516371bf04ae2fd9df7cd.png" src="_images/1777a80e33634942e157bbfb35b99ff42063f715d08516371bf04ae2fd9df7cd.png" />
+<img alt="_images/9e0d55f44baa670aa9a6bc5b496603b3cb20f620122731a173c91f0c53decb0b.png" src="_images/9e0d55f44baa670aa9a6bc5b496603b3cb20f620122731a173c91f0c53decb0b.png" />
 <figcaption>
 <p><span class="caption-number">Fig. 2 </span><span class="caption-text"><em>SORT</em>: the resulting count is also 2, but both counts arise from tracks generated by the same object, the latter not re-associated at all in the second frame. Additionally, the third object is discarded (in post-processing) by their strategy.</span><a class="headerlink" href="#demo-sort" title="Permalink to this image">#</a></p>
 </figcaption>
@@ -832,21 +844,21 @@ index created!
 15 images loaded
 </pre></div>
 </div>
-<img alt="_images/f0ddaf64c6eb97675acc3c660250c53491c935604d20f151bce019b7ceee20c6.png" src="_images/f0ddaf64c6eb97675acc3c660250c53491c935604d20f151bce019b7ceee20c6.png" />
-<img alt="_images/64281f563c7337f3335253f83721f214d1c8d2832af175f09cf513aa0d56a862.png" src="_images/64281f563c7337f3335253f83721f214d1c8d2832af175f09cf513aa0d56a862.png" />
-<img alt="_images/59ce5e58a99dcf267eb36eb2c83a3353c3b06db2825729382eccd1460b1fec02.png" src="_images/59ce5e58a99dcf267eb36eb2c83a3353c3b06db2825729382eccd1460b1fec02.png" />
-<img alt="_images/11d80ce98195fb4e38c7cd10d6aebec1037ebaa527497142b10c383b4a77590a.png" src="_images/11d80ce98195fb4e38c7cd10d6aebec1037ebaa527497142b10c383b4a77590a.png" />
-<img alt="_images/080904b076c044b6ff6a1da69b78f130cb6ce81a75d7b7a6a1c1df3ce6a795a5.png" src="_images/080904b076c044b6ff6a1da69b78f130cb6ce81a75d7b7a6a1c1df3ce6a795a5.png" />
-<img alt="_images/a3fd79c5effd4976a4d60d075f2d4e23a72de7770038b2f7e85751ac0313e4a5.png" src="_images/a3fd79c5effd4976a4d60d075f2d4e23a72de7770038b2f7e85751ac0313e4a5.png" />
-<img alt="_images/c6e7379010002eb0a070e2053d56bee806f7cbce3373c893b28bad4c85806bd6.png" src="_images/c6e7379010002eb0a070e2053d56bee806f7cbce3373c893b28bad4c85806bd6.png" />
-<img alt="_images/f3393e26d9e22857ebe178cf217a734d3b8e34b104eb9f43b0b3b64d0ff0d50d.png" src="_images/f3393e26d9e22857ebe178cf217a734d3b8e34b104eb9f43b0b3b64d0ff0d50d.png" />
-<img alt="_images/42ebcf81457db7831cc0968f3e1fc56259fb178940fdfe70ca140acd180cb24d.png" src="_images/42ebcf81457db7831cc0968f3e1fc56259fb178940fdfe70ca140acd180cb24d.png" />
-<img alt="_images/3ac6d679648c100ad3034b6702bdb0357a054a9a06eb1f2ebc4d5f802f8f1679.png" src="_images/3ac6d679648c100ad3034b6702bdb0357a054a9a06eb1f2ebc4d5f802f8f1679.png" />
-<img alt="_images/0737dbb794a57739d43de7d510a3821c9ce479e29643038e98542eae74732572.png" src="_images/0737dbb794a57739d43de7d510a3821c9ce479e29643038e98542eae74732572.png" />
-<img alt="_images/e087cf554dfa6d9dabc600f8c475b102108548508989f7aac26f035cc863719d.png" src="_images/e087cf554dfa6d9dabc600f8c475b102108548508989f7aac26f035cc863719d.png" />
-<img alt="_images/1b0c4763f14a0e914f69de6ad354c4e5a6952b94b6a6be50ecafb54af3d9fb69.png" src="_images/1b0c4763f14a0e914f69de6ad354c4e5a6952b94b6a6be50ecafb54af3d9fb69.png" />
-<img alt="_images/371ff48bae7fd0f21f914d24d5a827bf4ef9db3916f1845f22c3c9ae69c451bf.png" src="_images/371ff48bae7fd0f21f914d24d5a827bf4ef9db3916f1845f22c3c9ae69c451bf.png" />
-<img alt="_images/91210359aaa455e9e0666c676b91f865bc95f4ebf55ca01aff15af20c8edbb2a.png" src="_images/91210359aaa455e9e0666c676b91f865bc95f4ebf55ca01aff15af20c8edbb2a.png" />
+<img alt="_images/86ed4bc1e344a4c5c1f9c17d621075d1de276b4af93fa5c18b40c3f9b7f518eb.png" src="_images/86ed4bc1e344a4c5c1f9c17d621075d1de276b4af93fa5c18b40c3f9b7f518eb.png" />
+<img alt="_images/a3fb11cca2366c7b235281cfcc903585eebd553a64db4c03a6a14ec3b58af5d4.png" src="_images/a3fb11cca2366c7b235281cfcc903585eebd553a64db4c03a6a14ec3b58af5d4.png" />
+<img alt="_images/6d16967feb99317cdfb727ea9367eca7f6558fdbe83c566b3ca2c3090e9c47e8.png" src="_images/6d16967feb99317cdfb727ea9367eca7f6558fdbe83c566b3ca2c3090e9c47e8.png" />
+<img alt="_images/d3317df251b3c1e19bb9e756fe49dc8251cdc6c5615b60d2de4a5dcfcf044f38.png" src="_images/d3317df251b3c1e19bb9e756fe49dc8251cdc6c5615b60d2de4a5dcfcf044f38.png" />
+<img alt="_images/77ab13a15810dab34f591cda844391ceb850b358b6968f04fe3b1edca03c196c.png" src="_images/77ab13a15810dab34f591cda844391ceb850b358b6968f04fe3b1edca03c196c.png" />
+<img alt="_images/19cb7f07eea8dd67a64c534656f610920dca1ea1ce36c7f5a5e04120ac24cfeb.png" src="_images/19cb7f07eea8dd67a64c534656f610920dca1ea1ce36c7f5a5e04120ac24cfeb.png" />
+<img alt="_images/56b995dc7ef8d5f57960f4a521a6650f94720973b985d635ec879827474b6169.png" src="_images/56b995dc7ef8d5f57960f4a521a6650f94720973b985d635ec879827474b6169.png" />
+<img alt="_images/e7fa422d61a1cced32ccdec59fc9732509bcde09da53fdc79ca4cd643d2edf09.png" src="_images/e7fa422d61a1cced32ccdec59fc9732509bcde09da53fdc79ca4cd643d2edf09.png" />
+<img alt="_images/593e993266cb1b4f2b60f833e121c7b9ddb368a9dde576fc53eec6814eddcb5b.png" src="_images/593e993266cb1b4f2b60f833e121c7b9ddb368a9dde576fc53eec6814eddcb5b.png" />
+<img alt="_images/45781df88828f700b9f08e1007f1667b4b9dd0bf6ee32f2db2e0bba30d245a47.png" src="_images/45781df88828f700b9f08e1007f1667b4b9dd0bf6ee32f2db2e0bba30d245a47.png" />
+<img alt="_images/6add9a4db8815eadda96f6e3a3ee363d563fb42af490220fd0a8c562a68dacfb.png" src="_images/6add9a4db8815eadda96f6e3a3ee363d563fb42af490220fd0a8c562a68dacfb.png" />
+<img alt="_images/a0f8920adf231bed09e038c7de122454c734250dfcbd36c24875ffa3f9099c82.png" src="_images/a0f8920adf231bed09e038c7de122454c734250dfcbd36c24875ffa3f9099c82.png" />
+<img alt="_images/7212e3b507af3712388e1f9830ab0735ae576644b4d8071f73e12f175875ae90.png" src="_images/7212e3b507af3712388e1f9830ab0735ae576644b4d8071f73e12f175875ae90.png" />
+<img alt="_images/78a1d1f2532c58e1c3f912c32a5134e0a28babb670425f1f22882edf7b5708d5.png" src="_images/78a1d1f2532c58e1c3f912c32a5134e0a28babb670425f1f22882edf7b5708d5.png" />
+<img alt="_images/bfab53970250c864c60ebd69dcda779d82483ff27119d7c2c88a3ab00a5e8934.png" src="_images/bfab53970250c864c60ebd69dcda779d82483ff27119d7c2c88a3ab00a5e8934.png" />
 </div>
 </div>
 </section>
@@ -1547,7 +1559,7 @@ To better focus on count performance in the next sections, we remove segments th
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/14c191731f05c1f55d8563900e762580f0c3514211965df5c9e764383d8832df.png" src="_images/14c191731f05c1f55d8563900e762580f0c3514211965df5c9e764383d8832df.png" />
+<img alt="_images/ef8e41786fd883171824835e8d3ff64d96f937ac1512d70337dd0d09c23b4dcd.png" src="_images/ef8e41786fd883171824835e8d3ff64d96f937ac1512d70337dd0d09c23b4dcd.png" />
 </div>
 </div>
 <!-- ```{glue:} fairmot_star_tracking_results
@@ -1747,15 +1759,15 @@ At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for FairMOT: (kappa, tau) = (7, 9)
 </pre></div>
 </div>
-<img alt="_images/b640ab5d53673cd62a4e8a1b1af69cccf4a872f27f42cb2cbff31344a45811bb.png" src="_images/b640ab5d53673cd62a4e8a1b1af69cccf4a872f27f42cb2cbff31344a45811bb.png" />
+<img alt="_images/54fb5a15e57f111e0c9f2c0c3a2d469650d977c0325bb7c474422e9f0fefe8ec.png" src="_images/54fb5a15e57f111e0c9f2c0c3a2d469650d977c0325bb7c474422e9f0fefe8ec.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for SORT: (kappa, tau) = (7, 9)
 </pre></div>
 </div>
-<img alt="_images/11e79eb9b11fb6fd43a1eba960cca5062b2fb61a04b9bc7b5b38032dad27313e.png" src="_images/11e79eb9b11fb6fd43a1eba960cca5062b2fb61a04b9bc7b5b38032dad27313e.png" />
+<img alt="_images/51739015123f260a7d7385da9ee8566734a0f9d2352193c16f88d710d5673607.png" src="_images/51739015123f260a7d7385da9ee8566734a0f9d2352193c16f88d710d5673607.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best parameters for Ours: (kappa, tau) = (7, 8)
 </pre></div>
 </div>
-<img alt="_images/fdac3570d331e892cd2123529578b2e230d22e91f5c6c0d4f5bbe08091f9f55f.png" src="_images/fdac3570d331e892cd2123529578b2e230d22e91f5c6c0d4f5bbe08091f9f55f.png" />
+<img alt="_images/9ec354e2b6dc285197854a7d008b9a1a7adbdefb0904f92d0fafe27e9fd1f82a.png" src="_images/9ec354e2b6dc285197854a7d008b9a1a7adbdefb0904f92d0fafe27e9fd1f82a.png" />
 </div>
 </div>
 </section>
@@ -2080,16 +2092,12 @@ This allows easier extension of our work to more challenging data.</p>
 
               
               
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -2239,8 +2247,8 @@ By The Jupyter Book Community
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/bootstrap.js?digest=927b94d3fcb96560df09"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=927b94d3fcb96560df09"></script>
 
   <footer class="bd-footer">
   </footer>
