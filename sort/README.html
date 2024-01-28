@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>SORT &#8212; Macrolitter video counting on riverbanks using state space models and moving cameras</title>
   
@@ -29,39 +28,43 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=afe5de03"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'sort/README';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -160,7 +163,18 @@ const thebe_selector_output = ".output, .cell_output"
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -336,12 +350,12 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="sort">
-<h1>SORT<a class="headerlink" href="#sort" title="Permalink to this heading">#</a></h1>
+<h1>SORT<a class="headerlink" href="#sort" title="Link to this heading">#</a></h1>
 <p>A simple online and realtime tracking algorithm for 2D multiple object tracking in video sequences.
 See an example <a class="reference external" href="https://alex.bewley.ai/misc/SORT-MOT17-06-FRCNN.webm">video here</a>.</p>
 <p>By Alex Bewley</p>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>SORT is a barebones implementation of a visual multiple object tracking framework based on rudimentary data association and state estimation techniques. It is designed for online tracking applications where only past and current frames are available and the method produces object identities on the fly. While this minimalistic tracker doesn’t handle occlusion or re-entering objects its purpose is to serve as a baseline and testbed for the development of future trackers.</p>
 <p>SORT was initially described in <a class="reference external" href="http://arxiv.org/abs/1602.00763">this paper</a>. At the time of the initial publication, SORT was ranked the best <em>open source</em> multiple object tracker on the <a class="reference external" href="https://motchallenge.net/results/2D_MOT_2015/">MOT benchmark</a>.</p>
 <p><strong>Note:</strong> A significant proportion of SORT’s accuracy is attributed to the detections.
@@ -350,11 +364,11 @@ For your convenience, this repo also contains <em>Faster</em> RCNN detections fo
 A new and improved version of SORT with a Deep Association Metric implemented in tensorflow is available at <a class="github reference external" href="https://github.com/nwojke/deep_sort">nwojke/deep_sort</a> .</p>
 </section>
 <section id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this heading">#</a></h2>
+<h2>License<a class="headerlink" href="#license" title="Link to this heading">#</a></h2>
 <p>SORT is released under the GPL License (refer to the LICENSE file for details) to promote the open use of the tracker and future improvements. If you require a permissive license contact Alex (<a class="reference external" href="mailto:alex&#37;&#52;&#48;bewley&#46;ai">alex<span>&#64;</span>bewley<span>&#46;</span>ai</a>).</p>
 </section>
 <section id="citing-sort">
-<h2>Citing SORT<a class="headerlink" href="#citing-sort" title="Permalink to this heading">#</a></h2>
+<h2>Citing SORT<a class="headerlink" href="#citing-sort" title="Link to this heading">#</a></h2>
 <p>If you find this repo useful in your research, please consider citing:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@inproceedings{Bewley2016_sort,
   author={Bewley, Alex and Ge, Zongyuan and Ott, Lionel and Ramos, Fabio and Upcroft, Ben},
@@ -369,14 +383,14 @@ A new and improved version of SORT with a Deep Association Metric implemented in
 </div>
 </section>
 <section id="dependencies">
-<h2>Dependencies:<a class="headerlink" href="#dependencies" title="Permalink to this heading">#</a></h2>
+<h2>Dependencies:<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h2>
 <p>To install required dependencies run:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install -r requirements.txt
 </pre></div>
 </div>
 </section>
 <section id="demo">
-<h2>Demo:<a class="headerlink" href="#demo" title="Permalink to this heading">#</a></h2>
+<h2>Demo:<a class="headerlink" href="#demo" title="Link to this heading">#</a></h2>
 <p>To run the tracker with the provided detections:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd path/to/sort
 $ python sort.py
@@ -398,7 +412,7 @@ $ python sort.py
 </div>
 </section>
 <section id="main-results">
-<h2>Main Results<a class="headerlink" href="#main-results" title="Permalink to this heading">#</a></h2>
+<h2>Main Results<a class="headerlink" href="#main-results" title="Link to this heading">#</a></h2>
 <p>Using the <a class="reference external" href="https://motchallenge.net/devkit/">MOT challenge devkit</a> the method produces the following results (as described in the paper).</p>
 <table class="table">
 <thead>
@@ -472,7 +486,7 @@ $ python sort.py
 </table>
 </section>
 <section id="using-sort-in-your-own-project">
-<h2>Using SORT in your own project<a class="headerlink" href="#using-sort-in-your-own-project" title="Permalink to this heading">#</a></h2>
+<h2>Using SORT in your own project<a class="headerlink" href="#using-sort-in-your-own-project" title="Link to this heading">#</a></h2>
 <p>Below is the gist of how to instantiate and update SORT. See the <a class="reference external" href="https://github.com/abewley/sort/blob/master/sort.py#L239">‘<strong>main</strong>’</a> section of <a class="reference external" href="https://github.com/abewley/sort/blob/master/sort.py#L239">sort.py</a> for a complete example.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>from sort import *
 
@@ -569,7 +583,7 @@ By The Jupyter Book Community
 
   <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
     
   </p>
