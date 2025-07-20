@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -512,10 +512,10 @@ We compare the count performance of our method against other MOT-based alternati
 </ol>
 <p>A first visual illustration of the second claim is presented via the following code chunks: on three selected frames, we present a typical scenario where our strategy can avoid overcounting the same object (we depict internal workings of our solution against the end result of the competitors).</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">myst_nb</span><span class="w"> </span><span class="kn">import</span> <span class="n">glue</span>
@@ -560,10 +560,10 @@ We compare the count performance of our method against other MOT-based alternati
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
@@ -612,10 +612,10 @@ Tracking...
 </div>
 </div>
 <div class="cell tag_hide-input tag_remove-output docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">surfnet.track</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_image_trackers</span>
@@ -637,10 +637,10 @@ Tracking...
 </figcaption>
 </figure>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Tracker with SORT </span>
@@ -696,17 +696,17 @@ Tracking...
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tracking with SORT...
 --- Begin SORT internal logs
-Total Tracking took: 0.084 seconds for 360 frames or 4303.8 FPS
+Total Tracking took: 0.073 seconds for 360 frames or 4947.3 FPS
 --- End
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_hide-input tag_remove-output docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># open sort output</span>
@@ -785,10 +785,10 @@ The resulting pictures depict trash items under the same conditions as the video
 In this work, we focus only on litter counting without classification, however the annotated objects are already classified into specific categories which are described in <a class="reference internal" href="#trash-categories-image"><span class="std std-ref">Trash categories defined to facilitate porting to a counting system that allows trash identification</span></a>.</p>
 <p>A few samples are depicted below:</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span><span class="p">,</span> <span class="n">ExifTags</span>
@@ -1142,10 +1142,10 @@ This allows realistic assessment of the detection quality of our system on true 
 We observe low <span class="math notranslate nohighlight">\(\detre\)</span>, suggesting that objects are only captured on a fraction of the frames they appear on.
 To better focus on count performance in the next sections, we remove segments that do not generate any correct detection: performance on the remaining footage is increased and given by <span class="math notranslate nohighlight">\(\detre^{*}\)</span> and <span class="math notranslate nohighlight">\(\detpr^{*}\)</span>.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">display</span>
@@ -1271,10 +1271,10 @@ To better focus on count performance in the next sections, we remove segments th
 <p>We report results using the count-related tracking metrics and count decompositions defined in the previous section. To provide a clear but thorough summary of the performance, we report <span class="math notranslate nohighlight">\(\assre\)</span>, <span class="math notranslate nohighlight">\(\countre\)</span> and <span class="math notranslate nohighlight">\(\countpr\)</span> as tabled values (the first gives a simple overview of the quality of the predicted tacks while the latter two concisely summarise the count performance). For a more detailed visualisation of the different types of errors, we plot the count error decomposition for all sequences in a separate graph. Note that across all videos and all methods, we find <span class="math notranslate nohighlight">\(\asspr\)</span> between 98.6 and 99.2 which shows that this application context is unconcerned with tracks spanning multiple ground truth objects, therefore we do not conduct a more detailed interpretation of <span class="math notranslate nohighlight">\(\asspr\)</span> values.</p>
 <p>First, the higher values of AssRe confirm the robustness of our solution in assigning consistent tracks to individual objects. This is directly reflected into the count precision performance - with an overall value of <span class="math notranslate nohighlight">\(\countpr\)</span> 17.6 points higher than the next best method (SORT) - or even more so in the complete disappearance of orange (redundant) counts in the graph. A key aspect is that these improvements are not counteracted by a lower <span class="math notranslate nohighlight">\(\countre\)</span>: on the contrary, our tracker, which is more stable, also captures more object (albeit still missing most of them, with a <span class="math notranslate nohighlight">\(\countre\)</span> below 50%). Note finally, that the strongest improvements are obtained for sequence 2 which is also the part with the strongest motion.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_summary</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">index_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_stop</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
@@ -1560,10 +1560,10 @@ To better focus on count performance in the next sections, we remove segments th
 <section id="detailed-results-on-individual-segments">
 <h4>Detailed results on individual segments<a class="headerlink" href="#detailed-results-on-individual-segments" title="Link to this heading">#</a></h4>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_split</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
@@ -1695,10 +1695,10 @@ The track is only counted if the remaining number of observations is strictly hi
 At a given <span class="math notranslate nohighlight">\(\nu &gt; 0.5\)</span>, <span class="math notranslate nohighlight">\(\kappa\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> should ideally be chosen to jointly decrease <span class="math notranslate nohighlight">\(\Nfalse\)</span> and <span class="math notranslate nohighlight">\(\Nred\)</span> as much as possible without increasing <span class="math notranslate nohighlight">\(\Nmis\)</span> (true objects become uncounted if tracks are discarded too easily).</p>
 <p>In the following code cell, we plot the error decomposition of the counts for several values of <span class="math notranslate nohighlight">\(\kappa\)</span> and <span class="math notranslate nohighlight">\(\tau\)</span> with <span class="math notranslate nohighlight">\(\nu=0.6\)</span> for the outputs of the three different trackers. We choose <span class="math notranslate nohighlight">\(\nu = 0.7\)</span> and compute the optimal point as the one which minimizes the overall count error <span class="math notranslate nohighlight">\(\hatN (= \Nmis + \Nred + \Nfalse)\)</span>.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="hide above-input">
+<details class="admonition hide above-input">
 <summary aria-label="Toggle hidden content">
-<span class="collapsed">Show code cell source</span>
-<span class="expanded">Hide code cell source</span>
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_split</span><span class="p">(</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
